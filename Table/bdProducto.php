@@ -130,7 +130,14 @@ class bdProducto{
         
         $query = "
 			SELECT 
-            p.cod_barra,
+           /* p.cod_barra,*/
+
+               (SELECT
+          GROUP_CONCAT(n.codigo_barra SEPARATOR ',') AS nota
+          FROM tbl_codigo_barra n
+          where n.id_prod= p.id) as cod_barra,
+
+
 			p.id		 as id,
 			p.nombreProd as nombreProd,
 			p.codProducto as codProducto,

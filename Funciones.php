@@ -198,7 +198,7 @@ function generaDTEBoletaCert($FchEmision,
 	
 	global $NuboxCert;
 	
-	//Creamos el objecto que ser谩 el JSON
+	//Creamos el objecto que seria el JSON
 	$JSON = array(
 	    "afecto"            =>  $Afecto === "SI",
 	    "productos"         =>  array()

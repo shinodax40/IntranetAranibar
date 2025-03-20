@@ -307,41 +307,38 @@ $scope.validarCliente = function () {
     
     if($scope.tipoClientePed=="1"){  
 
-        if(document.formCliente.rut.value==""){
-            alertify.alert("Ingresar rut"); 
-            document.formCliente.rut.focus();
-                   return 0;
-      }else if(document.formCliente.nombre.value==""){
-           alertify.alert("Ingresar nombre"); 
-            document.formCliente.nombre.focus();
-                  return 0;
-      }else if(document.formCliente.numFactura.value==""){
-           alertify.alert("Ingresar Numero Factura"); 
-            document.formCliente.numFactura.focus();
-                   return 0;
-      }else if(document.formCliente.idProveedor.value==""){
-           alertify.alert("Ingresar Id Proveedor"); 
-            document.formCliente.idProveedor.focus();
-                   return 0;
-      }  
-        
-        
+        if(document.formCliente.nombre.value==""){
+                alertify.alert("Seleccionar nombre proveedor para proceder."); 
+                document.formCliente.nombre.focus();
+                    return 0;
+        }else if(document.formCliente.numFactura.value==""){
+                alertify.alert("Ingresar Numero Factura"); 
+                document.formCliente.numFactura.focus();
+                    return 0;
+        }else if(document.formCliente.idProveedor.value==""){
+                alertify.alert("Seleccionar nombre proveedor para proceder."); 
+                document.formCliente.idProveedor.focus();
+                    return 0;
+        }  
+            
+            
     }else if($scope.tipoClientePed=="2"){  
-            if(document.formCliente.rut.value==""){
-            alertify.alert("Ingresar rut"); 
-            document.formCliente.rut.focus();
-                   return 0;
-      }else if(document.formCliente.nombre.value==""){
-           alertify.alert("Ingresar nombre"); 
-            document.formCliente.nombre.focus();
-                  return 0;
-      }else if(document.formCliente.numFactura.value==""){
-           alertify.alert("Ingresar Numero Factura"); 
-            document.formCliente.numFactura.focus();
-                   return 0;
-      }  
         
-    }
+        if(document.formCliente.textRutNuevo.value==""){
+                alertify.alert("Ingresar rut"); 
+                document.formCliente.rut.focus();
+                    return 0;
+        }else if(document.formCliente.nombProveedorNuevo.value==""){
+                alertify.alert("Ingresar nombre"); 
+                document.formCliente.nombre.focus();
+                    return 0;
+        }else if(document.formCliente.numFactura.value==""){
+                alertify.alert("Ingresar Numero Factura"); 
+                document.formCliente.numFactura.focus();
+                    return 0;
+        }  
+            
+     }
 
     
        $scope.confirmarPedido();
@@ -374,16 +371,33 @@ $scope.generarPedido = function () {
          var arrayProd = [];
          arrayPro.push(objPed);
 
-
+if($scope.tipoClientePed =="1"){
 
         var objClie= new Object();
-        objClie.id         = document.formCliente.idCliente.value;
-        objClie.rut        = document.formCliente.rut.value;
-        objClie.nombre     = document.formCliente.nombre.value;
-        objClie.numFactura = document.formCliente.numFactura.value;
+        objClie.idAccion    = "1";//document.formCliente.idCliente.value;
+        objClie.rut         = document.formCliente.rut.value;
+        objClie.nombre      = document.formCliente.nombre.value;
+        objClie.numFactura  = document.formCliente.numFactura.value;
+        objClie.idProveedor =  $scope.idProveedor;
+
+       
+        arrayClie.push(objClie);
+
+}else{
+
+        var objClie= new Object();
+        objClie.idAccion    = "2";//document.formCliente.idCliente.value;
+        objClie.rut         = document.formCliente.textRutNuevo.value;
+        objClie.nombre      = document.formCliente.nombProveedorNuevo.value;
+        objClie.numFactura  = document.formCliente.numFactura.value;
+        objClie.idProveedor =  "";
+
         arrayClie.push(objClie);
 
 
+
+
+}
 
            for(var i = 0; i < $scope.dgVentas.length; i++){
                 var objDeta = new Object();
@@ -477,25 +491,17 @@ $scope.initClientes = function () {
                    arrClie2.push(objClie2); 
                 }
                 
- /* 
-             $('#rutDiv .typeahead').typeahead({                
-                  local: arrClie
-                }).on('typeahead:selected', function(event, selection) {
-                        
-                 $scope.seleccionarClienteRut(selection.value);
-                 
-                $(this).typeahead('setQuery', selection.value);
-                });
-                
-*/
-             $('#nombreDiv .typeahead').typeahead({
-                  local: arrClie2
+ 
+             $('#nombreDiv .typeahead').typeahead({                
+                  local: objClie2
                 }).on('typeahead:selected', function(event, selection) {
                         
                  $scope.seleccionarClienteNombre(selection.value);
                  
                 $(this).typeahead('setQuery', selection.value);
-             });            
+                });
+                
+
 
  
                 
@@ -505,8 +511,7 @@ $scope.initClientes = function () {
             });
 };
         
-        
-        
+     
         
         
  $scope.selTipoComprador = function (rdo) {   
@@ -519,14 +524,13 @@ $scope.initClientes = function () {
                 $scope.customProveedorNombre=true;
                 $scope.customNuevoNombre=false;
                            $scope.numFactura ="";
-
+                           $scope.initClientes();   
            
       }else if(rdo=="NUEVO" ){
                 $scope.tipoClientePed   ="2";
                 $scope.customSelectParticular =false;
                 $scope.textRut ="";
                 $scope.idProveedor ="";
-                $scope.nombProveedor="";
                 $scope.customProveedorNombre=false;
                 $scope.customNuevoNombre=true;
           
@@ -567,11 +571,11 @@ $scope.seleccionarClienteNombre = function(obj){
         $http.get('FunctionIntranet.php?act=listarProveedores&tienda='+$scope.tiendaSeleccionada+'&rut=&nombre='+obj+'').success(function(data) {
                 console.log(data);
             
-            $scope.auxClientes = [];
-            $scope.auxClientes= data;
+            $scope.auxClientes   = [];
+            $scope.auxClientes   = data;
             
-            $scope.textRut     = data[0].rut;
-            $scope.idProveedor = data[0].id_proveedor;
+            $scope.textRut       = data[0].rut;
+            $scope.idProveedor   = data[0].id_proveedor;
             $scope.nombProveedor = data[0].nombre;
 
             

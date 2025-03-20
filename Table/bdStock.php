@@ -19,22 +19,23 @@ public function insertarStock($objCabe, $objDeta, $objCliente, $obserbIng) {
         $mysql = mysqli_connect($this->DATABASE_SERVER,$this->DATABASE_USERNAME,$this->DATABASE_PASSWORD);
         mysqli_select_db($mysql, $this->DATABASE_NAME);		
 	     mysqli_query($mysql, "SET NAMES 'utf8'");
-        $id_clie = $objCliente[0]->id;
+        $idAccion = $objCliente[0]->idAccion;
        
-        if($id_clie == ""){	
+        if($idAccion == "2"){	
               $query = "INSERT INTO tbl_proveedores(rut, nombre) 
-                 VALUES ('".$objCliente[0]->rut."','".$objCliente[0]->nombre."')";		
+                 VALUES ('".$objCliente[0]->rut."',
+                         '".$objCliente[0]->nombre."')";		
                  $resultCabe = mysqli_query($mysql, $query);	
                  $id_clie = mysqli_insert_id($mysql);
        
-       }else{
+         }else if($idAccion == "1"){
             $query = "UPDATE tbl_proveedores
-                      SET rut='".$objCliente[0]->rut."'
-                      , nombre='".$objCliente[0]->nombre."'
-                      WHERE id_proveedor='".$objCliente[0]->id."'";
+                      SET    rut='".$objCliente[0]->rut."',   
+                          nombre='".$objCliente[0]->nombre."'
+                      WHERE id_proveedor='".$objCliente[0]->idProveedor."'";
             $resultCabe = mysqli_query($mysql, $query);	
             
-       }
+        }
        
         
          $query = "INSERT INTO tbl_ingresos(fecha, 
@@ -48,8 +49,7 @@ public function insertarStock($objCabe, $objDeta, $objCliente, $obserbIng) {
          
 
         
-        $query = "INSERT INTO 
-        tbl_factura_ingresos(num_factura, 
+        $query = "INSERT INTO  tbl_factura_ingresos(num_factura, 
 		                     id_ingresos) 
         VALUES( '".$objCliente[0]->numFactura."',
 		        '".$id_ped."')";
@@ -59,69 +59,73 @@ public function insertarStock($objCabe, $objDeta, $objCliente, $obserbIng) {
          
          $resultDeta = 0;
         
-if($resultCabe == 1){
-    
-    foreach($objDeta as $detalle){
-        
-        $queryBod =   "UPDATE productos p
-                    SET p.bodega='".$detalle->bodega."',
-                        p.cod_barra='".$detalle->codBarra."'
-                    WHERE p.id='".$detalle->id."';";
-  
-
-        $resultprod = mysqli_query($mysql, $queryBod);	
+        if($resultCabe == 1){
+            
+            foreach($objDeta as $detalle){
+                
+            /* $queryBod =   "UPDATE productos p
+                            SET p.bodega='".$detalle->bodega."',
+                                p.cod_barra='".$detalle->codBarra."'
+                            WHERE p.id='".$detalle->id."';";
         
 
-        $query = "INSERT INTO 
-                 tbl_ingresos_deta(id_ingresos, 
-                                   id_prod, cantidad) 
-                 VALUES('".$id_ped."', 
-                        '".$detalle->id."' , 
-                        '".$detalle->cantidadProd."');";
+                $resultprod = mysqli_query($mysql, $queryBod);	*/
+                
 
-        $resultDeta = mysqli_query($mysql, $query);	
-        
-        /*
-        $query = "UPDATE tbl_precio_factura
-                      SET activo=0
-                      WHERE id_prod='".$detalle->id."';";
-         $resultCabe = mysqli_query($mysql, $query);	*/
+                $query = "INSERT INTO 
+                        tbl_ingresos_deta(id_ingresos, 
+                                        id_prod, 
+                                        cantidad) 
+                        VALUES('".$id_ped."', 
+                                '".$detalle->id."' , 
+                                '".$detalle->cantidadProd."');";
 
-        $query = "INSERT INTO 
-         tbl_precio_factura(id_ingresos, 
-                                id_prod, 
-                              descuento, 
-                             valor_neto, 
-                           precio_venta, 
-                               cantidad,
-                                 activo,
-						diferenciaPrecio) 
-         VALUES(        '".$id_ped."', 
-                   '".$detalle->id."', 
-            '".$detalle->descuento."', 
-           '".$detalle->valor_neto."', 
-           '".$detalle->precio_venta."', 
-           '".$detalle->cantidadProd."',
-           0,
-		   '".$detalle->diferenciaPrecio."');";
+                $resultDeta = mysqli_query($mysql, $query);	
+                
+                /*
+                $query = "UPDATE tbl_precio_factura
+                            SET activo=0
+                            WHERE id_prod='".$detalle->id."';";
+                $resultCabe = mysqli_query($mysql, $query);	*/
 
-        $resultDeta = mysqli_query($mysql, $query);	
-        
-       
-        
+                $query = "INSERT INTO 
+                tbl_precio_factura(id_ingresos, 
+                                        id_prod, 
+                                    descuento, 
+                                    valor_neto, 
+                                precio_venta, 
+                                    cantidad,
+                                        activo,
+                                diferenciaPrecio) 
+                VALUES(        '".$id_ped."', 
+                        '".$detalle->id."', 
+                    '".$detalle->descuento."', 
+                '".$detalle->valor_neto."', 
+                '".$detalle->precio_venta."', 
+                '".$detalle->cantidadProd."',
+                0,
+                '".$detalle->diferenciaPrecio."');";
 
-        if($resultDeta == "0"){
-            return "Error al generar el pedido, favor contactar con el Administrador";
-            break;
-             $resulEstado="0";
+                $resultDeta = mysqli_query($mysql, $query);	
+                
+            
+                
+
+                if($resultDeta == "0"){
+                    return "Error al generar el pedido, favor contactar con el Administrador";
+                    break;
+                    $resulEstado="0";
+                }
+                
+            }
+
+
+        }else{
+
+        $resultDeta="0";
+            
         }
-        
-    }
-}else{
-  $resultDeta="0";
-    
-}
-return $resultDeta;			
+        return $resultDeta;			
 }
     
 public function listarIngresos($desde, $hasta, $idProv, $tipBusq) {
