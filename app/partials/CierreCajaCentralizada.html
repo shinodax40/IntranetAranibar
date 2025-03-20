@@ -1,0 +1,215 @@
+<style>
+.show {
+  display: block !important;
+}
+.hide {
+  display: none !important;
+}
+.badge-success {
+  background-color: #5cb85c
+}
+.badge-danger {
+  background-color: #d9534f
+}
+</style>
+<div class="panel panel-default" ng-init="init()" id="divPedidoListado">
+    <div class="panel-heading">
+      <h3 class="modal-title"><p style="color:#354d8f; font-weight: bold;">Listados de Cierres de Caja Centralizadas</p></h3>
+    </div>
+    
+    
+  <div class="panel-body">
+
+    <div class="container" >
+
+      <div class="form-group col-md-3">
+         <label class="control-label" >Desde:</label>
+                            <input type="date" 
+                                    placeholder="yyyy-MM-dd" 
+                                   class="form-control" 
+                                   id="desdeb"
+                                   name="desdeb"/>    
+      </div>
+
+
+      <div class="form-group col-md-3">
+         <label class="control-label" >Hasta:</label>
+                               <input type="date" 
+                                       placeholder="yyyy-MM-dd" 
+                                      class="form-control" 
+                                      id="hastab" 
+                                      name="hastab"/>     
+      </div>
+
+     <div class="form-group col-md-3">
+                         <label class="control-label" ></label>
+
+                            
+           <button   class="btn btn-primary form-control" 
+                     ng-click="listarCierresCajas()">    
+                     <span class="glyphicon glyphicon-search"></span> Listar
+           </button>    
+     </div>
+
+
+
+
+    </div>  
+
+    <div class="panel panel-default" id="divListaCaja">
+      <div class="panel-body">
+    
+        <table class="table table-striped table table-bordered table-hover"
+                    style="font-size:15px" 
+                    at-table at-paginated at-list="list" 
+                    at-config="config">       
+                    
+          <thead>
+            <tr>
+              <th>SUCURSAL</th>
+              <th>APERTURA</th>
+              <th>CIERRE</th>
+              <th>SALDO CIERRE</th>
+              <th>DET</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="cierre in cierres">
+              <td>{{cierre.sucursal}}</td>
+              <td style="text-align: center;"><span class="badge badge-success">{{cierre.hora_caja_inicio}}</span></td>
+              <td style="text-align: center;"><span class="badge badge-success">{{cierre.hora_caja_fin}}</span></td>
+              <td style="text-align: right;">${{cierre.data.total_final | number: 0}}</td>
+              <td>
+                <button class="btn btn-primary"  
+                  ng-click="verDetalle(cierre)">    
+                    <span class="glyphicon glyphicon-zoom-in"></span>
+                </button>
+              </td>
+            </tr>
+        </table>  
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+<div class="modal fade miClaseModal" id="myVerCierre" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h5 class="modal-title" id="myModalLabel">Ver Cierre de Caja </h5>
+      </div>
+
+      <div class="panel-body">
+
+        <table class="table table-striped table table-bordered table-hover"
+                    style="font-size:15px" 
+                    at-table at-paginated at-list="list" 
+                    at-config="config">       
+                    
+          <thead>
+            <tr>
+              <td colspan="4"><h3>CAJA</h3></td>
+            </tr>
+            <tr>
+              <th>RENDICIÓN</th>
+              <th>EFECTIVO</th>
+              <th>DÉBITO</th>
+              <th>TRANSF.</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Caja Chica</td>
+              <td style="text-align: right;">${{cierre.caja_chica.efectivo | number: 0}}</td>
+              <td style="text-align: right;">${{cierre.caja_chica.debito | number: 0}}</td>
+              <td style="text-align: right;">${{cierre.caja_chica.transferencia | number: 0}}</td>
+            </tr>
+            <tr>
+              <td>Total Ventas</td>
+              <td style="text-align: right;">${{ cierre.total_ventas.efectivo | number:0 }}</td>
+              <td style="text-align: right;">${{ cierre.total_ventas.debito | number:0 }}</td>
+              <td style="text-align: right;">${{ cierre.total_ventas.transferencia | number:0 }}</td>
+            </tr>
+            <tr>
+              <td colspan="4"><h3>RETIRO EN TIENDA</h3></td>
+            </tr>
+            <tr ng-repeat="ped in cierre.retiros">
+              <td>{{ped.nombre}}</td>
+              <td style="text-align: right;">${{ped.total_efectivo | number:0}}</td>
+              <td style="text-align: right;">${{ped.total_debito | number:0}}</td>
+              <td style="text-align: right;">${{ped.total_transferencia | number:0}}</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <th style="text-align: right;">TOTAL RETIRO</th>
+              <td style="text-align: right;">${{ getTotalRetiroEfectivo() | number:0}}</td>
+              <td style="text-align: right;">${{ getTotalRetiroDebito() | number:0}}</td>
+              <td style="text-align: right;">${{ getTotalRetiroTransferencia() | number:0}}</td>
+            </tr>
+          </tfoot>
+        </table>
+    
+        <table class="table table-striped table table-bordered table-hover"
+                    style="font-size:15px" 
+                    at-table at-paginated at-list="list" 
+                    at-config="config">       
+                    
+          <thead>
+            <tr>
+              <td colspan="3"><h3>DESCUENTOS</h3></td>
+            </tr>
+            <tr>
+              <th>DESCUENTO</th>
+              <th>EFECTIVO</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="dc in cierre.descuentos">
+              <td>
+                {{dc.nombre}}
+              </td>
+              <td style="text-align: right;">${{dc.monto | number: 0}}</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <th style="text-align: right;">TOTAL DESCUENTO</th>
+              <td style="text-align: right;" colspan="2">${{ getTotalDescuentosCierre() | number:0 }}</td>        
+        
+              </tr>
+              
+          </tfoot>
+        </table>
+          
+          <p style="color:#354d8f; font-size:30px";>Observacion Informe:</p>
+       <textarea class="form-control" rows="10">{{ observacionCierre}}</textarea>   
+          
+      </div>
+            
+      <div class="panel-footer">
+        <table class="mt-5 table table-striped table table-bordered table-hover"
+                    style="font-size:15px" 
+                    at-table at-paginated at-list="list" 
+                    at-config="config">       
+                    
+          <thead>
+            <tr>
+              <th><h3>SALDO FINAL</h3></th>
+              <td style="text-align: right;"><h3>${{ cierre.total_final | number: 0}}</h3></td>
+            </tr>
+          </thead>
+        </table>
+      </div>
+           
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-warning" data-dismiss="modal">
+          <span class="glyphicon glyphicon-chevron-left"></span>Salir
+        </button>
+      </div>
+    </div>
+  </div>
+</div> 

@@ -1,0 +1,1040 @@
+<style>
+
+#focus-example > .extra {
+  display: none;
+}
+#focus-example:focus > .extra {
+  display: block;
+    
+}
+    
+    
+#focus-example {
+  border: 1px solid;
+  color: gray;
+  padding: 4px;
+}
+
+#focus-example:focus-within {
+  background: #ff8;
+  color: black;
+}    
+
+</style>
+<div class="panel panel-default" ng-init="initListado()"  ng-show="{{!customInterLogin}}" id="divPedidoListado">
+    <div class="panel-heading"> <h3 class="modal-title"><p style="color:#027dae; font-weight: bold;">Listado de Tareas</p></h3></div>
+
+<div class="panel-body">
+    
+<div>   
+    
+<form  name="prodForm">    
+
+    
+       <div class="form-group" style="text-align: left">
+               <div class="btn-group" 
+                       role="group">
+                  <button class="btn btn-primary" 
+                                ng-click="selTipoComprador('FechaIngreso')" 
+                                ng-class="{active:tipoBusqueda == '1'}">Fecha Ingreso</button>
+                  <button class="btn btn-primary" 
+                                ng-click="selTipoComprador('FechaEntrega')" 
+                                ng-class="{'active':tipoBusqueda == '2'}">Fecha Mantencion</button>
+                   <button class="btn btn-primary" 
+                                ng-click="selTipoComprador('Cliente')" 
+                                ng-class="{'active':tipoBusqueda == '4'}">Mecanico</button>
+                   <button class="btn btn-primary" 
+                                ng-click="selTipoComprador('Folio')" 
+                                ng-class="{'active':tipoBusqueda == '3'}">N°ID</button>
+                   <button class="btn btn-primary" 
+                                ng-click="selTipoComprador('Patente')" 
+                                ng-class="{'active':tipoBusqueda == '5'}">PATENTE</button>
+                  
+                
+                   
+                      
+                      </div>
+           
+                      <div class="btn-group" 
+                       role="group">
+                          
+                            <button class="btn btn-success" 
+                                    ng-click="preCrearSolicitud()">
+                            <span class="glyphicon glyphicon-plus">
+                            </span> Crear Solicitud
+                            </button>   
+
+                      </div>
+      </div>
+              
+    
+   <!-- <div class="form-group" ng-show="customFi">
+      <label>Fecha Ingreso:</label>
+         <input type="date" class="form-control"  placeholder="yyyy-MM-dd" id="fIngreso" name="fIngreso"/>
+         <input type="date" class="form-control"  placeholder="yyyy-MM-dd" id="fIngresoHasta" name="fIngresoHasta"/>
+    </div>-->
+    <div class="form-group" ng-show="customFi">
+    <div class="form-group col-xs-6 col-md-2 row">
+      <label class="control-label" for="inputSuccess1">Ingreso Desde:</label>
+      <input type="date" 
+             class="form-control" 
+             placeholder="yyyy-MM-dd" 
+             id="fIngreso" 
+             name="fIngreso" />
+    </div>
+     
+    <div class="form-group col-xs-6  col-md-2 row">
+        <label class="control-label" for="inputSuccess1">Ingreso Hasta:</label>
+         <input type="date" 
+                class="form-control"  
+                placeholder="yyyy-MM-dd" 
+                id="fIngresoHasta" 
+                name="fIngresoHasta"/>
+    </div>
+  </div>
+ 
+    
+    
+   <div class="form-group" ng-show="customFe">
+    <div class="form-group col-xs-6 col-md-2 row">
+      <label class="control-label" for="inputSuccess1">Entrega Desde:</label>
+      <input type="date" 
+             class="form-control" 
+             placeholder="yyyy-MM-dd" 
+             id="fEntrega" 
+             name="fEntrega" />
+    </div>
+     
+    <div class="form-group col-xs-6  col-md-2 row">
+        <label class="control-label" for="inputSuccess1">Entraga Hasta:</label>
+         <input type="date" 
+                class="form-control"  
+                placeholder="yyyy-MM-dd" 
+                id="fEntregaHasta" 
+                name="fEntregaHasta"/>
+    </div>
+  </div>
+
+    <div class="form-group" ng-if="customFolio">
+      <label>Numero ID:</label>
+           <input  type="text" class="form-control" id="folio" name="folio" >       
+    </div>
+    
+    <div class="form-group" ng-if="customPatente">
+      <label>Patente:</label>
+           <input  type="text" class="form-control" id="patente" name="patente" >       
+    </div>
+    
+    
+    <div class="form-group" ng-if="nombreClie">
+      <label>Nombre Cliente:</label>
+         <input  type="text" class="form-control" id="nombreCliente" name="nombreCliente" >       
+    </div>
+
+<button type="submit" class="btn btn-warning" ng-click="listarSol()"><span class="glyphicon glyphicon-search"></span> Buscar</button> 
+
+     
+
+
+        
+ </form>   
+
+ 
+    
+
+    
+</div>
+
+
+    
+</div> 
+    
+    
+
+
+ 
+     
+    
+<div>  
+    <div class="table-responsive">      
+        
+        
+            <table show-filter="true" 
+                   id="dgPedidos" 
+                   style="font-size:14px"  
+                   cellspacing="0" 
+                   class="table-hover table table-striped table table-bordered  display" 
+                   at-table at-paginated 
+                   at-list="list" 
+                   at-config="config">
+                <thead class="thead-inverse">
+                                    <tr>
+                                        <th class="text-center" COLSPAN="20" style="font-size:18px" >
+                                            <span class="fa fa-pencil" style="font-size:20px;color:GREEN;"> MANTENCIONES</span>
+                                            </th> 
+                                       </tr>
+                    
+                                    <tr>
+                                      <th class="text-center">N°Mantencion</th>     
+                                      <th class="text-center">F.Ingreso</th>
+                                      <th class="text-center">F.Entrega</th>
+                                      <th class="text-center">Estado</th>  
+                                      <th class="text-center">Tipo Solicitud</th>
+                                      <th class="text-center">Nombre Cliente</th>    
+                                      <th class="text-center">Acciones</th>
+                                    </tr>
+                              </thead>  
+                
+        
+                
+                              <tbody>
+                                  <tr ng-repeat="ped in listSolicitud">   
+                                     
+                                    <td class="text-center">{{ ped.id }}</td>
+                                    <td class="text-center">{{ ped.fecha_ingreso | date: 'dd-MM-yyyy' }}</td>
+                                    <td class="text-center">{{ ped.fecha_entrega | date: 'dd-MM-yyyy' }}</td>
+                                      
+                                    <td class="text-center">
+                                             <span ng-switch on="interface">
+                                                    
+                                              <img src='img/ico_cerrar.png' 
+                                                   title="Anulado"
+                                                   width="25" 
+                                                   height="25"
+                                                   ng-show="{{ped.id_estado == '1' }}">        
+                                              <img src='img/correcto.png'
+                                                   title="Entregado"
+                                                   width="25" 
+                                                   height="25"
+                                                   ng-show="{{ped.id_estado == '3'}}">
+                             
+                                              <img src='img/pendienFact.png'
+                                                   title="Pendiente"
+                                                   width="25" 
+                                                   height="25" 
+                                                   ng-show="{{ ped.id_estado == '2'}}"> 
+                            
+                                            </span>    
+                                              {{ ped.hora_transporte}}  
+                                          </td>   
+                                      
+                                    <td class="text-center">{{ ped.tipoSolicitud }}</td>
+                                    <td class="text-center">{{ ped.nombre_mecanico }}</td>
+                                    <td class="text-center">
+                                      
+                                             <button class="btn btn-xs btn-danger" 
+                                                     ng-click="preModificarSolicitud(ped)">    
+                                              <span  class="glyphicon glyphicon-pencil"></span>
+                                             </button>
+                                             
+                                            <button  class="btn btn-xs"
+                                                     data-toggle="modal"  
+                                                     ng-click="preVerSolicitud(ped)"
+                                                     data-target="#myModalNuevoClienteVer">    
+                                             <span class="glyphicon glyphicon-zoom-in"></span>
+                                             </button>
+                                              
+                              
+                                              
+                                                
+                                             <button type="submit"  
+                                                     ng-click="confirmarSolicitudPDF(ped)"
+                                                    class="btn btn-xs btn-warning">
+                                                    <span class="glyphicon glyphicon-download-alt"></span>
+                                              </button> 
+                                        
+                                        
+                                                 <button                               
+                               class="btn btn-xs" 
+                               data-toggle="modal"  
+                               data-target="#myModalSemana"
+                               ng-click="initEstadoSel(ped)">    
+                        <span class="glyphicon glyphicon-briefcase"></span>
+                        </button>   
+                                      
+                                            <!--  <button type="submit"  
+                                                     ng-click="imprimirTicketTrabajo(ped)"
+                                                    class="btn btn-xs btn-warning">
+                                                    <span class="glyphicon glyphicon-download-alt"></span>
+                                              </button> -->
+                                      </td>
+	
+                                      
+                                   </tr>                        
+                              </tbody>
+
+                 <div ng-show="loading">
+                                      <i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+    
+                 </div> 
+            </table>
+
+         
+    </div>
+</div>
+    
+  <!--   <div class="modal fade" id="myModalNuevoCliente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h5 class="modal-title" id="myModalLabel">{{tipoAccionSol}} Solicitud</h5>
+                  </div>
+                <div class="modal-body">
+            <form  name="formClienteX">
+
+                                  
+                       <div class="form-group">
+                       <label for="exampleInputEmail1">Nombre Cliente:</label>
+                       <input ng-model="insNombre" 
+                                     type="text" 
+                                     class="form-control" 
+                                     id="insNombre" 
+                                     name="insNombre"/> 
+                        </div>              
+                                  
+                       <div class="form-group">
+                       <label for="exampleInputEmail1">Numero Contacto:</label>
+                       <input ng-model="insContacto" 
+                                 type="number" 
+                                 class="form-control" 
+                                 id="insContacto" 
+                                 name="insContacto"/>  
+                        </div>   
+                                  
+                    
+                                  
+                          <div class="form-group">
+                       <label for="exampleInputEmail1">Direccion:</label>
+                   <input ng-model="insDireccion" 
+                                 type="text" 
+                                 class="form-control" 
+                                 id="insDireccion" 
+                                 name="insDireccion"/>  
+                        </div>                 
+                                  
+                                  
+                                            <div class="form-group">
+                       <label for="exampleInputEmail1">Tipo Solitud:</label>
+    <select  
+                                          name="mySelectTipoSol" 
+                                          class="form-control"
+                                          id="mySelectTipoSol"
+                                          ng-options="option.name for option in tipoDeSol.availableOptions track by option.id"        
+                                          ng-model="tipoDeSol.selectedOption">
+                                       </select>  
+                        </div>                        
+                                  
+     
+                                  
+                                   <div class="form-group">
+                       <label for="exampleInputEmail1">Fecha Entrega:</label>
+                          <input type="date" 
+                             class="form-control" 
+                             placeholder="dd-MM-yyyy" 
+                             id="insEntrega" 
+                             name="insEntrega"/>
+                        </div>        
+                    
+        
+                                          <div class="form-group">
+                       <label for="exampleInputEmail1">Observacion:</label>
+                                            <textarea class="form-control" 
+                               rows="5" 
+                               ng-model="insObservacion" 
+                               id="insObservacion" 
+                               name="insObservacion"></textarea>  
+                        </div>     
+                                  
+                         
+       </form>
+                    
+                </div> 
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-warning" ng-click="validarCliente()">Guardar
+                    <span class="glyphicon glyphicon-floppy-disk"></span></button>
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-chevron-left"></span>Salir
+                    </button>
+                </div>
+                </div>
+        </div>
+</div>    
+        -->     
+  
+
+   <div class="modal fade" id="myModalNuevoClienteVer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h5 class="modal-title" id="myModalLabel">Detalle Solicitud</h5>
+                  </div>
+                <div class="modal-body">
+
+                                  
+                       <div class="form-group">
+                       <label>Nombre Cliente: {{insNombre}}</label>                      
+                        </div>              
+                    
+                        <div class="form-group">
+                       <label>Contacto: {{insContacto}}</label>
+                        </div>  
+                                  
+                          <div class="form-group">
+                       <label>Observacion: {{insObservacion}}</label>
+                        </div>                 
+                                  
+            
+
+                    
+                </div> 
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-chevron-left"></span>Salir
+                    </button>
+                </div>
+                </div>
+        </div>
+</div>    
+             
+
+</div>
+
+<div class="panel panel-default" id="divPedido">
+    
+      <div class="modal-header">
+                 <h3 class="modal-title"><p style="color:#027dae; font-weight: bold;">Crear Solicitud</p></h3>
+      </div>
+    
+    
+      <div class="modal-body">
+
+        <div class="container">
+            
+     <form  name="formCliente">
+
+                                  
+                       <div class="form-group col-xs-6 col-md-4 ">
+                       <label class="control-label" >Nombre:</label>
+                       <input ng-model="insNombre" 
+                                     type="text" 
+                                     class="form-control" 
+                                     id="insNombre" 
+                                     name="insNombre"/> 
+                        </div>              
+                                  
+                       <div class="form-group col-xs-6 col-md-4 ">
+                       <label class="control-label" >Contacto:</label>
+                       <input ng-model="insContacto" 
+                                 type="number" 
+                                 class="form-control" 
+                                 id="insContacto" 
+                                 name="insContacto"/>  
+                        </div>   
+                                  
+                    
+                                  
+                              <div class="form-group col-xs-6 col-md-4">
+                       <label class="control-label">Transportes:</label>
+    
+                                      <select  
+                                          name="listadoTranp" 
+                                          class="form-control"
+                                          id="listadoTranp"
+                                          ng-options="listadoTranp.id as listadoTranp.name for listadoTranp in listadoTransporte"
+                                          ng-model="listadoTranp.selected">
+                                       <!-- <option  value="">-- Seleccione Tipo --</option>-->
+                                       </select> 
+                       
+                       
+                    </div>                    
+                                  
+                                  
+                               
+         
+         
+                     <div class="form-group col-xs-6 col-md-4">
+                       <label class="control-label">Tipo trabajo:</label>
+          
+                        
+                           <select  
+                                          name="listadoTranp" 
+                                          class="form-control"
+                                          id="listadoTipoSolicitudMant"
+                                          ng-options="listadoTipoSolicitudMant.id as listadoTipoSolicitudMant.nombre for listadoTipoSolicitudMant in listadoTipoSolicitudMantencion"
+                                          ng-model="listadoTipoSolicitudMant.selected">
+                                       <!-- <option  value="">-- Seleccione Tipo --</option>-->
+                                       </select> 
+                         
+                         
+                         
+                         
+                    </div>                        
+                                  
+     
+                                  
+                                   <div class="form-group col-xs-6 col-md-4">
+                       <label class="control-label">Fecha Entrega:</label>
+                          <input type="date" 
+                             class="form-control" 
+                             placeholder="dd-MM-yyyy" 
+                             id="insEntrega" 
+                             name="insEntrega"/>
+                        </div>        
+                    
+        
+                       <div class="form-group col-xs-6 col-md-4">
+                        <label class="control-label">Observacion:</label>
+                        <textarea class="form-control" 
+                               rows="3" 
+                               ng-model="insObservacion" 
+                               id="insObservacion" 
+                               name="insObservacion"></textarea>  
+                        </div>   
+         
+             <div class="form-group col-xs-6 col-md-4 ">
+                       <label class="control-label" >Kilometraje:</label>
+                       <input ng-model="insKilometraje" 
+                                 type="number" 
+                                 class="form-control" 
+                                 id="insKilometraje" 
+                                 name="insKilometraje"/>  
+                        </div>   
+         
+                                  
+                         
+       </form>
+
+        </div>   
+        <!--<div class="child" ng-hide="stadoPed">
+                           <input  id="codProducto" 
+                                   name="codProducto"
+                                   ng-model="idProducto">  
+                                   <button class="btn btn-default  btn-s" 
+                                        ng-click="buscarProd()"
+                                        type="button">   
+                        <span class="glyphicon glyphicon-plus"></span></button></div>  -->
+          
+        <!--novalidate desactiva el validador nativo del navegador-->
+       <!-- <form method="post" name="ejemploForm" novalidate>
+            <div class="form-group">
+                <label>Nombre</label>
+                <input type="text" name="ejemploName" ng-model="ejemplo.name" class="form-control" placeholder="Nombre" required/>
+            </div>  
+            
+            <div class="alert alert-info" ng-show="ejemploForm.ejemploName.$dirty && ejemploForm.ejemploName.$invalid">
+            <span ng-show="ejemploForm.ejemploName.$error.required">Escribe el nombre</span>
+            </div>
+            
+            <div class="form-group">
+                <label>Correo</label>
+                <input type="email" name="ejemploCorreo" ng-model="ejemplo.correo" class="form-control" placeholder="Correo" required/>
+            </div>
+            
+            <div class="alert alert-info" ng-show="ejemploForm.ejemploCorreo.$dirty && ejemploForm.ejemploCorreo.$invalid"> <span ng-show="ejemploForm.ejemploCorreo.$error.required">Escribe el correo</span>
+             <span ng-show="ejemploForm.ejemploCorreo.$error">Correo no válido</span>
+
+            </div>
+            <div class="form-group">
+                <label>Edad</label>
+                <input type="number" name="ejemploEdad" ng-model="ejemplo.edad" class="form-control" placeholder="Edad" required/>
+            </div>
+            <div class="alert alert-info" ng-show="ejemploForm.ejemploEdad.$dirty && ejemploForm.ejemploEdad.$invalid">
+<span ng-show="ejemploForm.ejemploEdad.$error.required">Escribe la edad</span>  <span ng-show="!ejemploForm.ejemploEdad.$valid">Edad debe ser numérica</span>
+
+            </div>
+                <button id="ejemploGuardar" class="btn btn-primary" ng-click="actionForm()"
+                        ng-disabled="!ejemploForm.$valid">Guardar
+                </button>         
+        </form>-->
+          
+     <div class="container" style="text-align: center">       
+        <form method="post" name="ejemploForm" novalidate >
+           <!-- <div class="form-group col-xs-6 col-md-4">
+                <input class="form-control input-s" 
+                                     name="detNombProdName"  
+                                     ng-model="detNombProd"  
+                                     type="text"
+                                     placeholder="Detalle"
+                                     required/>
+            </div>  
+            
+            <div class="alert alert-info col-xs-6 col-md-2" 
+                 ng-show="ejemploForm.detNombProdName.$dirty   && 
+                          ejemploForm.detNombProdName.$invalid && 
+                          {{tetPrueba == 'false'}}">
+            <span ng-show="ejemploForm.detNombProdName.$error.required">Escribe el Detalle</span>
+            </div>
+            
+    
+           <div class="form-group col-xs-6 col-md-2">
+                <input class="form-control input-s" 
+                                     name="detPrecioVentaName"  
+                                     ng-model="detPrecioVenta"  
+                                     type="number" 
+                                     placeholder="Valor"
+                                    required/>
+            </div>
+            
+            <div class="alert alert-info col-xs-6 col-md-2" 
+                 ng-show="ejemploForm.detPrecioVentaName.$dirty   && 
+                          ejemploForm.detPrecioVentaName.$invalid &&  
+                          {{tetPrueba == 'false'}} ">
+            <span ng-show="ejemploForm.detPrecioVentaName.$error.required">Escribe Precio</span>  
+            <span ng-show="!ejemploForm.detPrecioVentaName.$valid">Precio debe ser numérica</span>
+            </div>
+            -->
+ 
+            
+             
+            
+        </form>  
+             </div>  
+       <!--  <div   class="form-group col-xs-6 col-md-2">                     
+            <strong><input class="form-control input-s" 
+                                     id="detNombProd"  
+                                     ng-model="detNombProd"  
+                                     type="text"
+                                     placeholder="Detalle Producto"></strong>
+            
+        </div>      
+          <div   class="form-group col-xs-6 col-md-2" ng-hide="stadoPed">
+            <div class="input-group">
+                      <strong><input class="form-control input-s" 
+                                     id="detPrecioVenta"  
+                                     ng-model="detPrecioVenta"  
+                                     type="number" 
+                                     placeholder="P.Neto"></strong>
+             </div>
+            
+        </div>
+         <div   class="form-group col-xs-6 col-md-2">
+            <div class="input-group">
+                      <strong><input class="form-control input-s" 
+                                     id="detCantidad"  
+                                     ng-model="detCantidad"  
+                                     type="number" 
+                                     placeholder="Cantidad"></strong>
+             </div>
+            
+        </div> 
+          
+            <div   class="form-group col-xs-6 col-md-2">
+            <div class="input-group">
+                      <strong> <button type="submit"   
+                                       class="btn btn-success" 
+                                       ng-click="agregarItems()">Agregar Items
+            <span class="glyphicon glyphicon-barcode"></span></button></strong>
+             </div>
+            
+        </div> -->
+          
+        <table class="table table-striped table table-bordered table-hover " 
+               style="font-size:11px"  
+               at-table at-paginated at-list="list" 
+               at-config="config">              
+             <thead>
+                        <tr>   
+                           <th  style="text-align: center">#</th> 	
+                           <th  style="text-align: center">
+                                <button id="ejemploGuardar" 
+                                        class="btn btn-primary col-md-8" 
+                                        ng-click="agregarItems()">
+                                       <span class="glyphicon glyphicon-plus">
+                            </span> Agregar Items</button> 
+                           </th>
+                           <th style="text-align: center">DETALLE</th>
+                           <th style="text-align: center">VALOR</th>  
+                           <th style="text-align:  center">MANTENCIONES</th>  
+                           <th style="text-align: center">ACCION</th>                            
+                        </tr>
+             </thead>
+              <tbody>
+                <tr data-dismiss="modal" ng-repeat="(productIndex, prodDet) in dgVentas">    
+                    <td style="text-align: center">{{ $index + 1 }}</td> 
+                          <td style="text-align: center"> 
+                              <input type="checkbox" 
+                                     ng-change="methodVentaAct(prodDet.itemsDetalleAct)"
+                                     ng-model="prodDet.itemsDetalleAct">
+                         </td> 
+                    
+                                
+      
+                     <td>
+                        {{ prodDet.itemsDetalleProd }}
+                    
+                               <!--  <input  ng-blur='methodVenta(prodDet, prodDet.documento)'
+								  ng-model="prodDet.documento"
+                                   ng-show="prodDet.codCobro == 3 || prodDet.codCobro == 2"
+								  class="form-control" 
+								  size="16">-->
+                    <textarea  class="form-control" 
+                                rows="5" 
+                                ng-if="prodDet.itemsDetalleAct == '1'"   
+                                ng-model="prodDet.itemsDetalleProdAdic" 
+                                id="itemsDetalleProdAdic" 
+                                name="itemsDetalleProdAdic"></textarea>  
+                        
+                    
+                    </td>
+                    <td style="text-align: center">
+                        <input       type="number"                                      
+                                     class="form-control" 
+                                     id="itemsNetoProd" 
+                                     ng-model="prodDet.itemsNetoProd"
+                                     name="itemsNetoProd"/>     
+                    
+                    </td> 
+                    <td style="text-align: center">
+                                     <select   
+                                          name="listadoTipoMant" 
+                                          class="form-control"
+                                          id="listadoTipoMant"                                        
+                                          ng-options="listadoTipoMant.id as listadoTipoMant.nombre for listadoTipoMant in listadoTipoMantencion"
+                                          ng-model="prodDet.selected">
+                                       </select>  
+							
+                    
+                    </td>
+                     <td style="text-align: center">                
+                        
+                       <!--<button  class="btn btn-xs" 
+                                 data-toggle="modal"  
+                                 data-target="#myModalModProd"  
+                                 ng-click="modificarProdPrecio(prodDet)">    
+                                <span class="glyphicon glyphicon-pencil"></span>
+                        </button>-->
+                         <button class="btn btn-xs" data-toggle="modal"  
+                                 ng-click="eliminarProduto(productIndex)">    
+                         <span class="glyphicon glyphicon-remove "></span>
+                         </button>
+                      </td>                    
+
+                </tr>
+              </tbody>
+        </table> 
+   
+
+        </div> 
+        
+       
+            <div class="modal-footer">
+
+          <!--  <button type="submit" 
+                    class="btn btn-info"  
+                     ng-click="validarCliente('Crear')">Generar Solicitud
+            <span class="glyphicon glyphicon-save-file"></span></button>-->
+                
+                     
+            <button 
+                    class="btn btn-info"  
+                    ng-click="validarCliente('Crear')">
+                   <span class="glyphicon glyphicon-saved">
+                            </span> Generar Solicitud
+            </button>       
+                    
+                
+                
+                
+
+            <button type="button" class="btn btn-warning" ng-click="verDetallePedidoSalir()">
+            <span class="glyphicon glyphicon-chevron-left"></span>Salir
+            </button>
+
+
+
+        </div>
+    
+    
+</div>
+
+
+  <div class="modal fade" id="myModalSemana" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h5 class="modal-title" id="myModalLabel">{{idSoli}} - {{modNombre}}</h5>
+                  </div>
+                <div class="modal-body">
+                   <select  
+                                          name="listadoEstadoTranp" 
+                                          class="form-control"
+                                          id="listadoEstadoTranp"
+                                          ng-options="listadoEstadoTranp.id as listadoEstadoTranp.nombre for listadoEstadoTranp in listadoEstadoTransporte"
+                                          ng-model="listadoEstadoTranp.selected">
+                                       </select> 
+          
+                </div> 
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal" ng-click="modificarEstadoSel()">
+                    <span class="glyphicon glyphicon-check"></span>Asignar Estado
+                    </button>
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-chevron-left"></span>Salir
+                    </button>
+                </div>
+                </div>
+        </div>
+</div>
+
+<div class="panel panel-default" id="divPedidoModificar">
+    
+      <div class="modal-header">
+           <h3 class="modal-title"><p style="color:#027dae; font-weight: bold;">Modificar Solicitud</p></h3>
+      </div>
+    
+    
+      <div class="modal-body">
+
+        <div class="container">
+            
+     <form  name="formClienteMod">
+
+                                  
+                       <div class="form-group col-xs-6 col-md-4 ">
+                       <label class="control-label" >Nombre:</label>
+                       <input ng-model="modNombre" 
+                                     type="text" 
+                                     class="form-control" 
+                                     id="modNombre" 
+                                     name="modNombre"/> 
+                        </div>              
+                                  
+                       <div class="form-group col-xs-6 col-md-4 ">
+                       <label class="control-label" >Contacto:</label>
+                       <input ng-model="modContacto" 
+                                 type="number" 
+                                 class="form-control" 
+                                 id="modContacto" 
+                                 name="modContacto"/>  
+                        </div>   
+                                  
+                    
+                                  
+                 
+         
+                   <div class="form-group col-xs-6 col-md-4">
+                       <label class="control-label">Transportes:</label>
+    
+                                      <select  
+                                          name="listadoTranpMod" 
+                                          class="form-control"
+                                          id="listadoTranpMod"
+                                          ng-options="listadoTranpMod.id as listadoTranpMod.name for listadoTranpMod in listadoTransporte"
+                                          ng-model="listadoTranpMod.selected">
+                                       <!-- <option  value="">-- Seleccione Tipo --</option>-->
+                                       </select> 
+                       
+                       
+                    </div>      
+                                  
+                      <div class="form-group col-xs-6 col-md-4">
+                       <label class="control-label">Tipo Solitud:</label>
+                                      <select  
+                                          name="listadoTipoSolicitudMantMod" 
+                                          class="form-control"
+                                          id="listadoTipoSolicitudMantMod"
+                                          ng-options="listadoTipoSolicitudMantMod.id as listadoTipoSolicitudMantMod.nombre for listadoTipoSolicitudMantMod in listadoTipoSolicitudMantencion"
+                                          ng-model="listadoTipoSolicitudMantMod.selected">
+                                       <!-- <option  value="">-- Seleccione Tipo --</option>-->
+                                       </select> 
+                        </div>                        
+                                  
+     
+                                  
+                       <div class="form-group col-xs-6 col-md-4">
+                       <label class="control-label">Fecha Entrega:</label>
+                          <input type="date" 
+                             class="form-control" 
+                             placeholder="dd-MM-yyyy" 
+                             id="modEntrega" 
+                             name="modEntrega"/>
+                        </div>        
+                    
+        
+                      <div class="form-group col-xs-6 col-md-4">
+                       <label class="control-label">Observacion:</label>
+                            <textarea class="form-control" 
+                               rows="3" 
+                               ng-model="modObservacion" 
+                               id="modObservacion" 
+                               name="modObservacion"></textarea>  
+                        </div>     
+         
+                     <div class="form-group col-xs-6 col-md-4 ">
+                       <label class="control-label" >Kilometraje:</label>
+                       <input ng-model="modKilometraje" 
+                                 type="number" 
+                                 class="form-control" 
+                                 id="modKilometraje" 
+                                 name="modKilometraje"/>  
+                        </div>   
+                                  
+                         
+       </form>
+
+        </div>   
+       
+          
+     <div class="container" style="text-align: center">       
+        <form method="post" name="ejemploForm" novalidate >
+         <!--   <div class="form-group col-xs-6 col-md-4">
+                              <input class="form-control input-s" 
+                                     name="detNombProdName"  
+                                     ng-model="detNombProd"  
+                                     type="text"
+                                     placeholder="Detalle"
+                                     required/>
+            </div>  
+            
+            <div class="alert alert-info col-xs-6 col-md-2" 
+                 ng-show="ejemploForm.detNombProdName.$dirty && ejemploForm.detNombProdName.$invalid && 
+                          {{tetPrueba == 'false'}}">
+            <span ng-show="ejemploForm.detNombProdName.$error.required">Escribe el Detalle</span>
+            </div>
+            
+    
+            <div class="form-group col-xs-6 col-md-2">
+                              <input class="form-control input-s" 
+                                     name="detPrecioVentaName"  
+                                     ng-model="detPrecioVenta"  
+                                     type="number" 
+                                     placeholder="Valor"
+                                     required/>
+            </div>
+            
+            <div class="alert alert-info col-xs-6 col-md-2" 
+                 ng-show="ejemploForm.detPrecioVentaName.$dirty && ejemploForm.detPrecioVentaName.$invalid &&  {{tetPrueba == 'false'}} ">
+            <span ng-show="ejemploForm.detPrecioVentaName.$error.required">Escribe Precio Neto</span>  
+            <span ng-show="!ejemploForm.detPrecioVentaName.$valid">Precio debe ser numérica</span>
+            </div>-->
+            
+       <!--     <div class="form-group col-xs-6 col-md-2">
+                 <input class="form-control input-s" 
+                                     name="detCantidadName"  
+                                     ng-model="detCantidad"  
+                                     type="number" 
+                                     placeholder="Cantidad"
+                                     required/>
+            </div>
+            
+            <div class="alert alert-info col-xs-6 col-md-2" 
+                 ng-show="ejemploForm.detCantidadName.$dirty && ejemploForm.detCantidadName.$invalid &&  {{tetPrueba == 'false'}}">
+            <span ng-show="ejemploForm.detCantidadName.$error.required">Escribe Cantidad</span>  
+            <span ng-show="!ejemploForm.detCantidadName.$valid">Cantidad debe ser numérica</span>
+            </div>-->
+            
+                
+            
+            
+        </form>  
+             </div>  
+   
+          
+        <table class="table table-striped table table-bordered table-hover " style="font-size:11px"  at-table at-paginated at-list="list" at-config="config">              
+             <thead>
+                        <tr>   
+                          <th  style="text-align: center">#</th>
+                          <th  style="text-align: center"><button id="ejemploGuardar" 
+                                                            class="btn btn-primary col-md-8" 
+                                                            ng-click="agregarItems()">
+                                                            <span class="glyphicon glyphicon-plus">
+                                                        
+                              
+                              
+                              </span> Agregar Items
+            </button>  </th>
+                          <th style="text-align:  center">DETALLE</th>
+                          <th style="text-align:  center">VALOR</th>  
+                          <th style="text-align:  center">MANTENCION</th>  
+                           <th style="text-align: center">ACCION</th>                            
+                        </tr>
+             </thead>
+              <tbody>
+                <tr data-dismiss="modal" ng-repeat="(productIndex, prodDet) in dgVentas">     
+                    <td style="text-align: center">{{ $index + 1 }}</td> 
+                     <td style="text-align: center"> 
+                          <input type="checkbox" 
+                                 ng-change="methodVentaAct(prodDet.itemsDetalleAct)"
+                                 ng-model="prodDet.itemsDetalleAct">
+                     </td>
+                    
+                    
+                    
+                    <td>{{ prodDet.itemsDetalleProd }}
+                          <!--  <input  ng-blur='methodVenta(prodDet, prodDet.documento)'
+								  ng-model="prodDet.documento"
+                                   ng-show="prodDet.codCobro == 3 || prodDet.codCobro == 2"
+								  class="form-control" 
+								  size="16">-->
+                      <textarea  class="form-control" 
+                                rows="5" 
+                                ng-if="prodDet.itemsDetalleAct == '1'"       
+                                ng-model="prodDet.itemsDetalleProdAdic" 
+                                id="itemsDetalleProdAdic" 
+                                name="itemsDetalleProdAdic"></textarea>  
+         
+                    </td>
+                    
+                    <td style="text-align: center">
+                        <input       type="number"                                      
+                                     class="form-control" 
+                                     id="precio" 
+                                     ng-model="prodDet.precio"
+                                     name="precio"/>     
+                    
+                    </td> 
+                              <td style="text-align: center">
+                                     <select   
+                                          name="listadoTipoMant" 
+                                          class="form-control"
+                                          id="listadoTipoMant"                                        
+                                          ng-options="listadoTipoMant.id as listadoTipoMant.nombre for listadoTipoMant in listadoTipoMantencion"
+                                          ng-model="prodDet.selected">
+                                       </select>  
+							
+                    
+                    </td>
+                     <td style="text-align: center">      
+                         <button class="btn btn-xs" data-toggle="modal"  
+                                 ng-click="eliminarProduto(prodDet)">    
+                        <span class="glyphicon glyphicon-remove"></span></button>
+                      </td>                    
+
+                </tr>
+              </tbody>
+        </table> 
+        <div ng-hide="dgVentas.length !=0">Cargando...</div> 
+      
+
+        </div> 
+        
+       
+            <div class="modal-footer">
+     
+                
+            <button 
+                    class="btn btn-info"  
+                    ng-click="validarCliente('Modificar')">
+                   <span class="glyphicon glyphicon-floppy-disk">
+                            </span> Modificar Solicitud
+            </button>       
+                
+
+            <button type="button" 
+                    class="btn btn-warning" 
+                    ng-click="verDetallePedidoSalirMod()">
+            <span class="glyphicon glyphicon-chevron-left"></span>Salir
+            </button>
+
+
+
+        </div>
+    
+    
+</div>

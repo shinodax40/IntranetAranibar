@@ -1,0 +1,2405 @@
+<style>
+    #lector {
+    	width: 0.1px;
+    	height: 0.1px;
+    	opacity: 0;
+    	overflow: hidden;
+    	position: absolute;
+    	z-index: -1;
+}
+    canvas, video {
+        max-width: 100%;
+        width: 100%;
+    }
+    
+    .drawingBuffer {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+</style>
+
+<div class="panel panel-default" ng-init="init()" ng-show="{{!customInterLogin}}" id="divListadoProducto">
+     
+    <div class="panel-heading"> <h3 class="modal-title"><p style="color:#354d8f; font-weight: bold;">Listado de Productos</p></h3></div>  
+    
+<div class="panel-body">  
+    
+    
+       <div class="form-group" style="text-align: left">
+               <div class="btn-group" 
+                       role="group">
+                         <button class="btn btn-primary" 
+                                ng-click="selTipoBusq('1')" 
+                                ng-class="{active:tipoBusqueda == '1'}">Tipo y Marca</button>
+                        <button class="btn btn-primary" 
+                                ng-click="selTipoBusq('2')" 
+                                ng-class="{'active':tipoBusqueda == '2'}">Proveedor</button>
+                        <button class="btn btn-primary" 
+                                ng-click="selTipoBusq('3')" 
+                                ng-class="{'active':tipoBusqueda == '3'}">Bodega</button>
+                       <button class="btn btn-primary" 
+                                ng-click="selTipoBusq('4')" 
+                                ng-class="{'active':tipoBusqueda == '4'}">Clasificacion</button>
+                    <button class="btn btn-primary" 
+                                ng-click="selTipoBusq('5')" 
+                                ng-class="{active:tipoBusqueda == '5'}">Nombres</button>
+                  <button class="btn btn-primary" 
+                                ng-click="selTipoBusq('6')" 
+                                ng-class="{active:tipoBusqueda == '6'}">Codigo o Codigo Barra</button>
+                      </div>
+           
+                      <div class="btn-group" 
+                       role="group">
+                          
+                            <!--<button class="btn btn-success" 
+                                    ng-click="preCrearSolicitud()">
+                            <span class="glyphicon glyphicon-plus">
+                            </span> Registrar Recibo de Dinero
+                            </button>   -->
+                          
+                          
+                           <button class="btn btn-default  btn-lg" 
+                                     data-toggle="modal"  
+                                     ng-click=""
+                                     data-target="#myModalProductoNuevo">
+                            <span class="glyphicon glyphicon-plus">
+                            </span> Nuevo
+                            </button>   
+
+                      </div>
+      </div>    
+    
+    
+  <div class="form-group" ng-show="busqueda1">
+    <div class="form-group col-xs-6 col-md-2 row">
+         <label class="control-label" >Tipos:</label>
+            <div class="input-group">
+                         <select   class="form-control" 
+                                   ng-model="tipo" 
+                                   ng-options="t.nombreCategoria group by t.grupo  for t in tipos"  
+                                   ng-change="selTipo()" >
+                           <option value="">-- Seleccione Tipo --</option>
+                         </select>   
+        </div>
+    </div>
+     
+    <div class="form-group col-xs-6  col-md-2 row">
+       <label class="control-label">Marcas:</label>
+             <div class="input-group">
+                            <select class="form-control" 
+                                       ng-model="marca" 
+                                       ng-options="m.nombreMarca for m in marcas"
+                                       ng-change="selMarca()" >
+                                  <option value="">-- Seleccione Marca --</option>
+                             </select>
+             </div>
+    </div>
+  </div>
+    
+    
+   <div class="form-group" ng-show="busqueda2">
+    <div class="form-group col-xs-6 col-md-2 row">
+            <label class="control-label">Proveedores:</label>
+            <div class="input-group">
+                       <select  class="form-control" 
+                                       ng-model="proveedor" 
+                                       ng-options="t.nombre for t in proveedores"  
+                                       ng-change="selProveedor()" >
+                                       <option value="">--Proveedores--</option>
+                              </select>  
+             </div>
+    </div>
+     
+  
+  </div>    
+    
+    
+  <div class="form-group" ng-show="busqueda3">
+    <div class="form-group col-xs-6 col-md-2 row">
+                  <label class="control-label">Bodegas:</label>
+             <div class="input-group">
+                          <select name="mySelectTipoCobros" 
+                                  class="form-control"                                
+                                  id="mySelectTipoCobros"
+                                  ng-options="option.name for option in bodegas.availableOptions track by option.id"
+                                  ng-model="bodegas.selectedOption">
+                             <option  value="">-- Bodega --</option>
+                          </select>   
+             </div>
+    </div>
+     
+  
+  </div>
+    
+    
+      <div class="form-group" ng-show="busqueda5">
+           <div class="form-group col-xs-6 col-md-2 row">
+               <label>Nombre:</label>
+                  <input  type="text" class="form-control" id="nombreProd" name="nombreProd" >       
+             </div>
+    </div>
+     
+        <div class="form-group" ng-show="busqueda6">
+           <div class="form-group col-xs-6 col-md-2 row">
+               <label>Codigo o Codigo Barra:</label>
+                  <input  type="text" class="form-control" id="codigoProd" name="codigoProd" >       
+             </div>
+    </div>
+    
+    
+  </div>    
+    
+ 
+    
+ <!--   
+<div ng-show="{{!customInter}}">          
+              <form name="prodSeleccion"  class="form-inline">
+                  
+                  
+                   <div class="input-group">
+                            <button class="btn btn-default  btn-lg" 
+                                     data-toggle="modal"  
+                                     ng-click=""
+                                     data-target="#myModalProductoNuevo">
+                            <span class="glyphicon glyphicon-plus">
+                            </span> Nuevo
+                            </button>   
+
+                    </div>
+
+                    <div class="input-group">
+                            <button class="btn btn-default btn-lg" 
+                                    ng-click="refrescar()">
+                            <span class="glyphicon glyphicon-refresh">
+                            </span> Refrescar
+                            </button>  
+                    </div>                  
+
+              </form>  
+             <br>
+             <hr/>
+</div> -->   
+    
+    
+ <div>      
+     <!--   <div class="form-group col-xs-6 col-md-2 rowPedido">
+          <label class="control-label" >Tipos:</label>
+            <div class="input-group">
+                         <select class="form-control" 
+                                   ng-model="tipo" 
+                                       ng-options="t.nombreCategoria group by t.grupo  for t in tipos"  
+                                   ng-change="selTipo()" >
+                           <option  value="">-- Seleccione Tipo --</option>
+                         </select>   
+            </div>
+        </div>
+
+
+
+        <div class="form-group col-xs-6 col-md-2 rowPedido">
+             <label class="control-label">Marcas:</label>
+             <div class="input-group">
+                            <select class="form-control" 
+                                       ng-model="marca" 
+                                       ng-options="m.nombreMarca for m in marcas"
+                                       ng-change="selMarca()" >
+                                  <option value="">-- Seleccione Marca --</option>
+                             </select>
+             </div>
+        </div>
+-->
+
+ <!--       <div ng-show="{{!customInterProd}}" class="form-group col-xs-6 col-md-2 rowPedido">
+          <label class="control-label">Proveedores:</label>
+            <div class="input-group">
+                       <select  class="form-control" 
+                                       ng-model="proveedor" 
+                                       ng-options="t.nombre for t in proveedores"  
+                                       ng-change="selProveedor()" >
+                                       <option value="">--Proveedores--</option>
+                              </select>  
+             </div>
+        </div>
+     -->
+     
+  <!--     <div class="form-group col-xs-6 col-md-2 rowPedido">
+             <label class="control-label">Bodegas:</label>
+             <div class="input-group">
+                          <select name="mySelectTipoCobros" 
+                                  class="form-control"                                
+                                  id="mySelectTipoCobros"
+                                  ng-options="option.name for option in bodegas.availableOptions track by option.id"
+                                  ng-model="bodegas.selectedOption">
+                             <option  value="">-- Bodega --</option>
+                          </select>   
+             </div>
+        </div>
+     
+     -->
+     
+     
+     
+<!--PENDIENTE     
+           <div class="form-group col-xs-6 col-md-2 rowPedido">
+             <label class="control-label">Ordenar por:</label>
+             <div class="input-group">
+                          <select name="mySelectclasificacionProd" 
+                                  class="form-control"                                
+                                  id="mySelectclasificacionProd"
+                                  ng-options="option.name for option in clasificacionProdLis.availableOptions track by option.id"
+                                  ng-model="clasificacionProdLis.selectedOption">
+                             <option  value="">-- * --</option>
+                          </select>   
+             </div>
+        </div>
+     
+           <div class="form-group col-xs-6 col-md-2 rowPedido">
+                          <label class="control-label" for="inputSuccess1">Clasificacion:</label>
+                          <select  name="mySelectClasFiltro" 
+                                  class="form-control"
+                                  id="mySelectClasFiltro"
+                                  ng-options="t.nombre for t in clasifProd.availableOptions track by t.id"
+                                  ng-model="clasifProd.selectedOption">
+                                <option  value="">-- Tipo --</option>
+                        </select> 
+                      </div>
+                      
+-->
+
+<!--
+       <div   class="form-group col-xs-6 col-md-4 rowPedido">
+          <label class="control-label">Nombre:</label>
+            <div class="input-group">
+                      <input type="text" 
+                             class="form-control" 
+                             ng-model="nombProd" 
+                             placeholder="...">
+             </div>
+        </div>    -->
+
+
+
+      <div class="form-group col-xs-12 col-md-12 rowPedido">
+            <button class="btn btn-warning" ng-click="buscarProductos()">
+        Buscar <span class="glyphicon glyphicon-search"></span>
+        </button>
+        </div>
+
+</div>     
+    
+    
+
+    
+<hr>
+
+    <button class="btn btn-warning" ng-click="generarReporteProductos()">
+        Generar Reportes Tiendas PDF <span class="glyphicon glyphicon-download-alt"></span>
+    </button>
+    
+  <div class="table-responsive">        
+    <table class="table table-striped table table-bordered table-hover display" 
+           at-table at-paginated at-list="list" 
+           at-list="list" 
+           show-filter="true" 
+           cellspacing="0" 
+           at-config="config">       
+              
+         <thead>
+                    <tr>
+                      <th  style="text-align: center" width="2%">#</th>    
+                      <th style="text-align: center" width="5%">Id</th>
+                      <th style="text-align: center" width="10%">Foto</th>
+                      <th style="text-align: center" width="10%">Cod. Barra</th>                        
+                      <th style="text-align: center" width="20%">Nombre</th>
+                      <th style="text-align: center" width="10%">Proveedor</th>
+                        
+                      <th style="text-align: center">Clasificacion</th>
+                      <th style="text-align: center">P. Particular</th>
+                      <th style="text-align: center">P. Mascotero</th>      
+                      <th style="text-align: center">Peso</th>
+                      <th style="text-align: center">Bodega</th>
+                <!--      <th style="text-align: center">Stock</th>-->
+                      <th style="text-align: center">Stock Barros</th>
+                     <th style="text-align: center">Stock Santa</th>
+                         <th style="text-align: center">Stock Tucap</th>
+                        
+                      <th style="text-align: center"  width="8%">Act.Ventas</th>
+                      <th style="text-align: center"  width="8%">Act.Tienda</th>
+   
+                      <th style="text-align: center">F. Vencimiento</th>                        
+                      <th  style="text-align: center" ng-show="{{!customInterProd}}">Acciones</th>
+                       <!--<th  class="text-center">Mensaje</th> -->                       
+                    </tr>
+         </thead>
+          <tbody>
+            <tr data-dismiss="modal" 
+                ng-if="prod.nodo_prod == '0'"
+                ng-repeat="prod in listProd"  
+                data-toggle="modal"  
+                ng-click="selProductos(prod)">  
+                <td style="text-align: center">{{ $index + 1 }}</td>                    
+                <td>{{ prod.id }}</td> 
+                <!--<td><img ng-if="prod.foto" height="32" src="{{ prod.foto  }}" onClick="openImageModal(this)" style="cursor: pointer" /></td>-->
+                <td style="text-align: center">                             
+                              <img  ng-src="{{prod.foto}}"
+                               onerror="this.src='https://aranibar.cl/barrosaranas/Table/img/sinImagen.png';"
+                                onClick="openImageModal(this)" 
+                                style="cursor: pointer"                                
+                              class='eye'
+                              width="100"   
+                              height="100">
+                     <!--          <img  ng-src="{{prod.imgUrl2}}"
+                                    ng-if="prod.imgUrl2"
+                               onerror="this.src='https://aranibar.cl/barrosaranas/Table/img/sinImagen.png';"
+                                onClick="openImageModal(this)" 
+                                style="cursor: pointer"                                
+                              class='eye'
+                              width="50"   
+                              height="35">-->
+                </td>
+                <td>{{ prod.cod_barra }}</td>
+                
+                <td>{{ prod.nombreProd }}</td>
+                <td>{{ prod.nombreProv }}</td>
+                
+                <td>{{ prod.clasProd }}</td>
+                
+                <td>$ {{ prod.precioPart | number:0  }}</td>
+                <td>
+					$ {{ (prod.precioMasc * 1.19) - ((prod.precioMasc * 1.19) * (prod.porcentaje/100))  | number:0  }}		
+					
+						  <!--  <span ng-switch on="interface" style="font-size:9px">
+                                              <img src='img/flechaArriba.png'  
+                                                   width="20" 
+                                                   height="20"
+                                                   ng-show="{{prod.estadoPrecio == 'flechaArriba'}}">
+                                  
+                                              <img src='img/flechaAbajo.png'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.estadoPrecio == 'flechaAbajo'}} ">
+                                        $ {{ prod.diferenciaPrecio | number:0  }}		
+					
+                           </span>-->
+					       <span ng-switch on="interface" style="font-size:9px">      
+                                              <img src='img/numeros/uno.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '1'}} ">	
+                               
+                                              <img src='img/numeros/dos.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '2'}} ">	
+                               
+                                               <img src='img/numeros/tres.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '3'}} ">	
+                               
+                                               <img src='img/numeros/cuatro.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '4'}} ">
+                               
+                                               <img src='img/numeros/cinco.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '5'}} ">	
+                               
+                                               <img src='img/numeros/seis.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '6'}} ">	
+                               
+                                              <img src='img/numeros/siete.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '7'}} ">	
+                               
+                                              <img src='img/numeros/ocho.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '8'}} ">	
+                                              <img src='img/numeros/nueve.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '9'}} ">	
+                               
+                                              <img src='img/numeros/dies.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '10'}} ">	
+                               
+                                             <img src='img/numeros/once.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '11'}} ">
+                               
+                                             <img src='img/numeros/doce.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '12'}} ">	
+                               
+                                             <img src='img/numeros/trece.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '13'}} ">	
+                               
+                                             <img src='img/numeros/catorce.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '14'}} ">	
+                               
+                                             <img src='img/numeros/quince.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '15'}} ">	
+                               
+                                             <img src='img/numeros/dieciseis.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '16'}} ">	
+                               
+                               
+                                            <img src='img/numeros/diecisiete.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.diecisiete == '17'}} ">	
+                               
+                                           <img src='img/numeros/dieciocho.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '18'}} ">	
+                               
+                                           <img src='img/numeros/diecinueve.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '19'}} ">	
+                               
+                                           <img src='img/numeros/veinte.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '20'}} ">	
+                               
+                                              <img src='img/numeros/porcentaje.jpg'  
+                                                   width="16" 
+                                                   height="16" 
+                                                   ng-show="{{prod.porcentaje != '0'}} ">	
+                                            
+                           </span>
+			   </td>
+				
+				
+				 <td style="text-align: center">{{ prod.pesosProd | number:0  }} Kg</td>
+                 <td style="text-align: center">{{ prod.bodega | number:0  }}</td>
+              <!--  <td>
+                              <span ng-switch on="interface">
+                                              <img src='img/verde.png'  
+                                                   width="26" 
+                                                   height="26"
+                                                   ng-show="{{prod.countStock  > 10 }}">
+                                  
+                                              <img src='img/amarillo.jpg'  
+                                                   width="26" 
+                                                   height="26" 
+                                                   ng-show="{{prod.countStock > 1 &&  prod.countStock < 11}} ">
+                                  
+                                              <img src='img/amarillo.jpg'  
+                                                   width="26" 
+                                                   height="26" 
+                                                   ng-show="{{prod.countStock == 1}}">
+                                             
+                                              <img src='img/rojo.jpg'  
+                                                   width="26" 
+                                                   height="26" 
+                                                   ng-show="{{prod.countStock == 0 }} ">
+                           </span>
+                    
+                    {{ prod.stockProd - prod.salidasProd }}
+                </td>-->
+                
+                <td style="text-align: center">  
+                               <span ng-switch on="interface">
+                                              <img src='img/verde.png'  
+                                                   width="26" 
+                                                   height="26"
+                                                   ng-show="{{prod.stockTiendas[0].stock  > 10 }}">
+                                  
+                                              <img src='img/amarillo.jpg'  
+                                                   width="26" 
+                                                   height="26" 
+                                                   ng-show="{{prod.stockTiendas[0].stock > 1 &&  prod.stockTiendas[0].stock < 11}} ">
+                                  
+                                              <img src='img/amarillo.jpg'  
+                                                   width="26" 
+                                                   height="26" 
+                                                   ng-show="{{prod.stockTiendas[0].stock== 1}}">
+                                             
+                                              <img src='img/rojo.jpg'  
+                                                   width="26" 
+                                                   height="26" 
+                                                   ng-show="{{prod.stockTiendas[0].stock == 0 }} ">
+                           </span>
+                    
+                    
+                    {{prod.stockTiendas[0].stock}} <!--Barros Aranas Stock-->
+                </td>
+                    <td style="text-align: center">  
+                        
+                         <span ng-switch on="interface">
+                                              <img src='img/verde.png'  
+                                                   width="26" 
+                                                   height="26"
+                                                   ng-show="{{prod.stockTiendas[1].stock  > 10 }}">
+                                  
+                                              <img src='img/amarillo.jpg'  
+                                                   width="26" 
+                                                   height="26" 
+                                                   ng-show="{{prod.stockTiendas[1].stock > 1 &&  prod.stockTiendas[1].stock < 11}} ">
+                                  
+                                              <img src='img/amarillo.jpg'  
+                                                   width="26" 
+                                                   height="26" 
+                                                   ng-show="{{prod.stockTiendas[1].stock== 1}}">
+                                             
+                                              <img src='img/rojo.jpg'  
+                                                   width="26" 
+                                                   height="26" 
+                                                   ng-show="{{prod.stockTiendas[1].stock == 0 }} ">
+                           </span>
+                        
+                        
+                        
+                        {{prod.stockTiendas[1].stock}}  <!--Santa Maria Stock-->
+                </td>
+                  <td style="text-align: center">  
+                      
+                                  <span ng-switch on="interface">
+                                              <img src='img/verde.png'  
+                                                   width="26" 
+                                                   height="26"
+                                                   ng-show="{{prod.stockTiendas[2].stock  > 10 }}">
+                                  
+                                              <img src='img/amarillo.jpg'  
+                                                   width="26" 
+                                                   height="26" 
+                                                   ng-show="{{prod.stockTiendas[2].stock > 1 &&  prod.stockTiendas[2].stock < 11}} ">
+                                  
+                                              <img src='img/amarillo.jpg'  
+                                                   width="26" 
+                                                   height="26" 
+                                                   ng-show="{{prod.stockTiendas[2].stock== 1}}">
+                                             
+                                              <img src='img/rojo.jpg'  
+                                                   width="26" 
+                                                   height="26" 
+                                                   ng-show="{{prod.stockTiendas[2].stock == 0 }} ">
+                           </span>
+                      
+                      
+                      {{prod.stockTiendas[2].stock}} <!--Tucapel Stock-->
+                </td>
+                   
+                
+                
+                
+                <td class="text-center">
+					  <div class="btn-group" data-toggle="buttons">    
+											  <label class="btn btn-success btn-sm" 
+													 ng-class="{active: prod.activo == '1'}" 
+													 ng-click="confirmarActiveProd(prod, '1')">
+												<input type="radio" 
+													   ng-model="prod.activo"  
+													   value="1"> ON
+											  </label>
+											  <label class="btn btn-success btn-sm" 
+													 ng-class="{active: prod.activo == '0'}" 
+													 ng-click="confirmarActiveProd(prod, '0')">
+												<input type="radio" 
+													   ng-model="prod.activo"  
+													   value="0"> OFF
+											  </label>
+						 </div>
+					</td>
+                
+                        <td class="text-center">
+					  <div class="btn-group" data-toggle="buttons">    
+											  <label class="btn btn-primary btn-sm" 
+													 ng-class="{active: prod.activo_tienda == '1'}" 
+													 ng-click="confirmarActiveTiendaProd(prod, '1')">
+												<input type="radio" 
+													   ng-model="prod.activo_tienda"  
+													   value="1"> ON
+											  </label>
+											  <label class="btn btn-primary btn-sm" 
+													 ng-class="{active: prod.activo_tienda == '0'}" 
+													 ng-click="confirmarActiveTiendaProd(prod, '0')">
+												<input type="radio" 
+													   ng-model="prod.activo_tienda"  
+													   value="0"> OFF
+											  </label>
+						 </div>
+					</td>
+                
+                 <td style="text-align: center">{{ prod.fecha_vencimiento | date: 'dd-MM-yyyy' }}</td>
+
+                              <td class="text-center" ng-show="{{!customInterProd}}">   
+                                    <!--    <button 
+                                                     class="btn" 
+                                                     id="myFormSubmit"
+                                                     data-toggle="modal"  
+                                                     data-target="#myModalPrecio"
+                                                     ng-click="buscarPreciosFact(prod)">                                                         
+                                              <span class="glyphicon glyphicon-usd"></span>
+                                        </button> -->
+                                  
+                                        <button 
+                                                     class="btn" 
+                                                     id="myFormproductoImagen"
+                                                     data-toggle="modal"  
+                                                     data-target="#myModalProductoImagen"
+                                                     ng-click="selProdParaMod(prod)">                                                         
+                                              <span class="glyphicon glyphicon-camera"></span>
+                                         </button> 
+                                  
+                                        <button 
+                                                     class="btn" 
+                                                     id="myFormproducto"
+                                                     data-toggle="modal"  
+                                                     data-target="#myModalProducto"
+                                                     ng-click="selProductosTop(prod)">                                                         
+                                              <span class="glyphicon glyphicon-pencil"></span>
+                                         </button> 
+                                         <button 
+                                                     class="btn" 
+                                                     id="myFormproductoList"
+                                                     data-toggle="modal"  
+                                                     data-target="#myModaListSalProd"
+                                                     ng-click="listarSalProd(prod)">                                                         
+                                              <span class="glyphicon glyphicon-log-in"></span>
+                                         </button>   
+                                         <button 
+                                                     class="btn" 
+                                                     id="myFormproductoPorcentaje"
+                                                     data-toggle="modal"  
+                                                     data-target="#myModalPorcentajeProd"
+                                                     ng-click="porcentajeProdOfertas(prod)">                                                         
+                                              <span class="glyphicon glyphicon-resize-vertical"></span>
+                                         </button>   
+                                  
+                                      
+                                  
+                                   <!-- <button 
+                                                     class="btn" 
+                                                     id="myModalProductoX"
+                                                     data-toggle="modal"  
+                                                     data-target="#myModalProdImagen"
+                                                     ng-click="selProductosTop(prod)">                                                         
+                                              <span class="glyphicon glyphicon-modal-window"></span>
+                                         </button> -->
+                                  
+                              </td>
+                     <!--<td class="text-center">
+                          <div class="btn-group" data-toggle="buttons">    
+                                                  <label class="btn btn-success btn-sm" 
+                                                         ng-class="{active: prod.activo_obs == '1'}" 
+                                                         ng-click="confirmarActiveProd(prod, '1')"
+                                                         data-toggle="modal"  
+                                                           data-target="#myModalCobroVend">
+                                                    <input type="radio" 
+                                                           ng-model="prod.activo_obs"  
+                                                           value="1"
+                                                           > SI
+                                                  </label>
+                                                  <label class="btn btn-success btn-sm" 
+                                                         ng-class="{active: prod.activo_obs == '0'}" 
+                                                         ng-click="confirmarActiveProd(prod, '0')">
+                                                    <input type="radio" 
+                                                           ng-model="prod.activo_obs"  
+                                                           value="0"> NO
+                                                  </label>
+                             </div>
+					</td>-->
+                
+            </tr>
+          </tbody>
+                 <div ng-show="loading">
+                                      <i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+    
+                 </div> 
+        </table>  
+    </div> 
+
+<hr>
+
+    <div class="table-responsive">        
+    <table class="table table-striped table table-bordered table-hover display" 
+           at-table at-paginated at-list="list" 
+           at-list="list" 
+           show-filter="true" 
+           cellspacing="0" 
+           at-config="config">       
+              
+         <thead>
+                    <tr>
+                                        <th class="text-center" COLSPAN="21" style="font-size:18px" >
+                                            <span style="font-size:25px;color:GREEN;"> PRODUCTOS DESAGRUPADOS</span>
+                                            </th> 
+                                       </tr>
+                    <tr>
+                      <th  style="text-align: center" width="2%">#</th>    
+                      <th style="text-align: center" width="5%">Id</th>
+                      <th style="text-align: center" width="10%">Foto</th>
+                      <th style="text-align: center" width="10%">Cod. Barra</th>                        
+                      <th style="text-align: center" width="20%">Nombre</th>
+         <th style="text-align: center" width="20%">Nombre Nodo</th>                 
+                      <th style="text-align: center" width="10%">Proveedor</th>
+                        
+                      <th style="text-align: center">Clasificacion</th>
+                      <th style="text-align: center">P. Particular</th>
+                      <th style="text-align: center">P. Mascotero</th>      
+                      <th style="text-align: center">Peso</th>
+                      <th style="text-align: center">Bodega</th>
+                        <!--      <th style="text-align: center">Stock</th>-->
+                      <th style="text-align: center">Stock Barros</th>
+                     <th style="text-align: center">Stock Santa</th>
+                         <th style="text-align: center">Stock Tucap</th>
+
+                      <th style="text-align: center">F. Vencimiento</th>                        
+                      <th  style="text-align: center" ng-show="{{!customInterProd}}">Acciones</th>
+                       <!--<th  class="text-center">Mensaje</th> -->                       
+                    </tr>
+         </thead>
+          <tbody>
+            <tr data-dismiss="modal" 
+                ng-if="prod.nodo_prod != 0  "
+                ng-repeat="prod in listProd"  
+                data-toggle="modal"  ng-click="selProductos(prod)">  
+                <td style="text-align: center">{{ $index + 1 }}</td>                    
+                <td>{{ prod.id }}</td> 
+                <!--<td><img ng-if="prod.foto" height="32" src="{{ prod.foto  }}" onClick="openImageModal(this)" style="cursor: pointer" /></td>-->
+                <td style="text-align: center">         
+                    
+                    <img  ng-src="{{prod.foto}}"
+                               onerror="this.src='https://aranibar.cl/barrosaranas/Table/img/sinImagen.png';"
+                                onClick="openImageModal(this)" 
+                                style="cursor: pointer"                                
+                              class='eye'
+                              width="100"   
+                              height="100">
+                    
+                           <!--   <img  ng-src="{{prod.imgUrl1}}"
+                               onerror="this.src='https://aranibar.cl/barrosaranas/Table/img/sinImagen.png';"
+                                onClick="openImageModal(this)" 
+                                style="cursor: pointer"                                
+                              class='eye'
+                              width="50"   
+                              height="35">
+                               <img  ng-src="{{prod.imgUrl2}}"
+                                    ng-if="prod.imgUrl2"
+                               onerror="this.src='https://aranibar.cl/barrosaranas/Table/img/sinImagen.png';"
+                                onClick="openImageModal(this)" 
+                                style="cursor: pointer"                                
+                              class='eye'
+                              width="50"   
+                              height="35">-->
+                </td>
+                <td>{{ prod.cod_barra }}</td>
+                
+                <td>{{ prod.nombreProd }}</td>
+     <td>{{ prod.nodo_nombre_prod }}</td>
+           
+                <td>{{ prod.nombreProv }}</td>
+                
+                <td>{{ prod.clasProd }}</td>
+                
+                <td>$ {{ prod.precioPart | number:0  }}</td>
+                <td>
+					$ {{ (prod.precioMasc * 1.19) - ((prod.precioMasc * 1.19) * (prod.porcentaje/100))  | number:0  }}		
+					
+						  <!--  <span ng-switch on="interface" style="font-size:9px">
+                                              <img src='img/flechaArriba.png'  
+                                                   width="20" 
+                                                   height="20"
+                                                   ng-show="{{prod.estadoPrecio == 'flechaArriba'}}">
+                                  
+                                              <img src='img/flechaAbajo.png'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.estadoPrecio == 'flechaAbajo'}} ">
+                                        $ {{ prod.diferenciaPrecio | number:0  }}		
+					
+                           </span>-->
+					       <span ng-switch on="interface" style="font-size:9px">      
+                                              <img src='img/numeros/uno.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '1'}} ">	
+                               
+                                              <img src='img/numeros/dos.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '2'}} ">	
+                               
+                                               <img src='img/numeros/tres.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '3'}} ">	
+                               
+                                               <img src='img/numeros/cuatro.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '4'}} ">
+                               
+                                               <img src='img/numeros/cinco.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '5'}} ">	
+                               
+                                               <img src='img/numeros/seis.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '6'}} ">	
+                               
+                                              <img src='img/numeros/siete.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '7'}} ">	
+                               
+                                              <img src='img/numeros/ocho.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '8'}} ">	
+                                              <img src='img/numeros/nueve.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '9'}} ">	
+                               
+                                              <img src='img/numeros/dies.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '10'}} ">	
+                               
+                                             <img src='img/numeros/once.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '11'}} ">
+                               
+                                             <img src='img/numeros/doce.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '12'}} ">	
+                               
+                                             <img src='img/numeros/trece.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '13'}} ">	
+                               
+                                             <img src='img/numeros/catorce.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '14'}} ">	
+                               
+                                             <img src='img/numeros/quince.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '15'}} ">	
+                               
+                                             <img src='img/numeros/dieciseis.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '16'}} ">	
+                               
+                               
+                                            <img src='img/numeros/diecisiete.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.diecisiete == '17'}} ">	
+                               
+                                           <img src='img/numeros/dieciocho.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '18'}} ">	
+                               
+                                           <img src='img/numeros/diecinueve.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '19'}} ">	
+                               
+                                           <img src='img/numeros/veinte.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '20'}} ">	
+                               
+                                              <img src='img/numeros/porcentaje.jpg'  
+                                                   width="16" 
+                                                   height="16" 
+                                                   ng-show="{{prod.porcentaje != '0'}} ">	
+                                            
+                           </span>
+			   </td>
+				
+				
+				 <td style="text-align: center">{{ prod.pesosProd | number:0  }} Kg</td>
+                 <td style="text-align: center">{{ prod.bodega | number:0  }}</td>
+       
+                
+                      <td style="text-align: center">  
+                               <span ng-switch on="interface">
+                                              <img src='img/verde.png'  
+                                                   width="26" 
+                                                   height="26"
+                                                   ng-show="{{prod.stockTiendas[0].stock  > 10 }}">
+                                  
+                                              <img src='img/amarillo.jpg'  
+                                                   width="26" 
+                                                   height="26" 
+                                                   ng-show="{{prod.stockTiendas[0].stock > 1 &&  prod.stockTiendas[0].stock < 11}} ">
+                                  
+                                              <img src='img/amarillo.jpg'  
+                                                   width="26" 
+                                                   height="26" 
+                                                   ng-show="{{prod.stockTiendas[0].stock== 1}}">
+                                             
+                                              <img src='img/rojo.jpg'  
+                                                   width="26" 
+                                                   height="26" 
+                                                   ng-show="{{prod.stockTiendas[0].stock == 0 }} ">
+                           </span>
+                    
+                    
+                    {{prod.stockTiendas[0].stock}} <!--Barros Aranas Stock-->
+                </td>
+                    <td style="text-align: center">  
+                        
+                         <span ng-switch on="interface">
+                                              <img src='img/verde.png'  
+                                                   width="26" 
+                                                   height="26"
+                                                   ng-show="{{prod.stockTiendas[1].stock  > 10 }}">
+                                  
+                                              <img src='img/amarillo.jpg'  
+                                                   width="26" 
+                                                   height="26" 
+                                                   ng-show="{{prod.stockTiendas[1].stock > 1 &&  prod.stockTiendas[1].stock < 11}} ">
+                                  
+                                              <img src='img/amarillo.jpg'  
+                                                   width="26" 
+                                                   height="26" 
+                                                   ng-show="{{prod.stockTiendas[1].stock== 1}}">
+                                             
+                                              <img src='img/rojo.jpg'  
+                                                   width="26" 
+                                                   height="26" 
+                                                   ng-show="{{prod.stockTiendas[1].stock == 0 }} ">
+                           </span>
+                        
+                        
+                        
+                        {{prod.stockTiendas[1].stock}}  <!--Santa Maria Stock-->
+                </td>
+                  <td style="text-align: center">  
+                      
+                                  <span ng-switch on="interface">
+                                              <img src='img/verde.png'  
+                                                   width="26" 
+                                                   height="26"
+                                                   ng-show="{{prod.stockTiendas[2].stock  > 10 }}">
+                                  
+                                              <img src='img/amarillo.jpg'  
+                                                   width="26" 
+                                                   height="26" 
+                                                   ng-show="{{prod.stockTiendas[2].stock > 1 &&  prod.stockTiendas[2].stock < 11}} ">
+                                  
+                                              <img src='img/amarillo.jpg'  
+                                                   width="26" 
+                                                   height="26" 
+                                                   ng-show="{{prod.stockTiendas[2].stock== 1}}">
+                                             
+                                              <img src='img/rojo.jpg'  
+                                                   width="26" 
+                                                   height="26" 
+                                                   ng-show="{{prod.stockTiendas[2].stock == 0 }} ">
+                           </span>
+                      
+                      
+                      {{prod.stockTiendas[2].stock}} <!--Tucapel Stock-->
+                </td>
+                   
+                
+                
+                
+                    <td class="text-center">
+					  <div class="btn-group" data-toggle="buttons">    
+											  <label class="btn btn-success btn-sm" 
+													 ng-class="{active: prod.activo == '1'}" 
+													 ng-click="confirmarActiveProd(prod, '1')">
+												<input type="radio" 
+													   ng-model="prod.activo"  
+													   value="1"> ON
+											  </label>
+											  <label class="btn btn-success btn-sm" 
+													 ng-class="{active: prod.activo == '0'}" 
+													 ng-click="confirmarActiveProd(prod, '0')">
+												<input type="radio" 
+													   ng-model="prod.activo"  
+													   value="0"> OFF
+											  </label>
+						 </div>
+					</td>
+                
+                          <td class="text-center">
+					  <div class="btn-group" data-toggle="buttons">    
+											  <label class="btn btn-primary btn-sm" 
+													 ng-class="{active: prod.activo_tienda == '1'}" 
+													 ng-click="confirmarActiveTiendaProd(prod, '1')">
+												<input type="radio" 
+													   ng-model="prod.activo_tienda"  
+													   value="1"> ON
+											  </label>
+											  <label class="btn btn-primary btn-sm" 
+													 ng-class="{active: prod.activo_tienda == '0'}" 
+													 ng-click="confirmarActiveTiendaProd(prod, '0')">
+												<input type="radio" 
+													   ng-model="prod.activo_tienda"  
+													   value="0"> OFF
+											  </label>
+						 </div>
+					</td>
+                
+                 <td style="text-align: center">{{ prod.fecha_vencimiento | date: 'dd-MM-yyyy' }}</td>
+
+                              <td class="text-center" ng-show="{{!customInterProd}}">   
+                                     <!--   <button 
+                                                     class="btn" 
+                                                     id="myFormSubmit"
+                                                     data-toggle="modal"  
+                                                     data-target="#myModalPrecio"
+                                                     ng-click="buscarPreciosFact(prod)">                                                         
+                                              <span class="glyphicon glyphicon-usd"></span>
+                                        </button> -->
+                                        <button 
+                                                     class="btn" 
+                                                     id="myFormproductoImagen"
+                                                     data-toggle="modal"  
+                                                     data-target="#myModalProductoImagen"
+                                                     ng-click="selProdParaMod(prod)">                                                         
+                                              <span class="glyphicon glyphicon-camera"></span>
+                                         </button> 
+                                  
+                                    <button 
+                                                     class="btn" 
+                                                     id="myFormproducto"
+                                                     data-toggle="modal"  
+                                                     data-target="#myModalProducto"
+                                                     ng-click="selProductosTop(prod)">                                                         
+                                              <span class="glyphicon glyphicon-pencil"></span>
+                                         </button> 
+                                  
+                                  
+                                  
+                                         <button 
+                                                     class="btn" 
+                                                     id="myFormproductoList"
+                                                     data-toggle="modal"  
+                                                     data-target="#myModaListSalProd"
+                                                     ng-click="listarSalProd(prod)">                                                         
+                                              <span class="glyphicon glyphicon-log-in"></span>
+                                         </button>   
+                                         <button 
+                                                     class="btn" 
+                                                     id="myFormproductoPorcentaje"
+                                                     data-toggle="modal"  
+                                                     data-target="#myModalPorcentajeProd"
+                                                     ng-click="porcentajeProdOfertas(prod)">                                                         
+                                              <span class="glyphicon glyphicon-resize-vertical"></span>
+                                         </button>   
+                                  
+                                   <!--
+
+                                      COMENTADO POR EL MOMENTO
+                                        <button 
+                                                     class="btn" 
+                                                     id="myFormSubmit"
+                                                     ng-click="listarProdGrup(prod)">                                                         
+                                              <span class="glyphicon glyphicon-resize-full"></span>
+                                        </button>-->
+                                  
+                                   <!-- <button 
+                                                     class="btn" 
+                                                     id="myModalProductoX"
+                                                     data-toggle="modal"  
+                                                     data-target="#myModalProdImagen"
+                                                     ng-click="selProductosTop(prod)">                                                         
+                                              <span class="glyphicon glyphicon-modal-window"></span>
+                                         </button> -->
+                                  
+                              </td>
+                     <!--<td class="text-center">
+                          <div class="btn-group" data-toggle="buttons">    
+                                                  <label class="btn btn-success btn-sm" 
+                                                         ng-class="{active: prod.activo_obs == '1'}" 
+                                                         ng-click="confirmarActiveProd(prod, '1')"
+                                                         data-toggle="modal"  
+                                                           data-target="#myModalCobroVend">
+                                                    <input type="radio" 
+                                                           ng-model="prod.activo_obs"  
+                                                           value="1"
+                                                           > SI
+                                                  </label>
+                                                  <label class="btn btn-success btn-sm" 
+                                                         ng-class="{active: prod.activo_obs == '0'}" 
+                                                         ng-click="confirmarActiveProd(prod, '0')">
+                                                    <input type="radio" 
+                                                           ng-model="prod.activo_obs"  
+                                                           value="0"> NO
+                                                  </label>
+                             </div>
+					</td>-->
+                
+            </tr>
+          </tbody>
+        </table>  
+    </div> 
+
+<!--***************MODAL VER PRODUCTO*************** 
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Ver Producto</h4>
+      </div>
+      <div class="modal-body">
+             <form class="form-horizontal" role="form">  
+                         <div class="form-group">
+                          <label class="col-sm-2" for="inputdefault">Codigo Producto:</label>
+                             <div class="col-sm-10">
+                                <input disabled type="text" class="form-control" placeholder="{{auxProd.codProducto}}">
+                              </div>   
+                        </div>  
+                 
+                        <div class="form-group">
+                          <label class="col-sm-2" for="inputdefault">Nombre Producto:</label>                                
+                              <div class="col-sm-10">
+                                <input disabled type="text" class="form-control" placeholder="{{auxProd.nombreProd}}">
+                              </div>    
+                        </div>  
+                 
+                        <div class="form-group">
+                          <label class="col-sm-2" for="inputdefault">Precio Costo:</label>                                
+                              <div class="col-sm-10">
+                                <input disabled type="text" class="form-control" placeholder="{{auxProd.precioCosto}}">
+                              </div>    
+                        </div>  
+                 
+                       <div class="form-group">
+                          <label class="col-sm-2" for="inputdefault">Precio Venta:</label>                                
+                              <div class="col-sm-10">
+                                <input disabled type="text" class="form-control" placeholder="{{auxProd.precioVenta}}">
+                              </div>    
+                        </div>  
+                 
+                        <div class="form-group">
+                          <label class="col-sm-2" for="inputdefault">Stock:</label>                                
+                              <div class="col-sm-10">
+                                <input disabled type="text" class="form-control" placeholder="{{auxProd.stockProd}}">
+                              </div>    
+                        </div>  
+                 
+                        <div class="form-group">
+                          <label class="col-sm-2" for="inputdefault">Detalle:</label>                                
+                              <div class="col-sm-10">
+                                <input disabled type="text" class="form-control" placeholder="{{auxProd.ObservacionProd}}">
+                              </div>    
+                        </div>  
+            </form>
+  
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
+      </div>
+    </div>
+  </div>
+</div>-->
+
+ 
+
+<div class="modal fade" id="myModalProductoNuevo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Agregar Producto</h4>
+      </div>
+      <div class="modal-body">
+             <form class="form-horizontal" role="form">  
+                 
+                     <div class="form-group">
+                              <label class="col-sm-2 control-label" for="lg">Tipo Producto:</label>
+                              <div class="col-sm-10">
+                                                          
+                                   <select class="form-control" 
+                                       ng-model="tipo2" 
+                                       ng-options="t.nombreCategoria group by t.grupo  for t in tipos2"  
+                                   ng-change="selTipoNuevo()" >
+                           <option  value="">-- Seleccione Tipo --</option>
+                         </select>   
+                                  
+                                  
+                     
+                              </div> 
+                        </div>
+                 
+                        <div class="form-group">
+                              <label class="col-sm-2" for="inputdefault">Marca Producto:</label>
+                              <div class="col-sm-10">
+                               
+                                   <select class="form-control" 
+                                       ng-model="marca2" 
+                                       ng-options="m.nombreMarca for m in marcas2"
+                                       ng-change="selMarcaNuevo()" >
+                                  <option value="">-- Seleccione Marca --</option>
+                                  </select>
+                                   
+                                  
+                              </div>
+                           </div>
+
+                         <div class="form-group">
+                          <label class="col-sm-2" for="inputdefault">Codigo Producto:</label>
+                             <div class="col-sm-10">
+                                <input  type="text" 
+                                        id="codProd"  
+                                        ng-model="codProd" 
+                                        class="form-control" >
+                              </div>   
+                        </div>  
+                 
+                        <div class="form-group">
+                          <label class="col-sm-2" for="inputdefault">Nombre Producto:</label>                                
+                              <div class="col-sm-10">
+                                <input  type="text" 
+                                        class="form-control"
+                                        id="nombProd"  
+                                        ng-model="nombProd">
+                              </div>    
+                        </div>   
+                 
+                       <div class="form-group">
+                          <label class="col-sm-2" for="inputdefault">Peso:</label>                                
+                              <div class="col-sm-10">
+                                <input  type="text" 
+                                       id="pesProd"  
+                                        ng-model="pesProd"
+                                       class="form-control" >
+                              </div>    
+                        </div>  
+                 
+                        <div class="form-group">
+                          <label class="col-sm-2" for="inputdefault">Bodega:</label>                                
+                              <div class="col-sm-10">
+                                <input  type="number" 
+                                        class="form-control"
+                                        id="bodProd"  
+                                        ng-model="bodProd">
+                              </div>    
+                        </div>  
+                        <div class="form-group">
+                          <label class="col-sm-2" for="inputdefault">Claficacion:</label>                                
+                              <div class="col-sm-10">
+                               <select class="form-control" 
+                                       ng-change="selClasificacionNuevo()"
+                                       ng-model="clasificacionProductos" 
+                                       ng-options="m.nombre for m in clasificacionProd">
+                                  <option value="">-- Clasificacion --</option>
+                                  </select>
+                              </div>    
+                        </div> 
+                        <div class="form-group">
+                          <label class="col-sm-2" for="inputdefault">Proveedor:</label>                                
+                              <div class="col-sm-10">
+                               <select  class="form-control" 
+                                       ng-model="proveedorNuevo" 
+                                       ng-options="t.nombre for t in proveedores"  
+                                       ng-change="selProveedorNuevo()" >
+                                       <option value="">--Proveedores--</option>
+                              </select>  
+                              </div>    
+                        </div>
+                   <!--     <div class="form-group">
+                          <label class="col-sm-2" for="inputdefault">Foto:</label>                                
+                              <div class="col-sm-10">
+                               <input type = "file" class="form-control" file-input="fotos" accept="image/*"/> 
+                              </div>    
+                        </div>-->
+                 
+            </form>
+  
+      </div>
+      <div class="modal-footer">
+        
+           <button type="submit" class="btn btn-warning" ng-click="agregarProductoNuevo()">Guardar
+                    <span class="glyphicon glyphicon-floppy-disk"></span></button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>        
+      </div>
+    </div>
+  </div>
+</div>
+
+   
+<div class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" id="myModalPrecio" role="dialog">           
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" 
+                   data-dismiss="modal">
+                       <span aria-hidden="true">&times;</span>
+                       <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    {{ nombreProd }} 
+                </h4>
+            </div>
+            
+            <div class="modal-body">               
+                
+
+                <ul class="list-group">
+                    <li class="list-group-item" 
+                        ng-repeat="p in listPrecioFact">
+                        <div class="checkbox">
+                            <label> <input type="radio" 
+                                           ng-model="radioPreFac" 
+                                           ng-click="selPrecio(p)"
+                                           name="name" 
+                                           value="{{p.idFactura}}" 
+                                           required />
+                             
+                                         <img src='img/factura.png'
+                                                   width="25" 
+                                                   height="25">
+                                {{ p.num_factura}} - 
+                                <img src='img/fabrica.jpg'
+                                                   width="25" 
+                                                   height="25">
+                                {{ p.nombre }} -
+                                <img src='img/fecha.jpg'
+                                                   width="25" 
+                                                   height="25">
+                                {{ p.fecha | date: 'dd/MM/yyyy'}} - 
+                                <img src='img/precio.png'
+                                                   width="25" 
+                                                   height="25"> {{ p.precio_venta / 1.19  | number:0}} -  
+                                <img src='img/cantidad.png'
+                                                   width="25" 
+                                                   height="25"> {{p.cantidad}}  -  
+                                <img src='img/salidas.png'
+                                                   width="25" 
+                                                   height="25"> {{p.salidaFact}}                             
+                            </label>
+                        </div>
+                        
+                    </li>
+                </ul> 
+                
+                
+         
+
+                
+<div>    
+    <div class="form-group col-xs-6 col-md-6 rowPedido">
+      <label class="control-label" >Descuento:</label>
+        <div class="input-group">
+            <span class="input-group-addon">%</span>
+            <strong>
+           <input class="form-control input-s" 
+                  id="descuento" 
+                  name="descuento" 
+                  ng-model="descuento"  
+                  type="number" 
+                  placeholder="0"></strong>    
+        </div>
+    </div>
+     
+       
+     
+    <div class="form-group col-xs-6 col-md-6 rowPedido">
+         <label class="control-label">Valor Neto:</label>
+         <div class="input-group">
+                  <span class="input-group-addon">$</span>
+                  <strong>
+                      <input class="form-control input-s" 
+                             ng-model="valorNeto"   
+                             type="number" 
+                             placeholder="0">  </strong> 
+         </div>
+    </div>
+     
+     
+    <div class="form-group col-xs-6 col-md-6 rowPedido">
+      <label class="control-label">Precio Venta:</label>
+        <div class="input-group">
+                  <span class="input-group-addon">$</span>
+                  <strong>
+                      <input class="form-control input-s" 
+                             id="precioVenta"  
+                             ng-model="precioVenta"  
+                             type="number" 
+                             placeholder="0"></strong>
+         </div>
+    </div>
+        
+        
+    <div class="form-group col-xs-6 col-md-6 rowPedido">
+      <label class="control-label">Cantidad:</label>
+        <div class="input-group">
+                  <span class="input-group-addon">N</span>
+                  <strong>
+                  <input class="form-control input-s" 
+                         ng-model="cantidadStock"  
+                         type="number" 
+                         placeholder="0"></strong>
+         </div>
+    </div>    
+    
+        
+        
+    <div class="form-group col-xs-6 col-md-6 rowPedido">
+      <label class="control-label">Precio Costo + Iva:</label>
+        <div class="input-group">
+                  <span class="input-group-addon">$</span>
+                  <strong>
+                  <input class="form-control input-s" 
+                         id="precioCosto" 
+                         ng-value    = "(((valorNeto * 1.19) / cantidadStock) - ((valorNeto * 1.19) / cantidadStock)*(descuento/100)) | number:0"
+                         disabled
+                         placeholder = "0"></strong>
+         </div>
+    </div>      
+
+    <div class="form-group col-xs-6 col-md-6 rowPedido">
+      <label class="control-label">Margen Contribucion:</label>
+        <div class="input-group">
+                  <span class="input-group-addon">$</span>
+                  <strong>
+                  <input class="form-control input-s" 
+                         id="margenContri"  
+                         disabled
+                         ng-value    = "(precioVenta - (((valorNeto * 1.19) / cantidadStock) - ((valorNeto * 1.19) / cantidadStock)*(descuento/100))) | number:0"
+                         placeholder="0"></strong>
+         </div>
+    </div>       
+
+   
+    <div class="form-group col-xs-6 col-md-6 rowPedido">
+      <label class="control-label">Total Ganancia:</label>
+        <div class="input-group">
+                  <span class="input-group-addon">$</span>
+                  <strong>
+                  <input class="form-control input-s" 
+                         id="totalGanancia"  
+                         disabled
+                         ng-value="((precioVenta - (((valorNeto * 1.19) / cantidadStock) - ((valorNeto * 1.19) / cantidadStock)*(descuento/100))) * cantidadStock ) | number:0"  
+                         placeholder="0">
+                  </strong>
+         </div>
+    </div>     
+        
+        
+    <div class="form-group col-xs-6 col-md-6 rowPedido">
+      <label class="control-label">Cantidad Bolsas:</label>
+        <div class="input-group">
+                  <span class="input-group-addon">N</span>
+                  <strong>
+                  <input class="form-control input-s" 
+                         id="cantidadBolsa"  
+                         disabled
+                         ng-value="cantidadStock - ((precioVenta - (((valorNeto * 1.19) / cantidadStock) - ((valorNeto * 1.19) / cantidadStock)*(descuento/100))) * cantidadStock ) / precioVenta | number:0"  
+                         placeholder="0">
+                  </strong>
+         </div>
+    </div>     
+        
+        
+
+</div>
+                
+            </div>
+            
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button"  ng-click="guardarPrecioFact()" class="btn btn-warning">
+                    Guardar
+                </button>
+                <button type="button" class="btn btn-warning"
+                        data-dismiss="modal">
+                            Salir
+                </button>                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    
+    
+    
+    
+ 
+    
+    
+    
+<div class="modal fade miClaseModal" 
+         data-backdrop="static" 
+     data-keyboard="false" 
+     id="myProducoAgrupar" 
+     tabindex="-1" 
+     role="dialog" 
+     aria-labelledby="myModalLabel">    
+    
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" 
+                   data-dismiss="modal">
+                       <span aria-hidden="true">&times;</span>
+                       <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                     {{nombreProdPrincipal}} 
+                </h4>
+            </div>
+            
+            <div class="modal-body">               
+                
+
+         
+         
+
+                
+<div style="text-align: center">  
+       <h4 class="modal-title" id="myModalLabel">
+                    {{nombreProd}} - Stock = {{stockProd}}
+                </h4>
+    <div class="alert alert-warning alert-dismissable">
+  <strong>¡CUIDADO!</strong> Es muy importante que leas este mensaje de alerta. El producto que desagrupara se descontara en inventario
+</div>
+    <div class="form-group col-xs-12 col-md-12 rowPedido">
+      <label class="control-label" >cuantas desea desagrupar?</label>
+        <div class="input-group" style="text-align: center" >
+            <strong style="text-align: center">
+           <input class="form-control input-s" 
+                  id="cantidadProfGrup" 
+                  name="cantidadProfGrup" 
+                  ng-model="cantidadProfGrup"  
+                  type="number" 
+                  placeholder="0"></strong>    
+        </div>
+    </div>     
+</div>
+                
+            </div>
+            
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button"  ng-click="validarStockProd()"
+                        class="btn btn-success">
+                    Generar
+                </button>
+                <button type="button" 
+                        class="btn  btn-warning"
+                        data-dismiss="modal">
+                            Salir
+                </button>                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+    
+    
+    <!--
+<div class="modal fade" id="myModalProducto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                         <h3 class="modal-title"><p style="color:#354d8f; font-weight: bold;">{{nombProdMod}}</p></h3>   
+                  </div>
+                <div class="modal-body">
+
+                                
+                    
+                                
+                <div class="row">
+                  <div class="col-md-12">
+                  <h4><small>Producto<hr></small></h4>
+                      
+                      
+                      
+                  <div class="row">
+                      <div class="col-md-12">
+               <label class="control-label" for="inputSuccess1">Codigo Barra:</label>             
+                <div class="input-group">                      
+                    <strong><input class="form-control input-s" 
+								id="codProducto" 
+                                name="codProducto"	
+                                ng-model="codBarra"
+								type="text"></strong>   
+                    <span class="input-group-addon primary glyphicon glyphicon-barcode"></span>
+                </div>    
+                          
+                          
+                      
+                          
+                      </div>
+       
+                    
+                      
+                      
+                      <div class="col-md-6">
+                          <label class="control-label" for="inputSuccess1">Codigo:</label>
+                          <input ng-model="codProdMod" type="text" class="form-control" id="codProd" name="codProd"/>                       
+                      </div>
+                      
+                   
+                    
+                      <div class="col-md-6">
+                          <label class="control-label" for="inputSuccess1">Nombre:</label>
+                          <input ng-model="nombProdMod" type="text" class="form-control" id="nombProd" name="nombProd"/>
+                      </div>
+                      
+                      <div class="col-md-6">
+                         <label class="control-label" for="inputSuccess1">Tipo:</label>            
+                         <select  name="mySelectTipo" 
+                                  class="form-control"
+                                  id="mySelectTipo"
+                                  ng-options="t.nombreCategoria for t in tipoProd.availableOptions track by t.codCategoria"
+                                  ng-model="tipoProd.selectedOption">
+                                <option  value="">-- Seleccione Tipo --</option>
+                        </select>   
+                      </div>
+                      
+                      <div class="col-md-6">
+                        <label class="control-label" for="inputSuccess1">Marca:</label>            
+                         <select  name="mySelectMarca" 
+                                  class="form-control"
+                                  id="mySelectMarca"
+                                  ng-options="t.nombreMarca for t in marcaProdSele.availableOptions track by t.codMarca"
+                                  ng-model="marcaProdSele.selectedOption">
+                                <option  value="">-- Seleccione Marca --</option>
+                        </select> 
+                      </div> 
+                      
+                      <div class="col-md-6">
+                          <label class="control-label" for="inputSuccess1">Bodega:</label>
+                          <input ng-model="bodegaProd" 
+                                 type="text" 
+                                 class="form-control" 
+                                 id="bodegaProd" 
+                                 name="bodegaProd"/>                       
+                      </div>
+                    
+                      <div class="col-md-6">
+                          <label class="control-label" for="inputSuccess1">Pesos:</label>
+                          <input ng-model="pesosProd" 
+                                 type="text" 
+                                 class="form-control" 
+                                 id="pesosProd" 
+                                 name="pesosProd"/>
+                      </div>
+                      
+                      <div class="col-md-6">
+                          <label class="control-label" for="inputSuccess1">Clasificacion:</label>
+                          <select  name="mySelectClas" 
+                                  class="form-control"
+                                  id="mySelectClas"
+                                  ng-options="t.nombre for t in clasifProd2.availableOptions track by t.id"
+                                  ng-model="clasifProd2.selectedOption">
+                                <option  value="">-- Seleccione Clasificacion --</option>
+                        </select> 
+                      </div>
+                      
+                      <div class="col-md-6">
+                          <label class="control-label" for="inputSuccess1">Proveedor:</label>
+                              <select  class="form-control" 
+                                       ng-model="proveedoresEditar.selectedOption" 
+                                      ng-options="t.nombre for t in proveedoresEditar.availableOptions track by t.id_proveedor"
+                                       ng-change="selProveedor()" >
+                                       <option value="">-- Proveedores --</option>
+                              </select> 
+                      </div>
+                      
+                     <div class="col-md-6">
+                          <label class="control-label" for="inputSuccess1">Valor Particular:</label>
+                          <input ng-model="precioPart" 
+                                 type="text" 
+                                 class="form-control" 
+                                 id="precioPart" 
+                                 name="precioPart"/>
+                      </div>
+                          <div class="col-md-6">
+                          <label class="control-label" for="inputSuccess1">Fecha Vencimiento:</label>
+                           <input type="date" 
+                                     class="form-control" 
+                                     placeholder="yyyy-MM-dd" 
+                                     id="fVencimiento" 
+                                     name="fVencimiento" />
+                      </div>
+                  
+                      
+                                          
+                      
+                    </div>
+                  </div>
+                </div>  
+                    
+                    
+ 
+
+                </div> 
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-warning" ng-click="guadarProducto()">Guardar
+                    <span class="glyphicon glyphicon-floppy-disk"></span></button>
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-chevron-left"></span>Salir
+                    </button>
+
+
+
+                </div>
+                </div>
+        </div>
+</div> 
+    -->
+
+<div class="modal fade" id="myModalPorcentajeProd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h5 class="modal-title" id="myModalLabel">{{ nombreProd }} </h5>
+                  </div>
+                <div class="modal-body">
+                    
+                    
+                <div class="form-group col-md-6">
+                    <label class="control-label" >Precio Venta + IVA (Mascotero):</label>
+                    <div class="input-group">
+                        <p class="lead">{{ ( ((prodPrecio * 1.19)) -  ((prodPrecio * 1.19))*(selPorcentaje/100) )| number:0}}</p>
+
+                    </div>
+                </div>
+                    
+                  <div class="row">
+                  <div class="col-md-12">
+                     <div class="row">
+                      <div class="col-md-6">
+                                <select  name="mySelectPorcentaje" 
+                                  class="form-control"
+                                  id="mySelectPorcentaje"
+                                  ng-change="selPordPorcentaje(ofertaPorcentaje.selectedOption)"
+                                  ng-options="t.porcentaje for t in ofertaPorcentaje.availableOptions track by t.id"
+                                  ng-model="ofertaPorcentaje.selectedOption">
+                               </select>   
+                      </div>
+    
+                      </div>
+                    </div>  
+                  </div>     
+                </div> 
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-warning" ng-click="guardarPorcentaje()">Guardar
+                    <span class="glyphicon glyphicon-floppy-disk"></span></button>
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-chevron-left"></span>Salir
+                    </button>
+                </div>
+                </div>
+        </div>
+</div>        
+    
+    
+<div class="modal fade" id="myModaListSalProd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h5 class="modal-title" id="myModalLabel">{{ selNombProd }}</h5>
+      </div>
+<div class="modal-body">
+
+<table class="table table-striped table table-bordered "  
+       at-table at-paginated at-list="list" 
+       at-config="config">        
+         <thead>
+                    <tr>
+                      <th>Año</th>
+                      <th>Mes</th>   
+                      <th>Cantidad</th>                      
+                    </tr>
+         </thead>
+          <tbody>
+               
+            <tr data-dismiss="modal" ng-repeat="prodDet in listProdSal">     
+                <td>{{ prodDet.ano}}</td>
+                <td>{{ prodDet.mes }}</td> 
+                <td>{{ prodDet.registros }}</td>  
+            </tr>
+          </tbody>
+        </table>  
+</div>
+
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-warning" data-dismiss="modal">
+        <span class="glyphicon glyphicon-chevron-left"></span>Salir
+        </button>
+  </div>
+    </div>
+  </div>
+</div>    
+    
+    
+<div class="modal fade" id="myModalProductoImagen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                         <h3 class="modal-title"><p style="color:#354d8f; font-weight: bold;">{{nombProdMod}}</p></h3>   
+                  </div>
+                <div class="modal-body">
+
+                                
+                    
+                                
+                <div class="row">
+                  <div class="col-md-12">
+                 
+                      
+                      
+                      
+                  <div class="row">
+
+                       <div class="col-md-12">
+                              <!--  <label class="control-label" for="fotos">Foto:</label>
+                                <input id="fotos" 
+                                       type = "file" 
+                                       class="form-control" 
+                                       file-input="fotos" 
+                                       accept="image/*"/>   -->
+                           
+                               <label class="control-label" >Foto:</label>
+                   <!--  <input type="file" class="custom-file-input" file-model="variableBase64" accept="image/png">-->
+                      <div class="custom-file">
+                                <input type="file"  class="custom-file-input" id="customFileLang" 
+                                       file-model="variableBase64" accept="image/png">
+                                <label class="custom-file-label" for="customFileLang" data-browse="Elegir">Requisito: Seleccionar archivo de formato PNG con dimensiones 500x500</label>
+                            </div>    
+                 
+                      </div> 
+            
+                      
+                    </div>
+                  </div>
+                </div>  
+                    
+         
+                </div> 
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-warning" ng-click="guadarProductoArchivo()">Guardar
+                    <span class="glyphicon glyphicon-floppy-disk"></span></button>
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-chevron-left"></span>Salir
+                    </button>
+
+
+
+                </div>
+                </div>
+        </div>
+</div> 
+      
+
+
+<div class="modal fade" id="myImageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h5 class="modal-title" id="myModalLabel">{{ nombreProd }} </h5>
+      </div>
+      <div class="modal-body">
+        <img id="modal-image" style="width: 100%">
+      </div> 
+      <div class="modal-footer">
+        <button type="button" class="btn btn-warning" data-dismiss="modal">
+          <span class="glyphicon glyphicon-chevron-left"></span>Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+</div>    <!--/*******Fin Panel Principal********/-->
+
+
+<div class="panel panel-default" id="divProductoModificar">
+
+      <div class="modal-header">
+           <h3 class="modal-title"><p style="color:#027dae; font-weight: bold;">Modificar Producto</p></h3>
+      </div>
+    
+    
+      <div class="modal-body">
+
+        <div class="container">
+            
+            
+         <div class="col-md-16">
+              <div class="panel panel-default">
+                  <div class="panel-heading">CODIGOS DE BARRAS ASOCIADOS AL PRODUCTO</div>   
+              
+                       <label class="control-label" >Codigo Barra:</label>
+                       <input    ng-model="codBarraSel" 
+                                 type="text" 
+                                 class="form-control" 
+                                 id="codProducto" 
+                                 name="codProducto"/> 
+                             <button 
+                                class="btn btn-info"  
+                                ng-click="agregarCodigoBarra()">
+                               <span class="glyphicon glyphicon-plus"></span>
+                              </button>
+                        
+                        
+                         <table class="table table-striped table table-bordered table-hover display" 
+           at-table at-paginated at-list="list" 
+           at-list="list" 
+           show-filter="true" 
+           cellspacing="0" 
+           at-config="config">       
+              
+         <thead>
+                    <tr>
+                      <th  style="text-align: center" width="2%">#</th>    
+                      <th style="text-align: center" width="5%">Cod.Barra</th>
+                                           <th style="text-align: center" width="5%">Accion</th>
+
+                    </tr>
+         </thead>
+          <tbody>
+            <tr data-dismiss="modal" 
+                ng-repeat="prod in listCodigoBarraProd"  
+                data-toggle="modal"  
+                ng-click="eliminarCodigoBarra(prod)">  
+                
+                
+            <td style="text-align: center">{{ $index + 1 }}</td>                    
+                <td>{{ prod.codigo_barra }}</td>
+                 <td style="text-align: center">  
+                       <button class="btn btn-xs" 
+                               ng-click="eliminarProduto(productIndex)">    
+                        <span class="glyphicon glyphicon-remove "></span></button></td>
+                
+                
+         
+				
+				
+                
+                          
+ 
+       
+                
+            </tr>
+          </tbody>
+                 <div ng-show="loading">
+                                      <i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+    
+                 </div> 
+        </table>  
+                  
+                  
+                  
+         
+    
+        </div>
+            
+            
+          </div>   
+   
+            
+              <div class="col-md-16">
+              <div class="panel panel-default">
+                  <div class="panel-heading">PRODUCTOS AGRUPADOS </div>  
+                  
+                       <label class="control-label">Nodo de:</label>
+                               <input ng-model="nodoProd" 
+                                 type="text" 
+                                disabled
+                                 class="form-control" />
+                  
+                  
+                 <table class="table table-striped table table-bordered table-hover display" 
+           at-table at-paginated at-list="list" 
+           at-list="list" 
+           show-filter="true" 
+           cellspacing="0" 
+           at-config="config">       
+              
+         <thead>
+                    <tr>
+                      <th  style="text-align: center" width="2%">#</th>    
+                      <th style="text-align: center" width="5%">Id</th>
+                      <th style="text-align: center" width="10%">Foto</th>
+                      <th style="text-align: center" width="10%">Cod. Barra</th>                        
+                      <th style="text-align: center" width="20%">Nombre</th>
+                      <th style="text-align: center" width="5%">Grupo</th>                        
+                      <th style="text-align: center" width="10%">Tipo</th>
+                      <th style="text-align: center" width="5%">Bodega</th>
+                      <th style="text-align: center" width="8%">Stock</th>
+                      <th style="text-align: center" width="15%">Act.Ventas</th>
+                      <th style="text-align: center" width="15%">Act.Tiendas</th>
+
+                    </tr>
+         </thead>
+          <tbody>
+            <tr data-dismiss="modal" 
+                ng-repeat="prod in listProdSub"  
+                data-toggle="modal"  
+                ng-click="selProductos(prod)">  
+                
+                
+            <td style="text-align: center">{{ $index + 1 }}</td>                    
+                <td>{{ prod.id }}</td> 
+                <!--<td><img ng-if="prod.foto" height="32" src="{{ prod.foto  }}" onClick="openImageModal(this)" style="cursor: pointer" /></td>-->
+                <td style="text-align: center">                             
+                              <img  ng-src="{{prod.foto}}"
+                               onerror="this.src='https://aranibar.cl/barrosaranas/Table/img/sinImagen.png';"
+                                onClick="openImageModal(this)" 
+                                style="cursor: pointer"                                
+                              class='eye'
+                              width="100"   
+                              height="100">
+                     <!--          <img  ng-src="{{prod.imgUrl2}}"
+                                    ng-if="prod.imgUrl2"
+                               onerror="this.src='https://aranibar.cl/barrosaranas/Table/img/sinImagen.png';"
+                                onClick="openImageModal(this)" 
+                                style="cursor: pointer"                                
+                              class='eye'
+                              width="50"   
+                              height="35">-->
+                </td>
+                <td>{{ prod.cod_barra }}</td>
+                
+                <td>{{ prod.nombreProd }}</td>
+                                <td style="text-align: center">{{ prod.grupo_prod }}</td>
+
+                <td style="text-align: center">{{ prod.clasProd }}</td>
+                
+         
+				
+				
+                 <td style="text-align: center">{{ prod.bodega | number:0  }}</td>
+                <td>
+                              <span ng-switch on="interface">
+                                              <img src='img/verde.png'  
+                                                   width="26" 
+                                                   height="26"
+                                                   ng-show="{{prod.countStock  > 10 }}">
+                                  
+                                              <img src='img/amarillo.jpg'  
+                                                   width="26" 
+                                                   height="26" 
+                                                   ng-show="{{prod.countStock > 1 &&  prod.countStock < 11}} ">
+                                  
+                                              <img src='img/amarillo.jpg'  
+                                                   width="26" 
+                                                   height="26" 
+                                                   ng-show="{{prod.countStock == 1}}">
+                                             
+                                              <img src='img/rojo.jpg'  
+                                                   width="26" 
+                                                   height="26" 
+                                                   ng-show="{{prod.countStock == 0 }} ">
+                           </span>
+                    
+                    {{ prod.stockProd - prod.salidasProd }}
+                </td>
+                    <td class="text-center">
+					  <div class="btn-group" data-toggle="buttons">    
+											  <label class="btn btn-success btn-sm" 
+													 ng-class="{active: prod.activo == '1'}" 
+													 ng-click="confirmarActiveProd(prod, '1')">
+												<input type="radio" 
+													   ng-model="prod.activo"  
+													   value="1"> ON
+											  </label>
+											  <label class="btn btn-success btn-sm" 
+													 ng-class="{active: prod.activo == '0'}" 
+													 ng-click="confirmarActiveProd(prod, '0')">
+												<input type="radio" 
+													   ng-model="prod.activo"  
+													   value="0"> OFF
+											  </label>
+						 </div>
+					</td>
+                
+                        <td class="text-center">
+					  <div class="btn-group" data-toggle="buttons">    
+											  <label class="btn btn-primary btn-sm" 
+													 ng-class="{active: prod.activo_tienda == '1'}" 
+													 ng-click="confirmarActiveTiendaProd(prod, '1')">
+												<input type="radio" 
+													   ng-model="prod.activo_tienda"  
+													   value="1"> ON
+											  </label>
+											  <label class="btn btn-primary btn-sm" 
+													 ng-class="{active: prod.activo_tienda == '0'}" 
+													 ng-click="confirmarActiveTiendaProd(prod, '0')">
+												<input type="radio" 
+													   ng-model="prod.activo_tienda"  
+													   value="0"> OFF
+											  </label>
+						 </div>
+					</td>
+                
+                
+                          
+ 
+       
+                
+            </tr>
+          </tbody>
+                 <div ng-show="loading">
+                                      <i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+    
+                 </div> 
+        </table>  
+  
+
+            
+            
+            
+            
+            
+           </div>
+         
+    
+        </div>    
+            
+            
+         <div class="col-md-16">
+              <div class="panel panel-default">
+                  <div class="panel-heading">DETALLE PRODUCTO</div>        
+                  
+                  <form  name="formClienteMod">
+                              
+                    <div class="form-group col-xs-12 col-md-4 ">
+   
+                        
+                        
+                           <img  ng-src="{{fotoUrl}}"
+                               onerror="this.src='https://aranibar.cl/barrosaranas/Table/img/sinImagen.png';"
+                                onClick="openImageModal(this)" 
+                                style="cursor: pointer"                                
+                              class='eye'
+                              width="350"   
+                              height="380">
+                        
+                    </div>                   
+         
+                                  
+                       <div class="form-group col-xs-12 col-md-4 ">
+                       <label class="control-label" >Nombre:</label>
+                       <input ng-model="nombProdMod" 
+                                     type="text" 
+                                     class="form-control" 
+                                     id="nombProd" 
+                                     name="nombProd"/> 
+                        </div> 
+         
+         
+                     <div class="form-group col-xs-12 col-md-4 ">
+                       <label class="control-label" >Tipo:</label>
+                          <select  name="mySelectTipo" 
+                                  enabled = on
+                                  class="form-control"
+                                  disabled
+                                  id="mySelectTipo"
+                                  ng-options="t.nombreCategoria for t in tipoProd.availableOptions track by t.codCategoria"
+                                  ng-model="tipoProd.selectedOption">
+                                <option  value="">-- Seleccione Tipo --</option>
+                        </select>  
+                        </div>  
+         
+                      <div class="form-group col-xs-12 col-md-4 ">
+                       <label class="control-label" >Marca:</label>
+                             <select  name="mySelectMarca" 
+                                     disabled
+                                  class="form-control"
+                                  id="mySelectMarca"
+                                  ng-options="t.nombreMarca for t in marcaProdSele.availableOptions track by t.codMarca"
+                                  ng-model="marcaProdSele.selectedOption">
+                                <option  value="">-- Seleccione Marca --</option>
+                             </select> 
+                        </div>  
+                                  
+                       <div class="form-group col-xs-12 col-md-4 ">
+                       <label class="control-label" >Bodega:</label>
+                        <input ng-model="bodegaProd" 
+                                 type="text" 
+                                 class="form-control" 
+                                 id="bodegaProd" 
+                                 name="bodegaProd"/>    
+                        </div>  
+                                  
+                    
+                        <div class="form-group col-xs-12 col-md-4">
+                       <label class="control-label">Pesos (kg):</label>
+                           <input ng-model="pesosProd" 
+                                 type="text" 
+                                 class="form-control" 
+                                 id="pesosProd" 
+                                 name="pesosProd"/>
+                        </div>    
+         
+                                <!--   <div class="form-group col-xs-12 col-md-4 ">
+                                       <label class="control-label" >Foto(Para modificar, debe seleccionar imagen.):</label>
+                                     <input type="file" class="custom-file-input" file-model="variableBase64" accept="image/png">
+                                    </div>   -->                    
+                       <div class="form-group col-xs-12 col-md-4">
+                       <label class="control-label">Clasificacion:</label>
+                                <select  name="mySelectClas" 
+                                  class="form-control"
+                                  id="mySelectClas"
+                                  ng-options="t.nombre for t in clasifProd2.availableOptions track by t.id"
+                                  ng-model="clasifProd2.selectedOption">
+                                <option  value="">-- Seleccione Clasificacion --</option>
+                        </select> 
+                        </div> 
+         
+           
+                     <div class="form-group col-xs-12 col-md-4">
+                       <label class="control-label">Proveedor:</label>
+                                           <select  class="form-control" 
+                                       ng-model="proveedoresEditar.selectedOption" 
+                                      ng-options="t.nombre for t in proveedoresEditar.availableOptions track by t.id_proveedor"
+                                       ng-change="selProveedor()" >
+                                       <option value="">-- Proveedores --</option>
+                              </select> 
+                    </div>       
+                 
+                   <div class="form-group col-xs-12 col-md-4">
+                       <label class="control-label">Valor Particular:</label>
+                               <input ng-model="precioPart" 
+                                 type="text" 
+                                 class="form-control" 
+                                 id="precioPart" 
+                                 name="precioPart"/>
+                    </div>   
+                 
+                     <div class="form-group col-xs-12 col-md-4">
+                       <label class="control-label">Fecha Vencimiento:</label>
+                              <input type="date" 
+                                     class="form-control" 
+                                     placeholder="yyyy-MM-dd" 
+                                     id="fVencimiento" 
+                                     name="fVencimiento" />
+                    </div>   
+                 
+                     <div class="form-group col-xs-12 col-md-4">
+                       <label class="control-label">Grupos de:</label>
+                               <input ng-model="grupoProd" 
+                                 type="text" 
+                                 class="form-control" 
+                                 id="grupoProd" 
+                                 name="grupoProd"/>
+                    </div> 
+                 
+                    <div class="form-group col-xs-12 col-md-4">
+                       <label class="control-label">Nodo de:</label>
+                               <input ng-model="nodoProd" 
+                                 type="text" 
+                                 class="form-control" 
+                                 id="nodoProd" 
+                                 name="nodoProd"/>
+                    </div> 
+                         
+       </form>
+            
+            
+            
+            
+                  
+                  
+                  
+                  
+           </div>
+         
+    
+        </div>
+            
+            
+          
+
+            
+            
+              
+
+            
+            
+            
+            
+
+        </div>   
+       
+
+        
+       
+        <div class="modal-footer">
+     
+                
+            <button 
+                    class="btn btn-info"  
+                    ng-click="guadarProducto()">
+                   <span class="glyphicon glyphicon-floppy-disk">
+                            </span> Guardar Detalle
+            </button>       
+                
+
+            <button type="button" 
+                    class="btn btn-warning" 
+                    ng-click="verDetallePedidoSalirMod()">
+            <span class="glyphicon glyphicon-chevron-left"></span>Salir
+            </button>
+
+
+
+        </div>
+    
+    </div>  
+    
+    
+</div>
+
+    
+<script type="application/javascript">
+ 
+ function openImageModal(elem){
+     
+        $("#modal-image").attr("src", $(elem).attr("src"));
+        $("#myImageModal").modal('show');
+    } 
+       
+</script>

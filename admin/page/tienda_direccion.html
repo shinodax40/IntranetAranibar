@@ -1,0 +1,162 @@
+<div class="content__inner">
+    <header class="content__title">
+        <h1>Listado</h1>
+
+        <div class="actions">
+            <a href class="actions__item zwicon-plus-circle" ng-click="agregar()" data-toggle="modal" data-target="#formulario"></a>
+            <a href class="actions__item zwicon-refresh-double" ng-click="actualizar()"></a>
+        </div>
+    </header>
+
+    <div class="toolbar">
+
+        <div class="toolbar__label"><span class="hidden-xs-down">Total</span> {{arreglo.length}} Registros</div>
+
+        <div class="actions">
+            <i class="actions__item zwicon-search" data-sa-action="toolbar-search-open"></i>
+            <div class="dropdown actions__item">
+                <i class="zwicon-filter" data-toggle="dropdown"></i>
+
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a href="" class="dropdown-item">Last Modified</a>
+                    <a href="" class="dropdown-item">Name</a>
+                    <a href="" class="dropdown-item">Size</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="toolbar__search">
+            <input type="text" placeholder="Buscar...">
+            <i class="toolbar__search__close zwicon-arrow-circle-left" data-sa-action="toolbar-search-close"></i>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div azs-table>
+                <table class="table table-bordered table-sm d-none d-md-block">
+                    <thead>
+                        <tr>
+                                                        <th>IDCUENTA</th>
+                            <th>TIPO</th>
+                            <th>CALLE</th>
+                            <th>NUMERO</th>
+                            <th>COMUNA</th>
+                            <th>OPCIONES</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr azs-data="arreglo">
+                            <td azs-bind="item.idCuenta"></td>
+                            <td azs-bind="item.tipo"></td>
+                            <td azs-bind="item.calle"></td>
+                            <td azs-bind="item.numero"></td>
+                            <td azs-bind="item.comuna"></td>
+                            <td azs-label="OPCIONES" txtHtml="true">
+                                <div class="btn-group btn-group-sm" role="group">
+                                    <button type="button" class="btn btn-theme dropdown-toggle" data-toggle="dropdown">
+                                        <i class="zwicon-more-h"></i>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href azs-click="actionClick('revisar', item.id)" data-toggle="modal" data-target="#formulario">
+                                            <i class="zwicon-eye"></i> Revisar
+                                        </a>
+                                        <a class="dropdown-item" href azs-click="actionClick('editar', item.id)" data-toggle="modal" data-target="#formulario">
+                                            <i class="zwicon-edit-pencil"></i> Editar
+                                        </a>
+                                        <a class="dropdown-item" href azs-click="actionClick('parchar', item.id)" data-toggle="modal" data-target="#formulario">
+                                            <i class="zwicon-edit-square"></i> Parchar
+                                        </a>
+                                        <a class="dropdown-item" href azs-click="actionClick('eliminar', item.id)">
+                                            <i class="zwicon-trash"></i> Eliminar
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="formulario" class="modal fade" data-backdrop="false" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Formulario</h5>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">IDCUENTA:</label>
+                            <div class="col-sm-10">
+                                <input type="text" ng-class="{'form-control': !bloquear, 'form-control-plaintext': bloquear}" 
+                                       ng-disabled="bloquear" ng-model="formTiendaDireccion.idCuenta">
+                            </div>
+                        </div>
+
+
+
+                        
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">TIPO:</label>
+                            <div class="col-sm-10">
+                                <input type="text" ng-class="{'form-control': !bloquear, 'form-control-plaintext': bloquear}" 
+                                       ng-disabled="bloquear" ng-model="formTiendaDireccion.tipo">
+                            </div>
+                        </div>
+
+
+
+                        
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">CALLE:</label>
+                            <div class="col-sm-10">
+                                <input type="text" ng-class="{'form-control': !bloquear, 'form-control-plaintext': bloquear}" 
+                                       ng-disabled="bloquear" ng-model="formTiendaDireccion.calle">
+                            </div>
+                        </div>
+
+
+
+                        
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">NUMERO:</label>
+                            <div class="col-sm-10">
+                                <input type="text" ng-class="{'form-control': !bloquear, 'form-control-plaintext': bloquear}" 
+                                       ng-disabled="bloquear" ng-model="formTiendaDireccion.numero">
+                            </div>
+                        </div>
+
+
+
+                        
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">COMUNA:</label>
+                            <div class="col-sm-10">
+                                <input type="text" ng-class="{'form-control': !bloquear, 'form-control-plaintext': bloquear}" 
+                                       ng-disabled="bloquear" ng-model="formTiendaDireccion.comuna">
+                            </div>
+                        </div>
+
+
+
+                    </form>     
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-warning" ng-click="resetear()" ng-hide="bloquear">Resetear</button>
+                    <button type="button" class="btn btn-primary" ng-click="guardar()" ng-hide="opcion === 4" data-dismiss="modal">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

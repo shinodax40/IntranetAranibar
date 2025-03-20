@@ -1,0 +1,486 @@
+<div class="col-md-12 text-center" ng-init="initListado()">
+    
+    <img class="img-responsive tocenter" src='img/Logo-PNG.png' />
+    
+</div>
+
+<div class="modal fade miClaseModal" id="myModallogininicial" >
+    <div class="modal-dialog modal-sm"  align="center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Iniciar sesión Vers. 2.1</h5>
+        </div>
+        <div class="modal-body">  
+                 
+                                <div    align="center">
+                                         <img src='img/Logo-principal-menu.png' width="240"   height="70"> 
+                                </div>   
+                    <div class="alert alert-info" style="font-size:11px"  align="justify">
+                          <strong><span class="glyphicon glyphicon-heart-empty"></span> ¡ Hola ! Estimad@s recuerde que somos una distribuidora multimarca, buscamos brindar a nuestros clientes variedad de productos acorde a su bolsillo y necesidades. QUE TENGAS UN EXCELENTE DIA!!</strong>
+                      </div> 
+            
+            
+
+            
+
+               <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                <select  name="mySelecTiedaTras" 
+                                                 class="form-control"
+                                                  id="mySelecTiedaTras"
+                                                  ng-change="seleccionarTienda()"
+                                                  ng-options="option.name for option in cobradoVend.availableOptions track by option.id"
+                                                  ng-model="cobradoVend.selectedOption">    
+                                     <option value="">-- Seleccione Tienda --</option>
+                             </select>    
+                       
+                        </div>
+            
+            
+            
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input id="usua" type="email" class="form-control input-sm" name="usua" value="" placeholder="Introduce tu Rut  sin puntos y guión">        
+                        </div>
+            
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            <input id="contra" type="password" class="form-control  input-sm" name="contra" value="" placeholder="Introduce tu Contraseña">
+                        </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-warning btn-block" type="submit" ng-click="ingresarMenu()">Ingresar</button>  
+        </div>
+        </div>  
+
+        <!-- <button
+                 type="button" 
+                 class="btn btn-link" 
+                 type="submit"  
+                 ng-click="ingresarCrearCuenta()"><p><FONT COLOR="white">Crear Cuenta</FONT></p></button>-->
+    </div>
+
+</div>   
+
+
+
+
+<!--
+<div  class="container">
+    <div    align="center">
+             <img src='img/Logo 12-A.jpg' width="330"   height="250"> 
+    </div>   
+    
+</div>      -->
+ <!--********************************************************************** -->      
+         
+<div class="modal fade miClaseModal " id="myModalCrearCuenta" >
+    <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-user"></span> Nuevo Usuario</h5>
+                  </div>
+                <div class="modal-body">
+                    <form role="form">
+                      <div class="alert alert-success">
+                          <strong><span class="glyphicon glyphicon-thumbs-up"></span> Regístrate. Comparte con nosotros, grandes sorpresas y precios para su mascota. </strong>
+                      </div>    
+                      <div class="form-group">
+                        <label for="ejemplo_email_1">Rut</label>
+                        <input ng-model="rutLog" 
+                                     type="text" 
+                                     id="rutLog" 
+                                     name="rutLog" 
+                                     class="form-control" />
+                         <div id="alertRut"  ng-if="customRut"  class="alert alert-danger" role="alert">
+                          <strong>Rut!</strong> El rut es incorrecto, favor ingresar sin punto y guion.
+                         </div>
+                         <div id="alertRutCamp"  ng-if="customRutCamp"  class="alert alert-danger" role="alert">
+                           <strong>Rut!</strong> Favor ingresar solicitado.
+                         </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="ejemplo_password_1">Nombres</label>
+                          <input ng-model="nombreLog" 
+                                 type="text" 
+                                 class="form-control" 
+                                 id="nombreLog" 
+                                 name="nombreLog"/>  
+                          <div id="alertNomb"  ng-if="customNomb"  class="alert alert-danger" role="alert">
+                            <strong>Nombres!</strong> Favor ingresar solicitado.
+                          </div>    
+                      </div>                
+                      <div class="form-group">
+                        <label for="ejemplo_archivo_1">Celular</label>
+                        <input ng-model="celLog" 
+                                 type="number" 
+                                 class="form-control" 
+                                 id="celLog" 
+                                 name="celLog"/>  
+                         <div id="alertCel"  ng-if="customCel"  class="alert alert-danger" role="alert">
+                          <strong>Celular!</strong> Favor ingresar solicitado.
+                        </div>  
+                      </div>
+                      <div class="form-group">
+                        <label for="ejemplo_archivo_1">Contraseña</label>
+                         <input ng-model ="passLog" 
+                                 type = "password" 
+                                 class= "form-control" 
+                                 id   = "passLog" 
+                                 name = "passLog"/>  
+                      <div id="alertPass"  ng-if="customPass"  class="alert alert-danger" role="alert">
+                          <strong>Password!</strong> Favor ingresar solicitado.
+                      </div>  
+                      <div id="alertPassTa"  ng-if="customPassTa"  class="alert alert-danger" role="alert">
+                          <strong>Password!</strong>Las contraseñas cortas son fáciles de adivinar. Vuelve a intentarlo utilizando como mínimo 4 caracteres.
+                      </div>        
+                      </div>
+                     <div class="form-group">
+                        <label for="ejemplo_archivo_1">Confirmar Contraseña</label>
+                        <input ng-model ="passLogConf" 
+                                 type = "password" 
+                                 class= "form-control" 
+                                 id   = "passLogConf" 
+                                 name = "passLogConf"/>  
+                      <div id="alertConfPass"  ng-if="customConfPass"  class="alert alert-danger" role="alert">
+                          <strong>Confirmar Contraseña!</strong> Favor ingresar solicitado.
+                      </div>   
+                       <div id="alertConfPass"  ng-if="customConfPassErr"  class="alert alert-danger" role="alert">
+                          <strong>Confirmar Contraseña!</strong> Las contraseñas no coinciden. ¿Quieres volver a intentarlo?.
+                      </div>        
+                        
+                    </div>    
+                        
+                    </form>
+                    
+                    
+                    
+                    
+                    
+                    
+     
+                </div> 
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-warning" ng-click="crearCuenta()">Crear Cuenta
+                    <span class="glyphicon glyphicon-ok"></span></button>
+                    <button type="button" class="btn btn-warning" data-dismiss="modal"  ng-click="salir()">
+                    <span class="glyphicon glyphicon-chevron-left"></span>Salir
+                    </button>
+                </div>
+                </div>
+        </div>
+</div>    
+          
+
+<div id="myPrecio">
+<div class="panel panel-default"   ng-init="init()" >
+    <div class="panel-heading"><span class="glyphicon glyphicon-usd"></span> Listados de Precios</div>
+
+
+    
+<div class="panel-body">     
+<div class="alert alert-success">
+  <strong><span class="glyphicon glyphicon-heart-empty"></span> ¡ Hola ! Amig@s recuerden que somos una distribuidora multimarca, buscamos brindar a nuestros clientes variedad de productos acorde a su bolsillo y necesidades..</strong>
+</div>    
+<div class="alert alert-info" role="alert">
+  <strong><span class=" glyphicon glyphicon-earphone"></span> Fono Pedido!</strong> Si desea realizar su pedido favor enviar whatsapp o llamar al <a class="btn btn-primary btn-xlg" href="tel:+56991778466" style="padding:3px;background-color:rgba(0,0,238,.5)">
+  <span class="glyphicon glyphicon-earphone" style="padding-left:10px; padding-right:10px;"></span>+56991778466
+</a>
+</div>    
+    
+<div class="alert alert-success">
+  <strong><span class="glyphicon glyphicon-search"></span> Buscar Productos!</strong> Para poder ver nuestros precios favor seleccionar CATEGORIA y MARCA , luego la acción Buscar.
+</div>
+    
+<div>          
+       <form action="" name="prodSeleccion"  class="form-inline">
+                   <div class="form-group"> 
+                      <label class="sr-only" for="tipo">Seleccionar Categoria:</label>    
+                              <select  class="form-control" 
+                                       ng-model="tipo" 
+                                       ng-options="t.nombreCategoria group by t.grupo  for t in tipos"  
+                                       ng-change="selTipoPrecio()" >
+                                   <option  value="">-- Seleccione Categoria --</option>
+                                 </select>    
+                    </div>
+           
+           
+
+                    <div class="form-group"> 
+                       <label class="sr-only" for="marca">Seleccionar Marca:</label>    
+                            <select class="form-control" 
+                                       ng-model="marca" ng-options="m.nombreMarca for m in marcas"
+                                            ng-change="selMarca()" >
+                                  <option value="">-- Seleccione Marca --</option>
+                                  </select>
+                    </div>                
+
+        <button class="btn btn-warning" ng-click="buscarProductos()">
+        Buscar <span class="glyphicon glyphicon-search"></span>
+        </button>
+                 
+
+       </form>  
+</div>
+            
+    <table class="table table-striped table table-bordered table-hover " at-table at-paginated at-list="list" at-config="config">       
+              
+         <thead>
+                    <tr>
+                      <th  style="text-align: center">#</th>    
+                      <th>Producto</th>
+                      <th>Precio</th>                        
+                      <th>Stock</th>
+                    </tr>
+         </thead>
+          <tbody>
+            <tr data-dismiss="modal" ng-repeat="prod in listProd"  data-toggle="modal"  ng-click="selProductos(prod)">  
+                <td style="text-align: center">{{ $index + 1 }}</td>                    
+                <td>{{ prod.nombreProd }}</td>
+                 <td>$ {{ prod.precioPart | number:0 }}</td>
+                <td>
+                                             <span ng-switch on="interface" >
+                                              <img src='img/sinStock.png'
+                                                   width="30" 
+                                                   height="30"
+                                                   ng-show="{{prod.countStock == '0'}}">
+                                              <img src='img/coStock.jpg'
+                                                   width="30" 
+                                                   height="30" 
+                                                   ng-show="{{ prod.countStock != '0'}}">   
+                                            </span>                                         
+             </td> 
+            </tr>
+          </tbody>
+                <div ng-show="loading">
+                  <img src='img/cargando.gif'
+                      width="100" 
+                      height="100"/>        
+                 </div> 
+        </table>  
+         <div  align="center">
+               <img src='img/portada.jpg' width="250"   height="400"> 
+         </div>  
+
+</div>    
+  
+    
+ 
+
+    
+  
+
+</div>    
+</div>
+
+<!--
+<div id="graficoAdmin">
+    <div class="panel panel-default">
+       <canvas id="lineChart" ></canvas>
+    </div>
+</div>
+
+<div id="graficoAdminGeneral">
+    <div class="panel panel-default">
+       <canvas id="lineChartGeneral" ></canvas>
+    </div>
+</div>-->
+
+
+<!--
+<div class="row">
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-md-6">
+		    <div id="graficoAdminRango">
+				<div class="panel panel-default">
+				   <canvas id="lineChartRango" ></canvas>
+				</div>
+			</div>
+      </div>
+      <div class="col-md-6">
+            <div id="graficoCantidadPedidos">
+			   <div class="panel panel-default">
+				  <canvas id="bar-chart-grouped" width="800" height="450"></canvas>
+			   </div>
+			</div>    
+        </div>
+    </div>
+  </div>
+</div>-->
+
+
+
+
+<div class="modal fade miClaseModal" id="myModalListProd" >
+  <div class="modal-dialog" 
+       role="document" 
+       align="center" >
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h5 class="modal-title" id="myModalLabel">Información</h5>
+      </div>
+      <div class="modal-body">  
+          
+          <div>          
+                  <form action="" name="prodSeleccion"  class="form-inline">
+                    
+<hr/>
+                       <div class="form-group">
+                       <label  for="tipo">Productos en Oferta:</label>    
+         
+<table class="table table-striped table table-bordered table-hover " at-table at-paginated at-list="list" at-config="config">       
+              
+         <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th>Nombre Producto</th>
+                      <th>Stock</th>                      
+                    </tr>
+         </thead>
+          <tbody>
+            <tr data-dismiss="modal" ng-repeat="prod in productosOfertas"  data-toggle="modal">     
+                <td>{{ prod.id }}</td>    
+                <td>{{ prod.nombreProd }}
+                
+                       <span ng-switch on="interface" style="font-size:9px">      
+                                             <img src='img/numeros/uno.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '1'}} ">	
+                               
+                                              <img src='img/numeros/dos.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '2'}} ">	
+                               
+                                               <img src='img/numeros/tres.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '3'}} ">	
+                               
+                                               <img src='img/numeros/cuatro.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '4'}} ">
+                               
+                                               <img src='img/numeros/cinco.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '5'}} ">	
+                               
+                                               <img src='img/numeros/seis.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '6'}} ">	
+                               
+                                              <img src='img/numeros/siete.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '7'}} ">	
+                               
+                                              <img src='img/numeros/ocho.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '8'}} ">	
+                                              <img src='img/numeros/nueve.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '9'}} ">	
+                               
+                                              <img src='img/numeros/dies.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '10'}} ">	
+                               
+                                             <img src='img/numeros/once.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '11'}} ">
+                               
+                                             <img src='img/numeros/doce.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '12'}} ">	
+                               
+                                             <img src='img/numeros/trece.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '13'}} ">	
+                               
+                                             <img src='img/numeros/catorce.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '14'}} ">	
+                               
+                                             <img src='img/numeros/quince.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '15'}} ">	
+                               
+                                             <img src='img/numeros/dieciseis.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '16'}} ">	
+                               
+                               
+                                            <img src='img/numeros/diecisiete.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.diecisiete == '17'}} ">	
+                               
+                                           <img src='img/numeros/dieciocho.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '18'}} ">	
+                               
+                                           <img src='img/numeros/diecinueve.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '19'}} ">	
+                               
+                                           <img src='img/numeros/veinte.jpg'  
+                                                   width="20" 
+                                                   height="20" 
+                                                   ng-show="{{prod.porcentaje == '20'}} ">	
+                               
+                                              <img src='img/numeros/porcentaje.jpg'  
+                                                   width="16" 
+                                                   height="16" 
+                                                   ng-show="{{prod.porcentaje != '0'}} ">	
+                                            
+                           </span>
+                
+                </td>
+                <td>{{ prod.stockProd - prod.salidasProd }}</td>   
+            </tr>
+          </tbody>
+               <div ng-show="loading">
+                  <img src='img/cargando.gif'
+                      width="100" 
+                      height="100"/>        
+                 </div> 
+        </table>  
+
+                        </div>                
+
+
+
+                    </form>  
+                 <hr/>
+         </div>
+
+      </div>
+      <div class="modal-footer">
+     <!--   <button class="btn btn-warning" ng-click="listarProductosSinStock()">
+        Listar Productos Stock PDF <span class="glyphicon glyphicon-download-alt"></span>
+    </button>  -->
+          
+        <button type="button" class="btn btn-warning" data-dismiss="modal">
+          <span class="glyphicon glyphicon-chevron-left"></span>Salir</button>
+      </div>
+    </div>
+  </div>
+</div>

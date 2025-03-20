@@ -1,0 +1,562 @@
+<div class="panel panel-default" ng-init="init()" ng-show="{{!customInterLogin}}">
+    <div class="panel-heading">Informe Vendedor</div>    
+    
+<div class="panel-body">   
+ 
+    
+<div class="row" ng-show="{{superVenta}}">
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-md-12">
+		    <div  class="panel panel-default" style="text-align: center">
+                <div class="panel panel-default">
+                  <div class="panel-heading">Porcentaje Crecimiento Ventas Anual Actual</div>   
+                     <div class="container">
+           <div ng-repeat="dg in dgPorcentaje">
+                <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12">
+                   <div class="thumbnail">
+                           <div>
+                                <table>
+                                        <tr>
+                                          <th>
+                                              <h4>
+                                                  <span class="glyphicon glyphicon-briefcase"></span><strong> {{ dg.nombre_tipo }}</strong>
+                                              </h4>
+                                              <p 
+                                                 style="font-size:12px">
+                                                <small>{{dg.nombre}} {{dg.apellido}}</small>
+
+                                              </p> 
+                                              
+                                              <p 
+                                                 style="font-size:14px">
+                                                     <small>Ventas: {{dg.total}} %</small>
+
+                                              </p> 
+                                           </th> 
+                                            
+                                        </tr>
+                               
+                                </table>
+                           </div>                                         
+
+
+                   </div>
+                </div>  
+            </div> 
+ </div> 
+           </div> 
+            </div>  
+      </div>
+         
+    
+        </div>
+    </div>
+  </div>        
+    
+<div class="row" ng-show="{{superVenta}}">
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-md-12">
+		    <div  class="panel panel-default" style="text-align: center">
+                <div class="panel panel-default">
+                  <div class="panel-heading">Cantidad Salidas Productos Lista  
+                      <button class="btn btn-success btn-xs"
+                            ng-click="listarProdVentaActivoVendTotal(1)"
+                            data-toggle="modal"  
+                            data-target="#myModalVentaProd">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <button class="btn btn-warning btn-xs"
+                            ng-click="listarProdVentaActivoVendTotal(2)"
+                            data-toggle="modal"  
+                            data-target="#myModalVentaProd">
+                        <i class="fa fa-bars"></i>
+                    </button></div>   
+                     <div class="container" ng-show="{{superVenta}}">
+           <div ng-repeat="usua in sumaCantidadOfertaTotalArray">
+                <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12">
+                   <div class="thumbnail">
+                           <div>
+                                <table>
+                                        <tr>
+                                          <th>
+                                              <h4>
+                                                  <span class="glyphicon glyphicon-briefcase"></span><strong> {{ usua.nombre_tipo }} 
+                                                   <button class="btn btn-success btn-xs"
+                                                    ng-click="listarProdVentaActivoVendXUsuario(usua, 1)"
+                                                    data-toggle="modal"  
+                                                    data-target="#myModalVentaProd">
+                                                <i class="fa fa-bars"></i>
+                                                    
+                                                       
+                                                    </button> 
+                                                  <button class="btn btn-warning btn-xs"
+                                                    ng-click="listarProdVentaActivoVendXUsuario(usua, 2)"
+                                                    data-toggle="modal"  
+                                                    data-target="#myModalVentaProd">
+                                                <i class="fa fa-bars"></i>
+                                                    
+                                                       
+                                                    </button>
+                                                  </strong>
+                                              </h4>
+                                              <p 
+                                                 style="font-size:12px">
+                                                <small>{{usua.nombre}} {{usua.apellido}}</small>
+                                              </p> 
+                                           </th> 
+                                        </tr>
+                                        <tr>    
+                                            <td>
+                                                     <h1>
+                                                         <p> 
+                                                         <span class="badge badge-info counter2">{{ usua.cantidad }}</span>
+                                                         </p>
+                                                     </h1>
+                                            </td>
+                                        </tr>
+                                </table>
+                           </div>                                         
+
+
+                   </div>
+                </div>  
+            </div> 
+      </div> 
+                    
+           </div> 
+            </div>  
+      </div>
+ 
+        </div>
+    </div>
+  </div>
+     
+  <!--
+
+<div class="row" ng-show="{{superVenta}}">   
+    
+  <div class="col-md-12">
+    <div class="row">
+        <div class="col-md-12">
+            <div  class="panel panel-default" style="text-align: center">
+                <div class="panel panel-default">             
+                  <div class="panel-heading">Ventas Mensual</div>   
+                   <table class="table table-striped table table-bordered" 
+                   style="font-size:12px"  
+                   at-table at-paginated at-list="list" at-config="config">     
+                     <thead>
+                                <tr>
+                                  <th scope="col" style="text-align: center">Mes</th>
+                                  <th scope="col" style="text-align: center">Tipo</th>
+                                  <th scope="col" style="text-align: center">Nombre</th> 
+                                  <th style="text-align: center">Mascotero</th>
+                                  <th style="text-align: center">Veterinaria</th> 
+                                  <th style="text-align: center">Almacen</th>  
+                                  <th style="text-align: center">Avicola</th>    
+                                  <th style="text-align: center">Peluqueria</th>                                           
+                                  <th style="text-align: center">Particular</th> 
+                                  <th style="text-align: center">Otro</th>                     
+                                    
+                                </tr>
+                     </thead>
+                      <tbody>               
+                        <tr data-dismiss="modal" ng-repeat="prodDet in listarVentaActualUsua">  
+                            <td style="text-align: center">{{ prodDet.mes }}</td>    
+                            <td style="text-align: center">{{ prodDet.nombre_tipo }}</td>    
+                <td style="text-align: center">{{ prodDet.nombre }}</td>   
+                            <td>$ {{ prodDet.mascotero | number:0  }}</td>
+                            <td>$ {{ prodDet.veterinaria | number:0  }}</td> 
+                            <td>$ {{ prodDet.almacen | number:0  }}</td> 
+                            <td>$ {{ prodDet.agricola | number:0 }}</td> 
+                            <td>$ {{ prodDet.peluqueria | number:0 }}</td>                             
+                            <td>$ {{ prodDet.particular | number:0  }}</td>  
+                            <td>$ {{ prodDet.otro | number:0  }}</td>  
+
+                        </tr>
+                      </tbody>
+                  </table>    
+           </div> 
+            </div>  
+      </div>
+         
+    
+        </div>
+    </div>
+  </div> -->
+    
+<div class="modal fade" id="myModalVentaProd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Productos Listado Venta</h5>
+                  </div>
+                <div class="modal-body">
+                         <table class="table table-striped table table-bordered table-hover " at-table at-paginated at-list="list" at-config="config">       
+              
+         <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th>Nombre</th>
+                      <th>Cantitad</th>                      
+                    </tr>
+         </thead>
+          <tbody>
+            <tr data-dismiss="modal" 
+                ng-repeat="prod in listProdAct"  
+                data-toggle="modal"  
+                ng-click="selProductos(prod)">  
+                
+                <td>{{ prod.id }}</td>    
+                <td>{{ prod.nombreProd }}</td>
+                <td>{{ prod.cantidad }}</td>
+            </tr>
+          </tbody>
+               <div ng-show="loading">
+                  <img src='img/cargando.gif'
+                      width="100" 
+                      height="100"/>        
+                 </div> 
+        </table>    
+                </div> 
+
+                <div class="modal-footer">                   
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-chevron-left"></span>Salir
+                    </button>
+                </div>
+                </div>
+        </div>
+</div>        
+    
+<div class="row" ng-show="{{!superVenta}}">
+  <div class="col-md-12">
+    <div class="row">
+     
+       <div class="col-md-2">
+		    <div  class="panel panel-default" style="text-align: center">
+                <div class="panel-heading">Como Vamos</div>   
+                <span class="badge badge-info counterVenta">%</span>
+            </div>  
+      </div>  
+        
+      <div class="col-md-2">
+		    <div  class="panel panel-default" style="text-align: center">
+                <div class="panel-heading">Cant. Salidas Producto List 
+                    <button class="btn btn-success btn-xs"
+                            ng-click="listarProdVentaActivoVend(1)"
+                            data-toggle="modal"  
+                            data-target="#myModalVentaProd">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                          <button class="btn btn-warning btn-xs"
+                            ng-click="listarProdVentaActivoVend(2)"
+                            data-toggle="modal"  
+                            data-target="#myModalVentaProd">
+                        <i class="fa fa-bars"></i>
+                    </button>
+</div>   
+                <span class="badge badge-info counter"></span>
+            </div>  
+      </div>
+         
+      <div class="col-md-8">
+              <div class="panel panel-default">
+                  <div class="panel-heading">Ventas Mes Actual</div>   
+                   <table class="table table-striped table table-bordered" 
+                   style="font-size:12px"  
+                   at-table at-paginated at-list="list" at-config="config">     
+                     <thead>
+                                <tr>
+                                  <th style="text-align: center">Mes</th>
+                                  <th style="text-align: center">Mascotero</th>
+                                  <th style="text-align: center">Veterinaria</th> 
+                                  <th style="text-align: center">Almacen</th>  
+                                  <th style="text-align: center">Avicola</th>      
+                                  <th style="text-align: center">Peluqueria</th>  
+                                  <th style="text-align: center">Particular</th>                                   
+                                    <th style="text-align: center">Otro</th>                     
+
+                                    
+                                </tr>
+                     </thead>
+                      <tbody>               
+                        <tr data-dismiss="modal" ng-repeat="prodDet in listVentaMesTotal">  
+                            <td style="text-align: center">{{ prodDet.mes }}</td>    
+                            <td>$ {{ prodDet.mascotero | number:0  }}</td>
+                            <td>$ {{ prodDet.veterinaria | number:0  }}</td> 
+                            <td>$ {{ prodDet.almacen | number:0  }}</td> 
+                            <td>$ {{ prodDet.agricola | number:0 }}</td> 
+                            <td>$ {{ prodDet.peluqueria | number:0 }}</td>                             
+                            <td>$ {{ prodDet.particular | number:0  }}</td>  
+                            <td>$ {{ prodDet.otro | number:0  }}</td>  
+
+                        </tr>
+                      </tbody>
+                  </table>    
+           </div>
+         
+    
+        </div>
+    </div>
+  </div>
+</div>    
+    
+  
+    
+    
+  
+    
+<div class="panel panel-default"  ng-show="{{superVenta}}">
+    
+                 <div class="col-md-3">    
+                           <select  class="form-control" 
+                                    ng-model="listMes" 
+                                   ng-change="listarVentasGeneral()"
+                                    ng-options="t.nombre_mes for t in listMeses">
+                                    <option value="">-- Seleccione Mes --</option>
+                           </select>   
+                    </div>
+
+                    <div class="col-md-3">
+                       <select  class="form-control" 
+                                  ng-change="listarVentasGeneral()"
+
+                                ng-model="listAn"                                
+                                ng-options="t.nombre_anual for t in listAnos">
+                                           <option value="">-- Seleccione Ano --</option>
+                       </select>       
+                     </div>
+                     <div class="col-md-3">
+                       <button type="button" 
+                                ng-click="listarVentaVendedoresTotal()"
+                               class="btn btn-warning">Listar Ventas</button>
+                     </div>
+    
+    <div class="panel-heading">Ventas Mes Anterior</div>   
+
+    <table class="table table-dark table-responsive-sm" 
+       style="font-size:12px"  
+       at-table at-paginated at-list="list" at-config="config">     
+         <thead>
+                    <tr>
+                      <th scope="col" style="text-align: center">Mes</th>
+                      <th scope="col" style="text-align: center">Tipo</th>
+                      <th scope="col" style="text-align: center">Nombre</th> 
+                      <th scope="col" style="text-align: center">Mascotero</th>
+                      <th scope="col" style="text-align: center">Veterinaria</th> 
+                      <th scope="col" style="text-align: center">Almacen</th>  
+                      <th scope="col" style="text-align: center">Avicola</th>       
+                      <th scope="col" style="text-align: center">Peluqueria</th>                               
+                      <th scope="col" style="text-align: center">Particular</th>
+                      <th scope="col" style="text-align: center">Otro</th>                     
+                        
+                    </tr>
+         </thead>
+          <tbody>               
+            <tr data-dismiss="modal" ng-repeat="prodDet in listVentaVendedoresTotalAnterior">  
+                <td style="text-align: center">{{ prodDet.mes }}</td>    
+                <td style="text-align: center">{{ prodDet.nombre_tipo }}</td>    
+                <td style="text-align: center">{{ prodDet.nombre }}</td>    
+
+                <td style="text-align: center">$ {{ prodDet.mascotero | number:0  }}</td>
+                <td style="text-align: center">$ {{ prodDet.veterinaria | number:0  }}</td> 
+                <td style="text-align: center">$ {{ prodDet.almacen | number:0  }}</td> 
+                <td style="text-align: center">$ {{ prodDet.agricola | number:0 }}</td> 
+                <td style="text-align: center">$ {{ prodDet.peluqueria | number:0 }}</td>                 
+                <td style="text-align: center">$ {{ prodDet.particular | number:0  }}</td>  
+                <td style="text-align: center">$ {{ prodDet.otro | number:0  }}</td>  
+
+            </tr>
+          </tbody>
+</table>    
+</div>
+ 
+     
+<div class="panel panel-default"  ng-show="{{superVenta}}">
+    
+                     <div class="col-md-3">    
+                         <input type="date" 
+                             class="form-control" 
+                             placeholder="yyyy-MM-dd" 
+                             id="desdeb2" 
+                             name="desdeb2" />
+                    </div>
+
+                    <div class="col-md-3">
+                           <input type="date" 
+                                  class="form-control"  
+                                  placeholder="yyyy-MM-dd" 
+                                  id="hastab2" 
+                                  name="hastab2"/>
+     
+                     </div>
+                     <div class="col-md-3">
+                       <button type="button" 
+                                ng-click="listarCantPedidosSemanal()"
+                               class="btn btn-warning">Listar Cantidad Pedidos</button>
+                     </div>
+    
+    
+    
+    <div class="panel-heading" style="text-align: center">Cantidad Pedidos Semana Actual </div>   
+      
+   <!--<div class="form-group col-xs-6 col-md-2 row">
+      Desde: <input type="date" class="form-control" placeholder="yyyy-MM-dd" id="desdeb" name="desdeb" />
+    </div>
+     <div class="form-group col-xs-6  col-md-2 row">
+         Hasta: <input type="date" class="form-control"  placeholder="yyyy-MM-dd" id="hastab" name="hastab"/>      
+    </div> 
+     <div class="form-group col-xs-1  col-md-1 row"> 
+        <label class="control-label" for="inputSuccess1"> </label>
+
+        <button type="submit" class="btn btn-warning form-control" ng-click="">
+        <span class="glyphicon glyphicon-search"></span></button> 
+    </div> -->
+   
+    <table class="table table-dark table-responsive-sm" 
+       style="font-size:12px"  
+       at-table at-paginated at-list="list" at-config="config">     
+         <thead>
+                    <tr>
+                      <th scope="col" style="text-align: center">Tipo</th>
+                      <th scope="col" style="text-align: center">Nombre</th> 
+                      <th scope="col" style="text-align: center">Entrega</th>                         
+                      <th scope="col" style="text-align: center">Lunes</th>
+                      <th scope="col" style="text-align: center">Martes</th> 
+                      <th scope="col" style="text-align: center">Miercoles</th>  
+                      <th scope="col" style="text-align: center">Jueves</th>       
+                      <th scope="col" style="text-align: center">Viernes</th>   
+                      <th scope="col" style="text-align: center">Sabado</th>                     
+
+                    </tr>
+         </thead>
+          <tbody>               
+    <tr data-dismiss="modal" ng-repeat="lstSemana in listCantPedidosSemanal">  
+        <td style="text-align: center" ng-class="{'coral' : (lstSemana.entregaPed == '2')}">{{ lstSemana.nombre_tipo }}</td>  
+        <td style="text-align: center" ng-class="{'coral' : (lstSemana.entregaPed == '2')}">{{ lstSemana.nombre }}</td> 
+        <td style="text-align: center" ng-class="{'coral' : (lstSemana.entregaPed == '2')}">{{ lstSemana.tipoEntrega }}</td>          
+        <td style="text-align: center" ng-class="{'coral' : (lstSemana.entregaPed == '2')}">{{ lstSemana.lunes | number:0  }}</td>
+        <td style="text-align: center" ng-class="{'coral' : (lstSemana.entregaPed == '2')}">{{ lstSemana.martes | number:0  }}</td> 
+        <td style="text-align: center" ng-class="{'coral' : (lstSemana.entregaPed == '2')}">{{ lstSemana.miercoles | number:0  }}</td> 
+        <td style="text-align: center" ng-class="{'coral' : (lstSemana.entregaPed == '2')}">{{ lstSemana.jueves | number:0 }}</td> 
+        <td style="text-align: center" ng-class="{'coral' : (lstSemana.entregaPed == '2')}">{{ lstSemana.viernes | number:0  }}</td>  
+        <td style="text-align: center" ng-class="{'coral' : (lstSemana.entregaPed == '2')}">{{ lstSemana.sabado | number:0  }}</td>  
+    </tr>
+          </tbody>
+</table>    
+</div>    
+    
+
+    
+<div id="graficoAdminTodo" ng-show="{{superVenta}}">
+    <div class="panel panel-default">
+       <canvas id="lineChartGeneralTodos" ></canvas>
+    </div>
+</div>   
+    
+<div id="graficoAdmin">
+    <div class="panel panel-default col-md-12">
+       <canvas id="lineChart" ></canvas>
+    </div>
+</div>   
+    
+<div class="row">
+    
+  <div class="col-md-12">
+      
+    <div class="row">
+      <div class="col-md-6">
+                <div class="col-md-3">    
+                         <input type="date" 
+                             class="form-control" 
+                             placeholder="yyyy-MM-dd" 
+                             id="desdeb" 
+                             name="desdeb" />
+                    </div>
+
+                    <div class="col-md-3">
+                           <input type="date" 
+                                  class="form-control"  
+                                  placeholder="yyyy-MM-dd" 
+                                  id="hastab" 
+                                  name="hastab"/>
+     
+                     </div>
+                     <div class="col-md-3">
+                       <button type="button" 
+                                ng-click="initGraficoUsuarioSema()"
+                               class="btn btn-warning">Listar Tus Ventas Semanal</button>
+                     </div>
+		    <div id="graficoAdminRango">
+				<div class="panel panel-default">
+				   <canvas id="lineChartRango" ></canvas>
+				</div>
+			</div>
+      </div>
+      <div class="col-md-6">
+           
+               
+<div class="panel panel-default">
+    <div class="panel-heading" style="text-align: center">Cantidad Pedidos Mensual Actual </div>   
+   
+    <table class="table table-dark table-responsive-sm" 
+       style="font-size:12px"  
+       at-table at-paginated at-list="list" at-config="config">     
+         <thead>
+                    <tr>
+                      <th scope="col" style="text-align: center">Tipo</th>
+                      <th scope="col" style="text-align: center">Nombre</th> 
+                      <th scope="col" style="text-align: center">Entrega</th>                         
+                      <th scope="col" style="text-align: center">Particular</th>
+                      <th scope="col" style="text-align: center">Mascotero</th> 
+                      <th scope="col" style="text-align: center">Almacen</th>  
+                      <th scope="col" style="text-align: center">Veterinaria</th>       
+                      <th scope="col" style="text-align: center">Avicola</th>   
+                      <th scope="col" style="text-align: center">Peluqueria</th> 
+                      <th scope="col" style="text-align: center">Otro</th>                     
+                        
+
+                    </tr>
+         </thead>
+        
+
+          
+        
+          <tbody>               
+    <tr data-dismiss="modal" ng-repeat="lstSemana in listCantPedMensual">  
+        <td style="text-align: center" ng-class="{'coral' : (lstSemana.entregaPed == '2')}">{{ lstSemana.nombre_tipo }}</td>  
+        <td style="text-align: center" ng-class="{'coral' : (lstSemana.entregaPed == '2')}">{{ lstSemana.nombre }}</td> 
+        <td style="text-align: center" ng-class="{'coral' : (lstSemana.entregaPed == '2')}">{{ lstSemana.tipoEntrega }}</td>          
+        <td style="text-align: center" ng-class="{'coral' : (lstSemana.entregaPed == '2')}">{{ lstSemana.particular | number:0  }}</td>
+        <td style="text-align: center" ng-class="{'coral' : (lstSemana.entregaPed == '2')}">{{ lstSemana.mascotero | number:0  }}</td> 
+        <td style="text-align: center" ng-class="{'coral' : (lstSemana.entregaPed == '2')}">{{ lstSemana.almacen | number:0 }}</td> 
+        <td style="text-align: center" ng-class="{'coral' : (lstSemana.entregaPed == '2')}">{{ lstSemana.veterinaria | number:0  }}</td>  
+        <td style="text-align: center" ng-class="{'coral' : (lstSemana.entregaPed == '2')}">{{ lstSemana.avicola | number:0  }}</td>  
+        <td style="text-align: center" ng-class="{'coral' : (lstSemana.entregaPed == '2')}">{{ lstSemana.peluqueria | number:0  }}</td>  
+        <td style="text-align: center" ng-class="{'coral' : (lstSemana.entregaPed == '2')}">{{ lstSemana.otro | number:0  }}</td>  
+
+    </tr>
+          </tbody>
+</table>    
+</div>    
+          
+          
+          
+        </div>
+    </div>
+  </div>
+</div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+ </div> 
+</div>     

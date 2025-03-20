@@ -1,0 +1,12 @@
+<br />
+<b>Fatal error</b>:  Uncaught Dompdf\Exception: file_get_contents(): Passing null to parameter #2 ($use_include_path) of type bool is deprecated 8192 in C:\xamppDesarrollo\htdocs\Tienda\dompdf\src\Helpers.php:507
+Stack trace:
+#0 [internal function]: Dompdf\Helpers::record_warnings(8192, 'file_get_conten...', 'C:\\xamppDesarro...', 839)
+#1 C:\xamppDesarrollo\htdocs\Tienda\dompdf\src\Helpers.php(839): file_get_contents('C:\\xamppDesarro...', NULL, NULL, 0)
+#2 C:\xamppDesarrollo\htdocs\Tienda\dompdf\src\Css\Stylesheet.php(367): Dompdf\Helpers::getFileContent('C:\\xamppDesarro...', NULL)
+#3 C:\xamppDesarrollo\htdocs\Tienda\dompdf\src\Dompdf.php(572): Dompdf\Css\Stylesheet-&gt;load_css_file('C:\\xamppDesarro...', 1)
+#4 C:\xamppDesarrollo\htdocs\Tienda\dompdf\src\Dompdf.php(724): Dompdf\Dompdf-&gt;processHtml()
+#5 C:\xamppDesarrollo\htdocs\Tienda\FunctionIntranet.php(4725): Dompdf\Dompdf-&gt;render()
+#6 C:\xamppDesarrollo\htdocs\Tienda\FunctionIntranet.php(536): generarClientePDFRuta(Array)
+#7 {main}
+  thrown in <b>C:\xamppDesarrollo\htdocs\Tienda\dompdf\src\Helpers.php</b> on line <b>507</b><br />

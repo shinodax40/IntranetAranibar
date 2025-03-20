@@ -1,0 +1,768 @@
+<div class="panel panel-default" ng-init="init()" ng-show="{{!customInterLogin}}" id="divPedidoListado">
+     <div class="panel-heading"> <h3 class="modal-title"><p style="color:#354d8f; font-weight: bold;">Listado de Ingresos</p></h3></div>  
+
+    
+  <div class="panel-body">
+
+
+  
+    
+<div>      
+     <form>    
+
+         
+        <div class="form-group col-md-1">
+            <div class="radio">
+              <label><input type="radio" ng-model="tipoBusqueda" value="Ingreso" ng-change="selTipoBusqueda(tipoBusqueda)"/>Ingreso</label>
+            </div>
+            <div class="radio">
+              <label><input type="radio" ng-model="tipoBusqueda" value="Pago" ng-change="selTipoBusqueda(tipoBusqueda)"/>Pago</label>
+            </div>
+        </div> 
+         
+        <div class="form-group col-xs-6 col-md-3 row">
+          <label class="control-label">Desde:</label>
+          <input type="date" 
+                 class="form-control" 
+                 placeholder="yyyy-MM-dd" 
+                 id="desdeb" 
+                 name="desdeb" />
+        </div>     
+        <div class="form-group col-xs-6  col-md-3 row">
+             <label class="control-label">Hasta:</label>
+             <input type="date" 
+                    class="form-control" 
+                    placeholder="yyyy-MM-dd" 
+                    id="hastab" 
+                    name="hastab"/>
+        </div> 
+         
+      <div class="form-group col-xs-6 col-md-3 row">
+          <label class="control-label">Proveedores:</label>
+          <select  class="form-control" 
+                   ng-model="proveedor" 
+                   ng-options="t.nombre for t in proveedores"  
+                   ng-change="selProveedor()" >
+                   <option value="">--Proveedores--</option>
+          </select>   
+        </div>   
+     </form>   
+    <form> 
+    <button type="submit" 
+             class="btn btn-warning" 
+             ng-click="listarIngresos()">
+     <span class="glyphicon glyphicon-search"></span> Buscar</button>   
+    </form>
+</div>
+
+
+    
+    
+<div class="container">
+     <div class="col-xs-6">
+             <h5>Se han encontrado un total de {{listIngresos.length}} ingresos.</h5>
+     </div>
+</div>
+    
+<div>  
+    <div class="table-responsive">      
+            <table show-filter="true" 
+                   id="dgPedidos" 
+                   cellspacing="0" 
+                   class="table table-striped table table-bordered table-hover "
+                   at-table at-paginated 
+                   at-list="list" 
+                   at-config="config">
+                
+                
+        
+                            <thead class="thead-inverse">                                    
+                                    <tr>                                      
+                                      <th class="text-center">N°</th>
+                                      <th class="text-center">Fecha Ingreso</th>
+                                      <th class="text-center">N° Factura</th>
+                                      <th class="text-center">Estado Factura</th> 
+                                      <th class="text-center">Estado</th>  
+                                      <th class="text-center">Pago</th> 
+                                      <th class="text-center">Rut Proveedor</th>                                  
+                                      <th class="text-center">Nombre Empresa</th>    
+                                      <th class="text-center">Msj</th>     
+									  <th class="text-center">Activo</th>
+                                      <th class="text-center">Acciones</th>    
+                                    </tr>
+                             </thead>  
+                             <tbody>
+                                  <tr ng-repeat="ing in listIngresos">   
+                                          <td class="text-center">{{ ing.id }}</td>
+                                          <td class="text-center">{{ ing.fecha | date: 'dd-MM-yyyy'}}</td>  
+                                          <td class="text-center">{{ ing.num_factura}}</td>
+                                          <td class="text-center">{{ ing.estadoSII}}</td>
+                                          <td class="text-center">
+                                             <span ng-switch on="interface" >
+                                              <img src='img/efectivo.png'
+                                                   title="Completo"
+                                                   width="25" 
+                                                   height="25"
+                                                   ng-show="{{ing.estado_pedido == '1'}}">
+                                              <img src='img/incompleto.png'
+                                                   title="Pedido Incompleto"
+                                                   width="23" 
+                                                   height="23" 
+                                                   ng-show="{{ ing.estado_pedido == '2'}}">
+                                              <img src='img/pendienFact.png'
+                                                   title="Pendiente"
+                                                   width="25" 
+                                                   height="25" 
+                                                   ng-show="{{ ing.estado_pedido == '3'}}"> 
+                             
+                                            </span>                                          
+                                          </td>
+                                            <td class="text-center">
+                                             <span ng-switch on="interface" >
+                                              <img src='img/efectivoPlata.png'
+                                                   title="Efectivo"
+                                                   width="27" 
+                                                   height="27"
+                                                   ng-show="{{ing.estado_cobranza == '1'}}">
+                                              <img src='img/cheque.png'
+                                                   title="Documento Fecha"
+                                                   width="27" 
+                                                   height="27" 
+                                                   ng-show="{{ ing.estado_cobranza == '2'}}">
+                                              <img src='img/cheque.png'
+                                                   title="Documento al DIa "
+                                                   width="27" 
+                                                   height="27" 
+                                                   ng-show="{{ ing.estado_cobranza == '3'}}"> 
+                                             <img src='img/pendiente.png'
+                                                   title="Pendiente Pago"
+                                                   width="27" 
+                                                   height="27" 
+                                                   ng-show="{{ ing.estado_cobranza == '4'}}">      
+                             
+                                            </span>                                          
+                                          </td> 
+                                          
+                                          <td>{{ ing.rut }}</td>            
+                                          <td>{{ ing.nombre }}</td>                                          
+                                          <td class="text-center">                                                        
+                              											  
+											      <img src='img/msj1.png'  
+											       ng-click="cargarObser(ing)"   
+                                                   ng-show="{{ing.observacion != ''}}"
+                                                   data-toggle="modal"  
+                                                   data-target="#myModalObser"
+                                                   width="25" 
+                                                   height="25">
+											  
+                                          </td> 
+										  <td class="text-center">                                             
+													  <img src='img/ON.png'  
+														   ng-show="{{ing.activo == '1'}}"
+														   width="25" 
+														   height="25">
+
+														  <img src='img/OFF.png'  
+														   ng-show="{{ing.activo == '0'}}"
+														   width="25" 
+														   height="25">
+
+							              </td> 
+                                      
+                                          <td class="text-center">
+											 <button 
+                                                     ng-click="cargarObser(ing)"   
+                                                     class="btn" 
+                                                     data-toggle="modal"  
+                                                     data-target="#myModalPago">
+                                              <span class="glyphicon glyphicon-usd"></span>
+                                             </button>  
+											  
+											  
+                                             <button 
+                                                     class="btn" 
+                                                     ng-click="cargarIngresos(ing)"   
+                                                     data-toggle="modal"  
+                                                     data-target="#myModalListadoIngrsos" >
+                                                     <span class="glyphicon glyphicon-zoom-in "></span>
+                                             </button>  
+                                              
+                                        
+                                               
+                                             <button 
+                                                     ng-click="listarEditar(ing)"   
+                                                     class="btn">
+                                              <span class="glyphicon glyphicon-pencil"></span>
+                                             </button>
+                                             
+                                             <button 
+                                                     data-toggle="tooltip" data-placement="top" title="Buscar Estado SII"
+                                                     onmouseenter="$(this).tooltip('show')"
+                                                     ng-click="buscarEstadoSII(ing)"   
+                                                     class="btn">
+                                              <span class="glyphicon glyphicon-question-sign"></span>
+                                             </button> 
+                                             
+                                             <button 
+                                                     data-toggle="tooltip" data-placement="top" title="Generar PDF SII"
+                                                     onmouseenter="$(this).tooltip('show')"
+                                                     ng-click="generarPDFSII(ing)"   
+                                                     class="btn">
+                                              <span class="glyphicon glyphicon-cloud-download"></span>
+                                             </button>
+                                              
+                                              
+                                          </td>
+                                   </tr>                        
+                              </tbody>
+            </table>
+    </div>
+</div>
+    
+    
+    
+<div class="modal fade" id="myModalListadoIngrsos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h5 class="modal-title" id="myModalLabel">Detalle</h5>
+          </div>
+        <div class="modal-body">
+
+        <div class="container">
+        <form  name="prodFormMof">
+            <div class="form-group col-md-3 row">
+              <label class="control-label" for="inputSuccess1">Rut:</label>
+              <input   ng-model="rutMod" 
+                       disabled
+                       type="text" 
+                       class="form-control" >
+            </div>
+            <div class="form-group col-md-3 row">
+                 <label class="control-label" for="inputSuccess1">Nombre Proveedor:</label>
+                 <input ng-model="razonMod" 
+                        type="text" 
+                        disabled
+                        class="form-control">
+            </div>
+        </form>
+
+        </div>    
+        <div class="child"><h5>Total de {{detIngresos.length}} productos.</h5></div>      
+        <table class="table table-striped table table-bordered table-hover " style="font-size:11px"  at-table at-paginated at-list="list" at-config="config">              
+             <thead>
+                        <tr>                        
+                          <th>Codigo</th>
+                          <th>Nombre</th>
+                          <th>Desc %</th>
+                          <th>Precio Venta</th> 
+                          <th>Neto</th>      
+                          <th>Cantidad</th>                      
+                          <th>Total</th>
+                        </tr>
+             </thead>
+              <tbody>
+                <tr data-dismiss="modal" ng-repeat="prodDet in detIngresos">     
+                    <td>{{ prodDet.codProducto }}</td>    
+                    <td>{{ prodDet.nombreProd }}</td>
+                    <td>{{ prodDet.descuento }}</td>                    
+                    <td>$ {{ prodDet.precioVenta | number:0   }}</td>  
+                    <td>$ {{ (prodDet.valor_neto / prodDet.cantidad)  | number:0   }}</td>  
+                    <td>{{ prodDet.cantidad  }}</td>   
+                    <td>$ {{ (((prodDet.valor_neto / prodDet.cantidad)  ) * prodDet.cantidad )| number:0  }}</td>   
+
+                </tr>
+              </tbody>
+        </table> 
+        <div ng-hide="detPedido.length !=0">Cargando...</div> 
+       <!--  <hr>
+              <tr>
+                  <td>Neto: $ {{ getNeto() | number:0 }}</td><br>
+                  <td>IVA 19%: $ {{ getIva() | number:0 }}</td><br>
+                  <td>Total: $ {{ getTotalIngreso() | number:0 }}</td><br>
+
+                  
+                  
+               </tr>-->
+
+        </div> 
+
+        <div class="modal-footer">
+
+            <button type="button" class="btn btn-warning" data-dismiss="modal">
+              <span class="glyphicon glyphicon-chevron-left"></span>Salir
+            </button>
+
+
+
+        </div>
+        </div>
+        </div>
+</div>
+    
+    
+    
+    
+    
+<!--***************************INGRESAR COBRO*********************************** -->    
+        
+<div class="modal fade" id="myModalObser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h5 class="modal-title" id="myModalLabel">Ingreso N° {{$idIngreso}}</h5>
+                  </div>
+                <div class="modal-body">
+
+
+                         <label class="control-label" for="inputSuccess1">Observacion:</label>
+                         <textarea class="form-control" rows="3" ng-model="observacion" id="observacion" name="observacion" ></textarea>    
+
+
+
+
+                </div> 
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-warning" ng-click="guadarObservacion()">Guardar
+                    <span class="glyphicon glyphicon-floppy-disk"></span></button>
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-chevron-left"></span>Salir
+                    </button>
+                </div>
+                </div>
+        </div>
+</div>     
+    
+    
+<!--************************************************************* -->    
+    
+<div class="modal fade" id="myModalPago" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h5 class="modal-title" id="myModalLabel">N° {{idIngresos}}</h5>
+                  </div>
+                <div class="modal-body">
+                    
+                    
+                <div class="row">
+                  <div class="col-md-12">
+                  <h4><small>Proveedor<hr></small></h4>
+                  <div class="row">
+                      <div class="col-md-6">
+                          <label class="control-label" for="inputSuccess1">Rut:</label>
+                          <input ng-model="rutModificar" type="text" class="form-control" id="rutModificar" name="rutModificar" disabled/>
+                      </div>
+                      <div class="col-md-6">
+                          <label class="control-label" for="inputSuccess1">Razon Social:</label>
+                          <input ng-model="razonMod" type="text" class="form-control" id="razonMod" name="razonMod" disabled/>  
+                      </div>
+                    </div>
+                  </div>
+                </div>  
+                    
+                <div class="row">
+                  <div class="col-md-12">
+                  <h4><small>Pago<hr></small></h4>
+
+                  <div class="row">
+                      <div class="col-md-6">
+                          <label class="control-label" for="inputSuccess1">Forma de Pago:</label>            
+                          <select  name="mySelectTipoCobros" 
+                                 class="form-control"
+                                  id="mySelectTipoCobros"
+                                  ng-options="option.name for option in cobros.availableOptions track by option.id"
+                                  ng-model="cobros.selectedOption">
+                          </select>   
+                      </div>
+                      <div class="col-md-6">
+                               <label class="control-label" for="inputSuccess1">Fecha Pago:</label>
+                             <input type="date" class="form-control" id="fechaCobro" name="fechaCobro" />   
+                      </div>
+                    </div>
+                     <div class="row">
+                      <div class="col-md-6">
+                           <label class="control-label" for="inputSuccess1">Documento:</label>
+                           <input ng-model="cod_documento" type="text" class="form-control" id="cod_documento" name="cod_documento" >
+                      </div>
+                      <div class="col-md-6">
+                               
+                      </div>
+                    </div>  
+                  </div>
+                </div>     
+                    
+                    
+                    
+                    
+                <div class="row">
+                  <div class="col-md-12">
+                  <h4><small>Pedido<hr></small></h4>
+                  <div class="row">
+                      <div class="col-md-6">
+                            <label class="control-label" for="inputSuccess1">Estado Pedido:</label>            
+                             <select  name="mySelectEstadoPedido" 
+                                 class="form-control"
+                                  id="mySelectEstadoPedido"
+                                  ng-options="option.name for option in estadoPedido.availableOptions track by option.id"
+                                  ng-model="estadoPedido.selectedOption">
+                             </select>   
+                      </div>
+                      <div class="col-md-6">
+                             <label class="control-label" for="inputSuccess1">Observacion:</label>
+                     <textarea class="form-control" rows="3" ng-model="observacion" id="observacion" name="observacion" ></textarea>    
+                      </div>
+                    </div>
+                  </div>
+                </div>      
+
+                </div> 
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-warning" ng-click="guadarObservacion()">Guardar
+                    <span class="glyphicon glyphicon-floppy-disk"></span></button>
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-chevron-left"></span>Salir
+                    </button>
+                </div>
+                </div>
+        </div>
+</div>   
+	  
+	  
+
+    
+</div>    
+</div>
+
+
+<div class="panel panel-default" id="divPedido">
+    
+      <div class="panel-heading">
+     <h3 class="modal-title"><p style="color:#354d8f; font-weight: bold;">Ingreso N° {{idIngreso }} - Factura N° {{numFactura}}</p></h3>
+    </div>
+    
+    
+      <div class="modal-body">
+
+        <div class="container">
+        <form  name="prodFormMof">
+        <div class="form-group col-md-3 row">
+          <label class="control-label" 
+                 for="inputSuccess1">Rut:</label>
+          <input ng-model="rutMod" 
+                 type="text" 
+                 class="form-control input-xs" 
+                 id="rutMod" 
+                 name="rutMod">     
+        </div>
+        <div class="form-group col-md-3 row">
+             <label class="control-label" 
+					for="inputSuccess1">Nombre Proveedor:</label>
+             <input ng-model="razonMod" 
+					type="text" 
+					class="form-control input-xs" 
+					id="razonMod" 
+					name="razonMod">            
+        </div>
+        </form>
+
+        </div>    
+          
+       <!--      <table class="table table-striped table table-bordered table-hover " style="font-size:11px"  at-table at-paginated at-list="list" at-config="config">
+                        <tr ng-repeat-start="(productIndex, prodDet) in detIngresos">
+                            <td><strong>Id: {{ prodDet.id_prod }}</strong></td>
+                             <td><strong>Nombre: {{ prodDet.nombreProd }}</strong></td>
+                             <td><strong>P. Parcitular:
+                                 <div class="input-group">
+						          <span class="input-group-addon">$</span>
+                                     <input  ng-blur='methodPreParticular(prodDet, prodDet.precioPart)'
+                                             ng-model="prodDet.precioPart"
+                                             placeholder="11100"
+                                             class="form-control" 
+                                             size="16">
+                                 </div>
+                                 </strong>
+                            </td>
+                            <td><strong>P. Venta: <div class="input-group">
+                                  <span class="input-group-addon">$</span>
+                                  <input  ng-blur='methodB(prodDet, prodDet.precioVenta)'
+                                          ng-model="prodDet.precioVenta"
+                                          placeholder="11100"
+                                          class="form-control" 
+                                          size="16">
+                                          </div>
+                                </strong>
+                            </td>
+                            <td><strong>Cantidad: {{ prodDet.cantidad }}</strong></td>
+                             <td><strong>P. Costo:<div class="input-group">
+						      <input  ng-blur='methodVenta(prodDet, prodDet.valor_neto)'
+								      ng-model="prodDet.valor_neto"
+								      class="form-control" 
+								      size="16">
+						      </div>
+					          </strong>
+                              </td>
+                           <td><strong>Total: $ {{ (prodDet.valor_neto  * prodDet.cantidad )| number:0  }}</strong></td>
+ 
+                          <td><strong>Activo:
+                              <div class="btn-group" data-toggle="buttons">    
+											  <label class="btn btn-success btn-sm" 
+													 ng-class="{active: prodDet.activo == '1'}" 
+													 ng-click="confirmarActiveProd(prodDet, '1')">
+												<input type="radio" 
+													   ng-model="prodDet.activo"  
+													   value="1"> ON
+											  </label>
+											  <label class="btn btn-success btn-sm" 
+													 ng-class="{active: prodDet.activo == '0'}" 
+													 ng-click="confirmarActiveProd(prodDet, '0')">
+												<input type="radio" 
+													   ng-model="prodDet.activo"  
+													   value="0"> OFF
+											  </label>
+						    </div></strong>
+                         </td>
+
+
+
+                        </tr>
+                        <tr ng-repeat-end>
+                            <td></td>
+                            <td>  <img src='img/flechaNodo.png'  
+                                       align='right'
+                                                     width="30" 
+                                                     height="30"
+                                                     ng-show="{{ (prodDet.idNodo != null) }} ">  </td>
+                            <td>{{ prodDet.idNodo }}</td>
+                            <td>{{ prodDet.nombreNodo }}</td>
+                            <td>{{ prodDet.stockNodo }}</td>
+
+                        </tr>
+            </table>  
+     -->
+                 <div class="form-group col-md-2">
+           <div class="input-group">
+                  <span class="input-group-addon">ID PROD</span>
+                  <strong>
+                  <input class="form-control" 
+                         ng-model="idProdMod"  
+                         type="number" 
+                         placeholder="0"></strong>
+              
+         </div>
+     </div>
+
+    
+     <div class="form-group col-md-2">
+      <button  class="btn btn-primary" 
+               ng-click="insertProdEscala()">    
+            <span class="glyphicon glyphicon-plus-sign"></span>
+      </button>  
+              </div> 
+          
+        <table class="table table-striped table table-bordered table-hover " style="font-size:11px"  at-table at-paginated at-list="list" at-config="config">              
+             <thead>
+                        <tr>   
+                          <th class="text-center">Id Prod</th>
+                          <th class="text-center">Nombre</th>
+                          <th class="text-center">Precio Particular con/Iva</th> 
+                          <th class="text-center">Precio Venta con/Iva</th> 
+                          <th class="text-center">Cantidad</th> 
+                          <th class="text-center">Precio Costo con/Iva</th> 
+                          <th class="text-center">Total</th>
+						  <th class="text-center">Activo</th>	
+                        </tr>
+             </thead>
+              <tbody>
+                <tr data-dismiss="modal" ng-repeat="(productIndex, prodDet) in detIngresos ">     
+                    <td class="text-center">{{ prodDet.id_prod }}</td>    
+                    <td>
+                      <!--   <button 
+                          ng-if="prodDet.subProdPadre != '0'"
+                          class="btn btn-info" 
+                          id="myFormSubmit"
+                          ng-click="consultarProductoNodo(prodDet)"
+                          data-toggle="modal"  
+                          data-target="#myModalCobroVend">
+                                                                                   
+                          <span class="glyphicon glyphicon-plus"></span>
+                    </button>-->
+                        
+                        {{ prodDet.nombreProd }}</td>
+                    <td class="text-center">
+                    	<div class="input-group">
+						  <span class="input-group-addon">$</span>
+						  <input  ng-blur='methodPreParticular(prodDet, prodDet.precioPart)'
+								  ng-model="prodDet.precioPart"
+								  placeholder="11100"
+								  class="form-control" 
+								  size="16">
+							
+							
+						</div>
+                    
+                    </td>
+                    <td class="text-center">
+						<div class="input-group">
+						  <span class="input-group-addon">$</span>
+						  <input  ng-blur='methodB(prodDet, prodDet.precioVenta)'
+								  ng-model="prodDet.precioVenta"
+								  placeholder="11100"
+								  class="form-control" 
+								  size="16">
+							
+							
+						</div>
+					</td>  <!--$ {{ prodDet.precioVenta | number:0   }}  ng-focus='methodA()'-->
+                    <td class="text-center"><!--{{ prodDet.cantidad  }}-->
+                    
+                      <div class="input-group">
+						  <input  ng-blur='methodCantidad(prodDet, prodDet.cantidad)'
+								  ng-model="prodDet.cantidad"
+								  class="form-control" 
+								  size="16">
+						</div>
+                    
+                    </td>  
+                    
+                    
+                    
+                    
+                    <td class="text-center">
+					  <div class="input-group">
+						  <input  ng-blur='methodVenta(prodDet, prodDet.valor_neto)'
+								  ng-model="prodDet.valor_neto"
+								  class="form-control" 
+								  size="16">
+						</div>
+					
+					</td>  
+                
+                    <td class="text-center">$ {{ (prodDet.valor_neto  * prodDet.cantidad )| number:0  }}</td>                     
+                    <td class="text-center">
+					  <div class="btn-group" data-toggle="buttons">    
+											  <label class="btn btn-success btn-sm" 
+													 ng-class="{active: prodDet.activo == '1'}" 
+													 ng-click="confirmarActiveProd(prodDet, '1')">
+												<input type="radio" 
+													   ng-model="prodDet.activo"  
+													   value="1"> ON
+											  </label>
+											  <label class="btn btn-success btn-sm" 
+													 ng-class="{active: prodDet.activo == '0'}" 
+													 ng-click="confirmarActiveProd(prodDet, '0')">
+												<input type="radio" 
+													   ng-model="prodDet.activo"  
+													   value="0"> OFF
+											  </label>
+						 </div>
+					</td>
+                </tr>
+              </tbody>
+			 <div ng-show="loading">
+                                      <i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+    
+                 </div> 
+        </table> 
+        <div ng-hide="detPedido.length !=0">Cargando...</div> 
+        <!-- <hr>
+              <tr>
+                  <td>Neto: $ {{ getNeto() | number:0 }}</td><br>
+                  <td>19% I.V.A.: $ {{ getIva() | number:0 }}</td> <br>
+                  <td>Total: $ {{ getTotalPedido() | number:0 }}</td>                     
+               </tr>-->
+
+        </div> 
+        
+       
+         <div class="modal-footer">
+
+			      <div class="form-group col-xs-6  col-md-3 row" ng-show="{{!customConfig}}">
+						 <label class="control-label">Estado Ingreso:</label>
+						   <div class="btn-group" data-toggle="buttons">    
+											  <label class="btn btn-warning btn-sm" 
+													 ng-class="{active: activoIngreso == '1'}" 
+													 ng-click="confirmarActive('1')">
+												<input type="radio" 
+													   ng-model="activoIngreso"  
+													   value="1"> ON
+											  </label>
+											  <label class="btn btn-warning btn-sm" 
+													 ng-class="{active: activoIngreso == '0'}" 
+													 ng-click="confirmarActive('0')">
+												<input type="radio" 
+													   ng-model="activoIngreso"  
+													   value="0"> OFF
+											  </label>
+						 </div>
+				 </div> 
+			 
+            
+            <button type="submit" ng-hide="stadoPed" class="btn btn-success" ng-click="confirmarIngreso()">Guardar Detalle
+            <span class="glyphicon glyphicon-floppy-disk"></span></button>
+
+
+            <button type="button" class="btn btn-warning" ng-click="verDetallePedidoSalir()">
+            <span class="glyphicon glyphicon-chevron-left"></span>Salir
+            </button>
+
+
+
+        </div>
+    
+    
+    
+        
+<div class="modal fade miClaseModal" id="myModalCobroVend" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">PRODUCTO HIJO - {{nombreProdHijo}}</h5>
+                  </div>
+                <div class="modal-body">    
+              
+                      <table class="table table-striped table table-bordered table-hover " style="font-size:11px"  at-table at-paginated at-list="list" at-config="config">              
+                                 <thead>
+                                            <tr>                        
+                                              <th>ID PROD</th>
+                                              <th>NOMBRE PRODUCTO</th>
+                                     
+                                            </tr>
+                                 </thead>
+                                  <tbody>
+                                    <tr data-dismiss="modal" ng-repeat="prodDet in detallePadre">     
+                                        <td>{{ prodDet.id }}</td>    
+                                        <td>{{ prodDet.nombreProd }}</td>
+                                      
+                                    </tr>
+                                  </tbody>
+                  </table> 
+                    
+                    
+                    
+                    
+                    
+                    
+                </div> 
+                <div class="modal-footer">
+                    <button type="submit" 
+                            class="btn btn-warning" 
+                            ng-click="generarTraspasoProductoTienda()">Traspasar
+                    <span class="glyphicon glyphicon-floppy-disk"></span></button>
+                    <button type="button" 
+                            class="btn btn-warning" 
+                            data-dismiss="modal">
+                    <span class="glyphicon glyphicon-chevron-left"></span>Salir
+                    </button>
+                </div>
+                </div>
+        </div>
+</div>    
+    
+    
+</div> 	     

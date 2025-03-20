@@ -1,0 +1,836 @@
+<div class="panel panel-default" ng-init="init()" ng-show="{{!customInterLogin}}" id="divPedidoListado" >
+    <div class="panel-heading">
+     <h3 class="modal-title"><p style="color:#354d8f; font-weight: bold;">Ventas</p></h3>
+    </div>
+    
+    <div class="panel-body">
+
+
+            <div class="input-group">
+                          <form action="" name="prodSeleccion"  class="form-inline">
+
+
+                                   <div class="input-group" >
+                                        <input id="codProducto" 
+                                               class="form-control lectorCodigoBarra"
+                                               name="codProducto"
+                                               ng-model="idProducto">
+                                          <span class="input-group-btn">
+                                            <button class="btn btn-default  btn-s" 
+                                                    ng-if="customNomb"
+                                                    data-toggle="modal" 
+                                                    data-target="#myModalListProd" 
+                                                    ng-click="listarProductoRapido()"
+                                                    type="button"> 
+                                            <span class="glyphicon glyphicon-search"></span></button>
+
+                                             <button class="btn btn-default  btn-s" 
+                                                    ng-click="buscarProd()"
+                                                     ng-if="customCodBarra"
+                                                    type="button"> 
+                                            <span class="glyphicon glyphicon-barcode"></span></button>  
+                                          </span>
+                                    </div>
+
+
+
+                                 <div class="btn-group" 
+                                   role="group">
+                                   <button class="btn btn-success" 
+                                            ng-click="selTipoBsuqeda('1')" 
+                                            ng-class="{active:tipoClientePedNota == '1'}">Codigo Barra</button>
+
+                                    <button class="btn btn-success" 
+                                            ng-enter="buscarProductoRapidoListar()"
+                                            ng-click="buscarProductoRapidoListar()" 
+                                            ng-class="{active:tipoClientePedNota == '3'}">Buscar Productos</button>                     
+                                  </div>
+
+
+                          </form>  
+
+
+
+                         <br>
+            </div>
+
+
+            <div> 
+                <hr/> 
+                     <div class="table-responsive" >         
+                           <table style="margin-left:0pt;border-collapse:collapse;font-size:20px;font-family: sans-serif;"
+                                  id="idProductoTable"
+                                  class="table table-striped table table-bordered  " 
+                                  at-table at-paginated at-list="list" 
+                                  at-config="config" >
+                              <thead>
+                                <tr>
+                                  <th style="text-align: center">#</th> 
+
+                                  <th style="text-align: center">ID</th>
+                                  <th style="text-align: center">FOTOS</th>
+
+                                  <th style="text-align: center">NOMBRE</th>   
+                                  <th style="text-align: center">PRECIO</th> 
+                                  <th style="text-align: center">DESCUENTO</th>       
+                                  <th style="text-align: center">CANT.</th>  
+                                  <th style="text-align: center">TOTAL</th>                                  
+                                  <th style="text-align: center">ACCION</th>
+                                </tr>
+                              </thead>
+
+                              <tbody>
+                                <tr ng-repeat="(productIndex, pro) in dgProductos">              
+                                   <td style="text-align: center">{{ $index + 1 }}</td>    
+                                   <td style="text-align: center">{{ pro.idProd }}</td>
+                                                   <td style="text-align: center">                             
+                                          <img  ng-src="{{pro.foto}}"
+                                           onerror="this.src='https://aranibar.cl/barrosaranas/Table/img/sinImagen.png';"
+                                            onClick="openImageModal(this)" 
+                                            style="cursor: pointer"                                
+                                          class='eye'
+                                          width="150"   
+                                          height="150">
+                                          <!-- <img  ng-src="{{pro.imgUrl2}}"
+                                                ng-if="pro.imgUrl2"
+                                           onerror="this.src='https://aranibar.cl/barrosaranas/Table/img/sinImagen.png';"
+                                            onClick="openImageModal(this)" 
+                                            style="cursor: pointer"                                
+                                          class='eye'
+                                          width="50"   
+                                          height="35">-->
+                            </td>
+                                   <td width="30%"><p style="color:#354d8f; font-weight: bold;">{{ pro.nombProd }} </p></td>          
+                                   <td class="text-primary" style="text-align: center"><p style="color:#354d8f; font-weight: bold;">$ {{ pro.precioPart | number:0}}</p></td>  
+                                   <td class="text-primary" style="text-align: center"><p style="color:#354d8f; font-weight: bold;">$ {{ pro.descuento | number:0}}</p></td>                                
+
+                                   <td class="text-success" style="text-align: center">
+                                   <p style="color:#354d8f; font-weight: bold;">
+                                               <button class="btn btn-default" 
+                                               ng-click="modificarAumentar(pro)"
+                                               type="button"><img src='img/caja/aumentar.png' 
+                                                               title="Mas"
+                                                               width="25" 
+                                                               height="25"></button>  
+
+                                       {{   "    "+ pro.cantidad +"    "  }}   
+                                        <button class="btn btn-default" 
+                                               ng-click="modificarDisminuir(pro)"
+                                               type="button"><img src='img/caja/menos.png' 
+                                                               title="Menos"
+                                                               width="25" 
+                                                               height="25"></button>  </p>
+
+
+                                  </td>                            
+                                   <td class="text-primary" style="text-align: center"><p style="color:#354d8f; font-weight: bold;">$ {{ pro.totalProd | number:0}}</p></td>                                
+
+
+
+
+                                  <td>                                    
+                                   <button class="btn btn-default" 
+                                           ng-click="selProd(pro)"
+                                           type="button"> <img src='img/caja/precio.png' 
+                                                               title="Precio"                                            
+                                                               width="50" 
+                                                               height="50"></button>
+                                       <button class="btn btn-default" 
+                                               ng-click="eliminarProduto(productIndex)"
+                                               type="button"><img src='img/caja/delete.png' 
+                                                               title="Borrar"
+                                                               width="50" 
+                                                               height="50"></button>  
+                                  </td>
+                                </tr>
+                              </tbody>
+                                      <tfoot>
+                                          <tr>
+                                              <td colspan="9">
+                                                  <div class="well">
+                                                      <div class="row">
+                                                          <form class="form-inline">
+                                                              <div class="form-group">
+                                                                  <label for="rutInput">RUT</label>
+                                                                  <input type="text" class="form-control" id="rutInput"
+                                                                         ng-model="formPuntos.rut"
+                                                                         ng-blur="obtenerPuntos()">
+                                                              </div>
+
+                                                              <div class="form-group">
+                                                                  <div class="input-group">
+                                                                      <span class="input-group-addon">Puntos $ {{formPuntos.valor  | number:0}}</span>
+                                                                      <span class="input-group-addon">
+                                                                        <input type="checkbox" ng-model="formPuntos.ocupar"
+                                                                               ng-change="ocuparCanje()"
+                                                                               ng-disabled="formPuntos.valor <= 0"> Canjear
+                                                                      </span>
+                                                                      <span class="input-group-addon" ng-show="formPuntos.ocupar">Monto</span>
+                                                                      <input type="number" class="form-control" id="canjearInput"
+                                                                             ng-show="formPuntos.ocupar" style="text-align: right;"
+                                                                             ng-model="formPuntos.canjear">
+                                                                  </div>
+                                                              </div>
+                                                                 <div ng-show="loading2">
+                                                  <i class="fa fa-spinner fa-pulse fa-2x"></i>    
+                                              </div>   
+                                                          </form>
+
+                                                      </div>
+                                                  </div>
+                                              </td>
+                                          </tr>
+                                            <tr style="height: 65px; background: #b72745; font-size:45px">
+                                                <td colspan="9">
+                                                       <p style="color:#FFFFFF";>TOTAL: $ {{ getTotal() | number:0 }}</p>
+                                                </td>
+                                            </tr>
+                                        </tfoot> 
+                            </table>
+                     </div>     
+
+
+
+
+
+                 <div class="modal-footer" style="text-align: left;">
+                          <div class="btn-group">
+                                <select  
+                                                      name="mySelectPago" 
+                                                      class="form-control"
+                                                      id="mySelectPago"
+                                                      ng-options="option.name for option in tipoDePago.availableOptions track by option.id"        
+                                                      ng-model="tipoDePago.selectedOption">
+                                                   </select> 
+
+                     <button  id="btnGenerar" 
+                             ng-click="confirmarVentas()" 
+                             class="btn btn-primary"
+                             ng-disabled="getTotal() <= 0">
+                         <span class="glyphicon glyphicon-list-alt"></span> INGRESAR VENTA
+                     </button>  
+
+
+
+                    </div>
+                 </div>
+
+    </div>
+
+
+             <div class="modal fade" id="myModalPrecio" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">{{ nombreModal }}</h5>
+                  </div>
+                  <div class="modal-body">             
+
+
+                      <div class="row">
+                              <div class="col-md-12">
+                              <div class="row">                     
+
+
+                                  <div class="col-md-6">
+                                         <label class="control-label" for="inputSuccess1">Precio:</label>                          
+                                         <div class="input-group">
+                                               <span class="input-group-addon">$</span>
+                                               <strong><input ng-model="precioPartModal" 
+                                                                     class="form-control" 
+                                                                     id="precio"
+                                                                     disabled
+                                                                     name="precio" 
+                                                                     placeholder="0"/></strong>    
+                                        </div>
+                                  </div>
+
+                                  <div class="col-md-6">
+                                     <label class="control-label" for="inputSuccess1">Modificar Precio:</label>                                    
+                                       <div class="input-group">
+                                               <span class="input-group-addon">$</span>
+                                               <strong>  <input ng-model="modPrecioModal" 
+                                                                 type="number" 
+                                                                 class="form-control" 
+                                                                 id="modPrecio" 
+                                                                 name="modPrecio" 
+                                                                 placeholder="0"/></strong>    
+                                        </div>
+                                  </div>      
+
+
+
+                                </div>
+                              </div>
+                      </div>  
+
+
+
+                  </div>
+                  <div class="modal-footer">
+
+                   <button type="button" class="btn btn-success" data-dismiss="modal"  ng-click="modificarPrecioDescuento()">
+                   <span class="glyphicon glyphicon-plus-sign"></span> Descuento {{listDesProdTienda[0].descuento}}%</button>  
+
+
+                   <button type="button" class="btn btn-warning" data-dismiss="modal"  ng-click="modificarPrecio()">
+                   <span class="glyphicon glyphicon-plus-sign"></span> Modificar</button>
+
+                       <button type="button" class="btn btn-warning" data-dismiss="modal">
+                      <span class="glyphicon glyphicon-chevron-left"></span>Salir</button>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="modal fade miClaseModal"      
+                 id="myModalListProd" > 
+              <div class="modal-dialog modal-lg modal-dialog-centered"  align="center">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Listado De Productos</h5>
+                  </div>
+                  <div class="modal-body">             
+                     <!-- <table class="table table-striped table table-bordered table-hover " at-table at-paginated at-list="list" at-config="config">   -->     
+
+                      <table style="margin-left:0pt;border-collapse:collapse;font-size:15px;font-family: sans-serif;         
+                                    backdrop: 'static';
+                                     keyboard: false"
+                                  class="table table-striped table table-bordered  " 
+                                  at-table at-paginated at-list="list" 
+                                  at-config="config" >   
+
+                     <thead>
+                                <tr>
+                                  <th style="text-align: center">Id</th>
+                                  <th style="text-align: center">Cod Barra</th>
+                                  <th style="text-align: center">Nombre Producto</th>
+                                  <th style="text-align: center">Tipo</th>
+                                  <th style="text-align: center">Valor</th> 
+                                  <th style="text-align: center">Stock</th> 
+
+                                </tr>
+                     </thead>
+                      <tbody>
+
+                             <!--<tr data-dismiss="modal" 
+                            ng-repeat="prod in arrProductos"  
+                            data-toggle="modal"  
+                            ng-click="buscarRapidaSel(prod)"> -->
+
+                        <tr data-dismiss="modal" 
+                            ng-repeat="prod in arrProductos"  
+                            data-toggle="modal">  
+
+                            <td style="text-align: center">{{ prod.id }}</td>   
+                            <td style="text-align: center">{{ prod.cod_barra }}</td>    
+
+                            <td>{{ prod.nombreProd }} </td>
+                            <td style="text-align: center">{{ prod.nombreCategoria }} </td>
+                            <td style="text-align: center">$ {{ prod.precioPart | number:0 }} </td>
+
+                            <td style="text-align: center">{{ prod.stockProd }} </td>
+
+
+                        </tr>
+                      </tbody>
+
+                    </table>  
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">
+                      <span class="glyphicon glyphicon-chevron-left"></span>Salir</button>
+                  </div>
+                </div>
+              </div>
+            </div>    
+
+    </div>
+</div>   
+
+
+    
+<div class="modal fade miClaseModal" 
+         data-backdrop="static" 
+     data-keyboard="false" 
+     id="myProducoAgrupar" 
+     tabindex="-1" 
+     role="dialog" 
+     aria-labelledby="myModalLabel">    
+    
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" 
+                   data-dismiss="modal">
+                       <span aria-hidden="true">&times;</span>
+                       <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                     {{nombreProdPrincipal}} 
+                </h4>
+            </div>
+            
+            <div class="modal-body">               
+                
+
+         
+         
+
+                
+<div style="text-align: center">  
+       <h4 class="modal-title" id="myModalLabel">
+                    {{nombreProd}} - Stock = {{stockProd}}
+                </h4>
+    <div class="alert alert-warning alert-dismissable">
+  <strong>¡CUIDADO!</strong> Es muy importante que leas este mensaje de alerta. El producto que desagrupara se descontara en inventario
+</div>
+    <div class="form-group col-xs-12 col-md-12 rowPedido">
+        
+        
+        
+          <table style="margin-left:0pt;border-collapse:collapse;font-size:15px;font-family: sans-serif;         
+                        backdrop: 'static';
+                         keyboard: false"
+                      class="table table-striped table table-bordered  " 
+                      at-table at-paginated at-list="list" 
+                      at-config="config" >   
+              
+         <thead>
+                    <tr>
+                      <th style="text-align: center">Id</th>
+                      <th style="text-align: center">Nombre Producto</th>
+                      <th style="text-align: center">Stock</th> 
+              
+                    </tr>
+         </thead>
+          <tbody>
+
+              
+            <tr data-dismiss="modal" 
+                ng-repeat="prod in arrProductosDesagrupar"  
+                data-toggle="modal">  
+                
+                <td style="text-align: center">{{ prod.id }}</td>                   
+                <td>{{ prod.nombreProd }} </td>
+                <td style="text-align: center">{{ prod.stockProd }} </td>
+
+                
+            </tr>
+          </tbody>
+              
+        </table>  
+        
+        
+        
+        
+      <label class="control-label" >cuantas desea desagrupar?</label>
+        <div class="input-group" style="text-align: center" >
+          <strong style="text-align: center">
+           <input class="form-control input-s" 
+                  id="cantidadProfGrup" 
+                  name="cantidadProfGrup" 
+                  ng-model="cantidadProfGrup"  
+                  type="number" 
+                  placeholder="0"></strong>    
+        </div>
+    </div>     
+</div>
+                
+            </div>
+            
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button"  ng-click="validarStockProdNodo()"
+                        class="btn btn-success">
+                    Generar
+                </button>
+                <button type="button" 
+                        class="btn  btn-warning"
+                        data-dismiss="modal">
+                            Salir
+                </button>                
+            </div>
+        </div>
+    </div>
+    
+    
+    
+</div>
+
+
+
+
+<div class="panel panel-default" id="divPedido">
+    
+      <div class="modal-header">
+           <h3 class="modal-title"><p style="color:#b72745; font-weight: bold;"><button ng-click="verDetallePedidoSalir()" type="button" class="btn btn-warning" data-dismiss="modal">
+          <span class="glyphicon glyphicon-chevron-left"></span></button> Buscador de precios productos</p></h3>
+          <div   class="form-group col-xs-6 col-md-3 rowPedido">
+             <div class="input-group">
+                      <strong>   
+                          <input id="codProducto" 
+                                   class="form-control lectorCodigoBarra"
+                                   name="codProducto"
+                                   ng-model="idProducto">
+                     </strong>
+                <span class="input-group-addon info" ng-click="listarProductoRapido()">Buscar</span>
+     
+             </div>
+        </div>  
+      </div>
+    
+    
+      <div class="modal-body">
+    
+          
+          
+        <table style="margin-left:0pt;border-collapse:collapse;font-size:15px;font-family: sans-serif;         
+                        backdrop: 'static';
+                         keyboard: false"
+                      class="table table-striped table table-bordered" 
+                      at-table at-paginated at-list="list" 
+                      at-config="config" >   
+              
+         <thead>
+                    <tr>
+                      <th style="text-align: center">Id</th>
+                      <th style="text-align: center">Fotos</th>    
+                      <th style="text-align: center">Cod Barra</th>
+                      <th style="text-align: center">Nombre Producto</th>
+                      <th style="text-align: center">Tipo</th>
+                      <th style="text-align: center">Valor</th> 
+                      <th style="text-align: center">Stock</th> 
+                      <th style="text-align: center">Accion</th> 
+                        
+              
+                    </tr>
+         </thead>
+          <tbody>
+              
+
+              
+            <tr data-dismiss="modal" 
+                ng-repeat="prod in arrProductos"
+                style="color:#354d8f; font-weight: bold;"
+                data-toggle="modal">  
+                
+                <td style="text-align: center" ng-class="{'red' : (prod.stockProd == '0') ,'Bisque2' : (prod.precioPart == '0' || prod.precioPart == '1')}"><p ng-class="{'colorText' : (prod.stockProd == '0')}";>{{ prod.id }}</p></td>  
+                <td style="text-align: center" ng-class="{'red' : (prod.stockProd == '0') ,'Bisque2' : (prod.precioPart == '0' || prod.precioPart == '1')}" >                             
+                      <img  ng-src="{{prod.foto}}"
+                               onerror="this.src='https://aranibar.cl/barrosaranas/Table/img/sinImagen.png';"
+                                onClick="openImageModal(this)" 
+                                style="cursor: pointer"                                
+                              class='eye'
+                              width="150"   
+                              height="150">
+                        <!--       <img  ng-src="{{prod.imgUrl2}}"
+                                    ng-if="prod.imgUrl2"
+                               onerror="this.src='https://aranibar.cl/barrosaranas/Table/img/sinImagen.png';"
+                                onClick="openImageModal(this)" 
+                                style="cursor: pointer"                                
+                              class='eye'
+                              width="50"   
+                              height="35">-->
+                </td>
+                
+                <td style="text-align: center" ng-class="{'red' : (prod.stockProd == '0') ,'Bisque2' : (prod.precioPart == '0' || prod.precioPart == '1')}"><p ng-class="{'colorText' : (prod.stockProd == '0')}";>{{ prod.cod_barra }}</p></td>    
+                
+                <td ng-class="{'red' : (prod.stockProd == '0') ,'Bisque2' : (prod.precioPart == '0' || prod.precioPart == '1')}"><p ng-class="{'colorText' : (prod.stockProd == '0')}";>{{ prod.nombreProd }} </p></td>
+                <td ng-class="{'red' : (prod.stockProd == '0') ,'Bisque2' : (prod.precioPart == '0' || prod.precioPart == '1')}" style="text-align: center"><p ng-class="{'colorText' : (prod.stockProd == '0')}";>{{ prod.nombreCategoria }}</p> </td>
+                <td ng-class="{'red' : (prod.stockProd == '0') ,'Bisque2' : (prod.precioPart == '0' || prod.precioPart == '1')}" style="text-align: center"><p ng-class="{'colorText' : (prod.stockProd == '0')}";>$ {{ prod.precioPart | number:0 }}</p> </td>
+
+                <td ng-class="{'red' : (prod.stockProd == '0') ,'Bisque2' : (prod.precioPart == '0' || prod.precioPart == '1')}" style="text-align: center"><p ng-class="{'colorText' : (prod.stockProd == '0')}";>{{ prod.stockProd }}</p>
+                </td>
+                
+                <td ng-class="{'red' : (prod.stockProd == '0') ,'Bisque2' : (prod.precioPart == '0' || prod.precioPart == '1')}" style="text-align: center">
+                
+                    <button 
+                          ng-if="prod.nodo_prod != '0'"
+                          class="btn btn-default" 
+                          id="myFormSubmit"
+                          ng-click="consultarProductoNodo(prod)">                                                         
+                          <img src='img/imgDesagrupar.jpeg' 
+                                                   title="Precio"                                            
+                                                   width="50" 
+                                                   height="50">
+                    </button>
+                    
+                    
+                          <button class="btn btn-default" 
+                               ng-click="consultarProductoTiendasStock(prod)"
+                               type="button"> <img src='img/imgTiendas.png' 
+                                                   title="Precio"                                            
+                                                   width="50" 
+                                                   height="50"></button>
+                </td>
+
+                
+            </tr>
+          </tbody>
+                 <div ng-show="loading">
+                                      <i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+    
+                 </div>   
+            
+        </table> 
+
+
+        </div> 
+        
+       
+        <div class="modal-footer">
+            <button type="button" class="btn btn-warning" ng-click="verDetallePedidoSalir()">
+            <span class="glyphicon glyphicon-chevron-left"></span>Salir
+            </button>
+
+
+
+        </div>
+    
+    
+    
+    
+    
+    
+     <div class="modal fade" id="myModalStockTienda" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel">{{ nombreModal }}</h5>
+      </div>
+      <div class="modal-body">             
+ 
+      
+        
+                  <!--table table-striped table table-bordered -->
+     <table        show-filter="true" 
+                   id="dgPedidos" 
+                   style="font-size:17px"  
+                   cellspacing="0" 
+                   class="table table-hover table table-bordered" 
+                   at-table at-paginated 
+                   at-list="list" 
+                   at-config="config">
+              
+         <thead>
+                    <tr>
+                      <th style="text-align: center">Tiendas</th>
+                      <th style="text-align: center">Stock</th>
+              
+                    </tr>
+         </thead>
+          <tbody>
+
+              
+            <tr data-dismiss="modal" 
+                ng-click="selProductosDesagrupado(prod)"
+                ng-repeat="prod in listProdStock"  
+                data-toggle="modal">  
+                
+                
+          
+                
+                <td style="text-align: center">{{ prod.tienda }}</td>                   
+                <td style="text-align: center">{{ prod.stock }} </td>
+
+                
+            </tr>
+          </tbody>
+              
+        </table>  
+                    
+          
+          
+      </div>
+      <div class="modal-footer">
+       
+
+
+
+           <button type="button" class="btn btn-warning" data-dismiss="modal">
+          <span class="glyphicon glyphicon-chevron-left"></span>Salir</button>
+          
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+    
+    
+    
+    
+</div>
+
+<div class="panel panel-default" id="divDesagrupar">
+    
+      <div class="modal-header">
+           <h3 class="modal-title"><p style="color:#b72745; font-weight: bold;"><button ng-click="verDetallePedidoSalirDesagrupar()" type="button" class="btn btn-warning" data-dismiss="modal">
+          <span class="glyphicon glyphicon-chevron-left"></span></button>  Seleccionar producto para desagrupar </p></h3> 
+      </div>
+    
+    
+      <div class="modal-body">
+
+                
+<div style="text-align: center">  
+     <!--  <h4 class="modal-title" id="myModalLabel">
+                    {{nombreProd}} - Stock = {{stockProd}}
+                </h4>-->
+    <div class="alert alert-warning alert-dismissable">
+  <strong>¡CUIDADO!</strong> Es muy importante que leas este mensaje de alerta. El producto que desagrupara se descontara en inventario
+</div>
+        
+        
+        <!--table table-striped table table-bordered -->
+     <table        show-filter="true" 
+                   id="dgPedidos" 
+                   style="font-size:17px"  
+                   cellspacing="0" 
+                   class="table table-hover table table-bordered" 
+                   at-table at-paginated 
+                   at-list="list" 
+                   at-config="config">
+              
+         <thead>
+                    <tr>
+                      <th style="text-align: center">Id</th>
+                      <th style="text-align: center">Nombre Producto</th>
+                      <th style="text-align: center">Stock</th> 
+              
+                    </tr>
+         </thead>
+          <tbody>
+
+              
+            <tr data-dismiss="modal" 
+                ng-click="selProductosDesagrupado(prod)"
+                ng-repeat="prod in arrProductosDesagrupar"  
+                data-toggle="modal">  
+                
+                
+          
+                
+                <td style="text-align: center">{{ prod.id }}</td>                   
+                <td>{{ prod.nombreProd }} </td>
+                <td style="text-align: center">{{ prod.stockProd }} </td>
+
+                
+            </tr>
+          </tbody>
+              
+        </table>  
+        
+           <h4 class="modal-title" id="myModalLabel">
+               <p style="color:#b72745; font-weight: bold;">Cuantas deseas desagrupar ?</p></h4>
+                  <strong>
+                   <input class="form-control" 
+                          id="cantidadProfGrup" 
+                          name="cantidadProfGrup" 
+                          ng-model="cantidadProfGrup"  
+                          type="number" 
+                          placeholder="0"></strong>    
+           
+</div>
+                
+          
+    </div>      
+           
+       
+        <div class="modal-footer">
+            
+               <button type="button"  ng-click="validarStockProdNodo()"
+                        class="btn btn-success">
+                    Generar
+                </button>
+            
+            <button type="button" class="btn btn-warning" ng-click="verDetallePedidoSalirDesagrupar()">
+            <span class="glyphicon glyphicon-chevron-left"></span>Salir
+            </button>
+
+
+
+        </div>
+    
+    
+</div>
+
+<div class="modal fade" id="myImageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h5 class="modal-title" id="myModalLabel">{{ nombreProd }} </h5>
+      </div>
+      <div class="modal-body">
+        <img id="modal-image" style="width: 100%">
+      </div> 
+      <div class="modal-footer">
+        <button type="button" class="btn btn-warning" data-dismiss="modal">
+          <span class="glyphicon glyphicon-chevron-left"></span>Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade miClaseModal" id="myModalListProdDuplicado" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h5 class="modal-title" id="myModalLabel">Seleccionar Producto:</h5>
+      </div>
+      <div class="modal-body">             
+          <table class="table table-striped table table-bordered table-hover " at-table at-paginated at-list="list" at-config="config">       
+              
+         <thead>
+                    <tr>
+                      <th style="text-align: center">Id</th>
+                      <th style="text-align: center">Nombre Producto</th>
+                      <th style="text-align: center">Tipo</th>
+                      <th style="text-align: center">Stock</th>                      
+                        
+                    </tr>
+         </thead>
+          <tbody>
+            <tr data-dismiss="modal" 
+                ng-repeat="prod in productoDuplicado"  
+                ng-click="agregarSelProductosDuplicado(prod)">  
+                
+                <td style="text-align: center" ng-class="{'red' : (prod.stock == '0') ,'Bisque2' : (prod.precioPart == '0' || prod.precioPart == '1')}"><p ng-class="{'colorText' : (prod.stockProd == '0')}";>{{ prod.id }} </p></td>    
+                <td ng-class="{'red' : (prod.stock == '0') ,'Bisque2' : (prod.precioPart == '0' || prod.precioPart == '1')}"><p ng-class="{'colorText' : (prod.stockProd == '0')}";>{{ prod.nombreProd }} </p> </td>
+                <td style="text-align: center" ng-class="{'red' : (prod.stock == '0') ,'Bisque2' : (prod.precioPart == '0' || prod.precioPart == '1')}"><p ng-class="{'colorText' : (prod.stockProd == '0')}";>{{ prod.nombreCategoria }} </p> </td>
+                <td style="text-align: center" ng-class="{'red' : (prod.stock == '0') ,'Bisque2' : (prod.precioPart == '0' || prod.precioPart == '1')}" ><p ng-class="{'colorText' : (prod.stockProd == '0')}";>{{ prod.stock }} </p> </td>
+
+                
+            </tr>
+          </tbody>
+              
+        </table>  
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-warning" data-dismiss="modal">
+          <span class="glyphicon glyphicon-chevron-left"></span>Salir</button>
+      </div>
+    </div>
+  </div>
+</div>      
+ 
+
+<script type="application/javascript">
+ 
+ function openImageModal(elem){
+     
+        $("#modal-image").attr("src", $(elem).attr("src"));
+        $("#myImageModal").modal('show');
+} 
+    
+    
+    
+       
+</script>

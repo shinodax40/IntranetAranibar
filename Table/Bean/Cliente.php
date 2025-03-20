@@ -1,0 +1,60 @@
+<?php
+class Cliente{
+	public $id_cliente;
+	public $nombre;
+	public $telefono;
+	public $giro;
+	public $tipo_comprador;	
+	public $fecha; 
+    public $countFecha;
+    public $rut;
+    public $id;
+    public $apellido;
+    public $id_tipo;
+    public $nombre_tipo;
+    public $id_usuario;
+    public $name;
+    public $nombCliente;
+    public $apeCliente;
+    public $observacion;
+    public $mesVentAct;
+    public $Total;
+    public $activo;
+    public $cantPedidoMes;
+    public $cantPedidoAno;
+	public $id_observacion;
+	public $fecha_obs_mod;
+	public $saldoPendiente;
+    public $credito;
+    public $pedPendCobro;
+    public $fecha_entrega;
+    public $fecha_cobro;
+    public $totalPedido;
+    public $folio;
+    public $pedPendCobroTotal;
+    public $difDia;
+    public $estadoPedido;
+    public $id_sector;
+    public $dias_alarma;
+    public $dias_atencion;    
+    public $verde;
+    public $rojo;
+    public $amarillo;
+    public $estado_pedido;
+    public $anulada;
+    public $obser_transp;          
+    public $recibos;
+    public $idRecibos;
+    public $fecha_recibo;
+    public $estado_cobranza;
+    public $idRecibosApli;
+    public $cantidaddirecc;
+    public $ubicacion_geo;
+    public $cobranza_act;
+    public $limitado_act;
+    public $obs_cobranza;
+    public $limite_compra;
+
+
+}
+?>

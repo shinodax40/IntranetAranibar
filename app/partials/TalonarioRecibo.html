@@ -1,0 +1,787 @@
+<div class="panel panel-default" ng-init="init()"  ng-show="{{!customInterLogin}}" id="divPedidoListado">
+    <div class="panel-heading"> <h3 class="modal-title"><p style="color:#354d8f; font-weight: bold;">Listado Recibos de Dinero</p></h3></div>
+
+<div class="panel-body">
+    
+<div>   
+    
+<form  name="prodForm">    
+
+    
+       <div class="form-group" style="text-align: left">
+               <div class="btn-group" 
+                       role="group">
+                         <button class="btn btn-primary" 
+                                ng-click="selTipoBusq('FechaIngreso')" 
+                                ng-class="{active:tipoBusquedaPago == '1'}">Fecha Ingreso</button>
+                        <button class="btn btn-primary" 
+                                ng-click="selTipoBusq('FechaEntrega')" 
+                                ng-class="{'active':tipoBusquedaPago == '2'}">Fecha Cobro</button>
+                        <button class="btn btn-primary" 
+                                ng-click="selTipoBusq('Cliente')" 
+                                ng-class="{'active':tipoBusquedaPago == '4'}">Numero Recibo</button>
+                       <button class="btn btn-primary" 
+                                ng-click="selTipoBusq('Folio')" 
+                                ng-class="{'active':tipoBusquedaPago == '3'}">Cliente</button>
+
+                      </div>
+           
+                      <div class="btn-group" 
+                       role="group">
+                          
+                            <button class="btn btn-success" 
+                                    ng-click="preCrearSolicitud()">
+                            <span class="glyphicon glyphicon-plus">
+                            </span> Registrar Recibo de Dinero
+                            </button>   
+
+                      </div>
+      </div>
+              
+    
+
+    <div class="form-group" ng-show="customFi">
+    <div class="form-group col-xs-6 col-md-2 row">
+      <label class="control-label" for="inputSuccess1">Ingreso Desde:</label>
+      <input type="date" 
+             class="form-control" 
+             placeholder="yyyy-MM-dd" 
+             id="fIngreso" 
+             name="fIngreso"/>
+    </div>
+     
+    <div class="form-group col-xs-6  col-md-2 row">
+        <label class="control-label" for="inputSuccess1">Ingreso Hasta:</label>
+         <input type="date" 
+                class="form-control"  
+                placeholder="yyyy-MM-dd" 
+                id="fIngresoHasta" 
+                name="fIngresoHasta"/>
+    </div>
+  </div>
+ 
+    
+    
+   <div class="form-group" ng-show="customFe">
+    <div class="form-group col-xs-6 col-md-2 row">
+      <label class="control-label" for="inputSuccess1">Entrega Desde:</label>
+      <input type="date" 
+             class="form-control" 
+             placeholder="yyyy-MM-dd" 
+             id="fEntrega" 
+             name="fEntrega" />
+    </div>
+     
+    <div class="form-group col-xs-6  col-md-2 row">
+        <label class="control-label" for="inputSuccess1">Entraga Hasta:</label>
+         <input type="date" 
+                class="form-control"  
+                placeholder="yyyy-MM-dd" 
+                id="fEntregaHasta" 
+                name="fEntregaHasta"/>
+    </div>
+  </div>
+
+    <div class="form-group" ng-if="customFolio">
+      <label>Folio:</label>
+           <input  type="text" class="form-control" id="folio" name="folio" >       
+    </div>
+    
+    
+    <div class="form-group" ng-if="nombreClie">
+      <label>Nombre Cliente:</label>
+         <input  type="text" class="form-control" id="nombCliente" name="nombCliente" >       
+    </div>
+
+        <button type="submit" 
+                class="btn btn-warning" 
+                ng-click="listarSol()">
+            <span class="glyphicon glyphicon-search"></span> Buscar</button> 
+
+     
+
+
+        
+ </form>   
+
+ 
+    
+
+    
+</div>
+
+
+    
+</div> 
+    
+    
+
+
+ 
+     
+    
+<div>  
+    <div class="table-responsive">      
+        
+        
+            <table show-filter="true" 
+                   id="dgPedidos" 
+                   style="font-size:14px"  
+                   cellspacing="0" 
+                   class="table-hover table table-striped table table-bordered  display" 
+                   at-table at-paginated 
+                   at-list="list" 
+                   at-config="config">
+                <thead class="thead-inverse">
+                                    <tr>
+                                        <th class="text-center" COLSPAN="20" style="font-size:18px" >
+                                            <span class="fa fa-pencil" style="font-size:20px;color:GREEN;"> RECIBOS</span>
+                                            </th> 
+                                       </tr>
+                    
+                                    <tr>
+                                      <th class="text-center">N°Recibo</th>                                  
+                                      <th class="text-center">N°Recibo Talonario</th>  
+                                      <th>Adjunto</th>
+                                      <th class="txt-center">Estado</th>
+                                      <th class="text-center">F.Ingreso</th>
+                                      <th class="text-center">F.Cobro</th>  
+                                      <th class="text-center">Nombre Cliente</th>    
+                                      <th class="text-center">Total</th>    
+                                      <th class="text-center">Abono</th>    
+                                      <th class="text-center">Saldo</th>   
+                                      <th class="text-center">Cobrador</th>   
+                                       <th class="text-center">Observacion</th>   
+                                     <th>Firma</th>
+                                        
+                                        
+                                      <th class="text-center">Acciones</th>
+                                    </tr>
+                              </thead>  
+                
+                              <tbody>
+                                  <tr ng-repeat="ped in listSolicitud">   
+                                    <td class="text-center">{{ ped.id }}</td>
+     
+                                    <td class="text-center">{{ ped.n_recibo }}</td>
+                                      
+                                     <td><img  ng-src="{{ped.foto}}"
+                               onerror="this.src='https://aranibar.cl/barrosaranas/Table/img/sinImagen.png';"
+                                onClick="openImageModal(this)" 
+                                style="cursor: pointer"                                
+                              class='eye'
+                              width="50"   
+                              height="50"></td>                                       
+  
+                                      
+                                      <td class="text-center">
+                                         <span ng-switch on="interface" class="text-center">                                            
+                                          <img src='img/cheque.png'  
+                                               width="21" 
+                                               title="Documento"
+                                               height="21"
+                                               ng-show="{{(ped.modo_pago == '3')}} ">
+                                          <img src='img/transferencia.png'  
+                                                   width="21" 
+                                                   title="Transferencia"
+                                                   height="21" 
+                                                  ng-show="{{ ped.modo_pago == '6' }} ">
+                                          <img src='img/efectivoPlata.png'  
+                                                   width="21" 
+                                                   title="Efectivo"
+                                                   height="21"
+                                                   ng-show="{{(ped.modo_pago == '1')}} ">                     
+                                        </span>
+                                          
+                                            {{ ped.nombrePago }}
+                                          
+                                          
+                                         <img src='img/correcto.png'  
+                                                   width="21" 
+                                                   title="Validado Cobranza"
+                                                   height="21" 
+                                                   ng-show="{{ ped.estado_recibo_val == '1' }} ">  
+                                          
+                                      </td>
+                                        
+                                    <td class="text-center">{{ ped.fecha_ingreso | date: 'dd-MM-yyyy' }}</td>
+                                    <td class="text-center">{{ ped.fecha_cobro | date: 'dd-MM-yyyy' }}</td>
+                                    <td class="text-center">{{ ped.nombre }}</td>
+                                    <td class="text-center">$ {{ ped.total_recibo | number:0 }}</td>
+                                    <td class="text-center">$ {{ ped.abono_recibo | number:0 }}</td>
+                                    <td class="text-center">$ {{ ped.saldo | number:0}}</td>
+                                    <td class="text-center">{{ ped.nombUsuario }}</td>
+                                    <td class="text-center">{{ ped.observacion }}</td>
+
+                                            <td><img  ng-src="{{ped.fotoFirma}}"
+                               onerror="this.src='https://aranibar.cl/barrosaranas/Table/img/sinImagen.png';"
+                                onClick="openImageModal(this)" 
+                                style="cursor: pointer"                                
+                              class='eye'
+                              width="50"   
+                              height="50"></td>    
+                                      
+                                    <td class="text-center">
+                                      
+                                      <!--       <button class="btn btn-xs btn-danger" 
+                                                     ng-click="preModificarSolicitud(ped)">    
+                                              <span  class="glyphicon glyphicon-pencil"></span>
+                                             </button>-->
+                                             
+                                            <button  class="btn"
+                                                     data-toggle="modal"  
+                                                     ng-click="preVerSolicitudDetalle(ped)"
+                                                     data-target="#myModalNuevoClienteVer">    
+                                             <span class="glyphicon glyphicon-zoom-in"></span>
+                                             </button>
+                                        
+                                              <button class="btn btn-primary" 
+                                                      ng-show="{{customLogiCaja}}"
+                                                      data-toggle="modal"  
+                                                      data-target="#myModalCobroRecibo"
+                                                      ng-click="preVerSolicitudDetalle(ped)">                                                   
+                                              <span class="glyphicon glyphicon-object-align-top"></span>
+                                             </button>
+                                        
+                                           <button 
+                                                     class="btn" 
+                                                     id="myFormproductoImagen"
+                                                     data-toggle="modal"  
+                                                     data-target="#myModalProductoImagen"
+                                                     ng-click="preVerSolicitudDetalle(ped)">  
+                                              <span class="glyphicon glyphicon-camera"></span>
+                                           </button> 
+                                        
+                                        
+                                        <!--   <button 
+                                                     class="btn btn-success" 
+                                                     id="myFormproductoImagen"
+                                                     ng-click="confirmarValidarRuta(ped)">  
+                                              <span class="glyphicon glyphicon-ok"></span>
+                                           </button> -->
+                                              
+                              
+
+                                        
+                                        
+                                              <!--   <button                               
+                                                       class="btn btn-xs" 
+                                                       data-toggle="modal"  
+                                                       data-target="#myModalSemana"
+                                                       ng-click="initEstadoSel(ped)">    
+                                                <span class="glyphicon glyphicon-briefcase"></span>
+                                                </button>   -->
+                                      
+                                            <!--  <button type="submit"  
+                                                     ng-click="imprimirTicketTrabajo(ped)"
+                                                    class="btn btn-xs btn-warning">
+                                                    <span class="glyphicon glyphicon-download-alt"></span>
+                                              </button> -->
+                                      </td>
+	
+                                      
+                                   </tr>                        
+                              </tbody>
+
+                 <div ng-show="loading">
+                                      <i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+    
+                 </div> 
+            </table>
+
+         
+    </div>
+</div>
+    
+
+   <div class="modal fade" id="myModalNuevoClienteVer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h5 class="modal-title" id="myModalLabel">Recibo N° {{idReciboNumero}}</h5>
+                  </div>
+                <div class="modal-body">
+
+                                  
+               <table style="font-size:12px" 
+                      class="table table-striped table table-bordered  " 
+                      at-table at-paginated at-list="list" 
+                      at-config="config" >
+                  <thead>
+                    <tr>
+                          <th  COLSPAN='5'>Detalle</th>                                     
+                    </tr>  
+                  <tr>
+                      <th width="20%" style="text-align: center">N°Pedido</th>
+                      <th width="20%" style="text-align: center">Total Pedido</th> 
+                      <th width="20%" style="text-align: center">Tipo Pedido</th> 
+                      <th width="20%" style="text-align: center">Fecha Entrega</th> 
+                      <th width="20%" style="text-align: center">Fecha Cobro</th> 
+
+
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr ng-repeat="(notIndex, nota) in detaSoli">    
+                              <td style="text-align: center">{{ nota.n_pedido }} - {{ nota.tipo_pedido  }}</td>
+                               <td style="text-align: center">$ {{ nota.total  | number:0}}</td>
+
+                               <td style="text-align: center">{{ nota.tpPedido}}</td>
+                               <td style="text-align: center">{{ nota.fecha_entrega   | date: 'dd-MM-yyyy'}}</td>
+                               <td style="text-align: center">{{ nota.fecha_cobro   | date: 'dd-MM-yyyy'}}</td>
+
+                    </tr>
+                  </tbody>
+                </table>            
+                                  
+            
+               <label class="control-label" >Observacion:</label>
+               <textarea class="form-control" 
+                               rows="3" 
+                               ng-model="observacionRecibo" 
+                               id="observacionRecibo" 
+                               name="observacionRecibo"
+                               disabled></textarea>       
+                    
+                </div> 
+            
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-chevron-left"></span>Salir
+                    </button>
+                </div>
+                </div>
+        </div>
+</div>    
+             
+
+</div>
+
+<div class="modal fade miClaseModal" id="myImageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h5 class="modal-title" id="myModalLabel">Pedido N° {{idPedido}} - {{nombPedido}}</h5>
+      </div>
+      <div class="modal-body">
+        <img id="modal-image">
+      </div> 
+      <div class="modal-footer">
+        <button type="button" class="btn btn-warning" data-dismiss="modal">
+          <span class="glyphicon glyphicon-chevron-left"></span>Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+    
+ <div class="modal fade" id="myModalProductoImagen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                         <h3 class="modal-title"><p style="color:#354d8f; font-weight: bold;">{{nombProdMod}}</p></h3>   
+                  </div>
+                <div class="modal-body">
+
+                                
+                    
+                                
+                <div class="row">
+                  <div class="col-md-12">
+                 
+                      
+                      
+                      
+                  <div class="row">
+
+                       <div class="col-md-12">
+                              <!--  <label class="control-label" for="fotos">Foto:</label>
+                                <input id="fotos" 
+                                       type = "file" 
+                                       class="form-control" 
+                                       file-input="fotos" 
+                                       accept="image/*"/>   -->
+                           
+                               <label class="control-label" >Foto:</label>
+                   <!--  <input type="file" class="custom-file-input" file-model="variableBase64" accept="image/png">-->
+                      <div class="custom-file">
+                                <input type="file"  class="custom-file-input" id="customFileLang" 
+                                       file-model="variableBase64" accept="image/png">
+                                <label class="custom-file-label" for="customFileLang" data-browse="Elegir">Esta opcion es solo para pagos con transferencias y documentos</label>
+                            </div>    
+                 
+                      </div> 
+            
+                      
+                    </div>
+                  </div>
+                </div>  
+                    
+         
+                </div> 
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-warning" ng-click="guadarArchivoInforme()">Guardar
+                    <span class="glyphicon glyphicon-floppy-disk"></span></button>
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-chevron-left"></span>Salir
+                    </button>
+
+
+
+                </div>
+                </div>
+        </div>
+</div>    
+    
+    
+
+
+ 
+<div class="modal fade miClaseModal" id="myModalCobroRecibo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h5 class="modal-title" id="myModalLabel">N° Recibo {{idReciboNumero}}</h5>
+                  </div>
+                <div class="modal-body">
+
+                    
+                <div class="row">
+                  <div class="col-md-12">
+                  <h4><small>Estado Pago:<hr></small></h4>
+
+                  <div class="row">
+                      <div class="col-md-12">
+                            <label class="control-label" for="inputSuccess1"></label>            
+                           <select  name="tipoPagosSeleccionar" 
+                             class="form-control"
+                             id="tipoPagosSeleccionar"
+                             ng-options="option.name for option in tipoPagos.availableOptions track by option.id"
+                              ng-model="tipoPagos.selectedOption"></select>  
+                      </div>
+                    </div>
+                           
+                  </div>
+                </div>     
+                           
+                <div class="row">
+                  <div class="col-md-12">
+                  <div class="row">
+                   
+                      <div class="col-md-12">
+                             <label class="control-label" for="inputSuccess1">Observacion:</label>
+                             <textarea class="form-control" rows="3" ng-model="reciboObservacion" id="reciboObservacion" name="reciboObservacion" ></textarea>    
+                      </div>
+                    </div>
+                  </div>
+                </div>  
+                    
+                    
+                                 
+                    
+
+                </div> 
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success" ng-click="modificarPedidoEstado()">Guardar y Validar
+                    <span class="glyphicon glyphicon-floppy-disk"></span></button>
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-ok"></span>Salir
+                    </button>
+
+
+
+                </div>
+                </div>
+        </div>
+</div> 
+
+<div class="panel panel-default" id="divPedidoModificar">
+    
+      <div class="modal-header">
+           <h3 class="modal-title"><p style="color:#354d8f; font-weight: bold;">Ingresar Recibo</p></h3>
+      </div>
+    
+    
+      <div class="modal-body">
+
+       
+<div>
+    
+      <div class="form-group col-md-6"  
+           id="nombreDiv">
+        <label class="control-label" >He Recibido de:</label>
+    
+                  <input class="form-control typeahead" 
+                         ng-model="nombreCliente"   
+                         id="nombre" 
+                          type="text"
+                         name="nombre">
+     </div>
+
+  <form  name="formCliente">    
+     <div class="form-group col-md-2">
+        <label class="control-label" >Fecha de Cobro:</label>
+                      <input type="date" 
+                             class="form-control" 
+                             placeholder="dd-MM-yyyy" 
+                             id="fechaCobro" 
+                             name="fechaCobro"/>
+     </div>
+
+    <div class="form-group col-md-2">
+        <label class="control-label" >N° Recibo:</label>
+         <input  class="form-control"  
+                           ng-model="numeRecibo"  
+                           id="numeRecibo"  
+                           type="text" 
+                           name="numeRecibo">
+    </div>
+
+   </form>
+
+
+
+</div>  
+ 
+    
+    
+<table style="font-size:12px" 
+                      class="table table-striped table table-bordered  " 
+                      at-table at-paginated at-list="list" 
+                      at-config="config" >
+<tbody>
+  <tr>
+
+    <td>
+        <div class="input-group" >
+                            <input id="nFolio" 
+                                   class="form-control"
+                                   name="nFolio"
+                                   ng-model="nFolio">
+                              <span class="input-group-btn">
+                                 <button class="btn btn-default  btn-s" 
+                                        ng-click="agregarNotaFolio()"                                         
+                                        type="button"> 
+                                <span class="glyphicon glyphicon-search"></span></button>  
+                              </span>
+                        </div>
+           <div class="table-responsive">   
+                  <table style="font-size:12px" 
+                      class="table table-striped table table-bordered  " 
+                      at-table at-paginated at-list="list" 
+                      at-config="config" >
+                  <thead>
+                    <tr>
+                          <th  COLSPAN='5'>FACTURAS</th>                                     
+                    </tr>  
+                    <tr>
+                      <th width="10%" style="text-align: center">N°Folio</th>
+                      <th width="30%" style="text-align: center">Total con IVA</th> 
+                      <th width="30%" style="text-align: center"></th>     
+    
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr ng-repeat="(clieIndex, fp) in dgVentas"  ng-if="fp.nTipo == 'fact'">    
+                        <td>{{ fp.nPedido }}</td>
+                               <td>$ {{ fp.total | number:0 }}</td>
+                       <td> 
+                    
+                       <button                               
+                               class="btn btn-danger"                            
+                               ng-click="eliminarNota(clieIndex)">    
+                        <span class="glyphicon glyphicon-remove"></span>
+                        </button>                            
+                           
+                       </td>   
+                    </tr>
+                  </tbody>
+                </table>
+           
+         </div>       
+         
+    </td>
+
+      <td>
+          
+                   <div class="input-group" >
+                            <input id="nPedido" 
+                                   class="form-control"
+                                   name="nPedido"
+                                   ng-model="nPedido">
+                              <span class="input-group-btn">
+                                 <button class="btn btn-default  btn-s" 
+                                        ng-click="agregarNotaPedido()"                                         
+                                        type="button"> 
+                                <span class="glyphicon glyphicon-search"></span></button>  
+                              </span>
+                        </div>
+        
+           <div class="table-responsive">       
+                  <table style="font-size:12px" 
+                      class="table table-striped table table-bordered  " 
+                      at-table at-paginated at-list="list" 
+                      at-config="config" >
+                  <thead>
+                    <tr>
+                          <th  COLSPAN='5'>NOTA DE PEDIDOS</th>                                     
+                    </tr>  
+                  <tr>
+                      <th width="10%" style="text-align: center">N°Pedido</th>
+                      <th width="30%" style="text-align: center">Total con IVA</th> 
+                      <th width="30%" style="text-align: center"></th>     
+                        
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr ng-repeat="(notIndex, nota) in dgVentas" ng-if="nota.nTipo == 'not'">    
+                              <td>{{ nota.nPedido }}</td>
+                               <td>$ {{ nota.total | number:0 }}</td>
+            
+                       <td> 
+                        <button                               
+                               class="btn btn-danger"                            
+                               ng-click="eliminarNota(notIndex)">    
+                        <span class="glyphicon glyphicon-remove"></span>
+                        </button> 
+                       
+                                                  
+                       </td>   
+                    </tr>
+                  </tbody>
+                </table>
+         </div>       
+         
+    </td>
+
+        
+         
+      
+    
+
+  </tr>
+
+    </tbody>
+    
+    <tfoot style="background: #e4e4e4; font-size:12px">
+                                    <td colspan="9">
+<div class="row" style="text-align: right">  
+  <div class="col-md-1"  style="text-align: right">TOTAL:</div>
+  <div class="col-md-1"><input     id="rcTotal" 
+                                   class="form-control"
+                                   name="rcTotal"
+                                   ng-model="rcTotal"></div>
+</div>
+<div class="row">
+  <div class="col-md-1" style="text-align: right">ABONO:</div> 
+  <div class="col-md-1" ><input     id="rcAbono" 
+                                   class="form-control"
+                                   ng-change="getTotalRecibo()"
+                                   name="rcAbono"
+                                   ng-model="rcAbono"></div>
+</div>
+<div class="row">
+  <div class="col-md-1" style="text-align: right">SALDO:</div>
+  <div class="col-md-1"><input     id="rcSaldo" 
+                                   class="form-control"
+                                   name="rcSaldo"
+                                   disabled
+                                   ng-model="rcSaldo"></div></div>
+                                    </td>
+       
+                
+        
+    </tfoot> 
+    
+ 
+
+</table> 
+    
+    
+    
+
+    
+  
+    
+       <div class="form-group" style="text-align: left">
+               <div class="btn-group" 
+                       role="group">
+                         <button class="btn btn-success" 
+                                ng-click="selTipoComprador('Efectivo')" 
+                                ng-class="{active:tipoBusqueda == '1'}"><strong>Efectivo</strong></button>
+                        <button class="btn btn-success" 
+                                ng-click="selTipoComprador('Cheque')" 
+                                ng-class="{'active':tipoBusqueda == '3'}"><strong>Cheque</strong></button>
+                   <button class="btn btn-success" 
+                                ng-click="selTipoComprador('Transferencia')" 
+                                ng-class="{'active':tipoBusqueda == '6'}"><strong>Transferencia</strong></button>
+                      </div>
+
+      </div>
+           <textarea class="form-control" 
+                      rows="3" 
+                  ng-model="observacionRecibo" 
+                        id="observacionRecibo" 
+                      name="observacionRecibo"></textarea>      
+     </div> 
+        
+       
+           <div class="col-md-12">
+                              <!--  <label class="control-label" for="fotos">Foto:</label>
+                                <input id="fotos" 
+                                       type = "file" 
+                                       class="form-control" 
+                                       file-input="fotos" 
+                                       accept="image/*"/>   -->
+                           
+                               <label class="control-label" >Foto:</label>
+                   <!--  <input type="file" class="custom-file-input" file-model="variableBase64" accept="image/png">-->
+                      <div class="custom-file">
+                                <input type="file"  class="custom-file-input" id="customFileLang" 
+                                       file-model="variableBase64" accept="image/png">
+                                <label class="custom-file-label" for="customFileLang" data-browse="Elegir">Esta opcion es solo para pagos con transferencias y documentos</label>
+                            </div>    
+                 
+                      </div> 
+       
+    
+    
+    
+      <div class="modal-footer">
+              
+          
+       <button type="submit" class="btn btn-info"  ng-click="validarCliente()">GENERAR RECIBO
+        <span class="glyphicon glyphicon-save-file"></span></button>  
+    
+            <button type="button" 
+                    class="btn btn-warning" 
+                    ng-click="limpiarDatas()">
+            <span class="glyphicon glyphicon-chevron-left"></span>Salir
+            </button>
+          
+        </div>
+    
+    
+</div>
+<script type="application/javascript">
+ 
+ function openImageModal(elem){
+     
+        $("#modal-image").attr("src", $(elem).attr("src"));
+        $("#myImageModal").modal('show');
+    } 
+
+    
+    
+       
+</script>

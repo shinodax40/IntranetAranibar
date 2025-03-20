@@ -1,0 +1,1212 @@
+<style>
+    #lector {
+    	width: 0.1px;
+    	height: 0.1px;
+    	opacity: 0;
+    	overflow: hidden;
+    	position: absolute;
+    	z-index: -1;
+}
+    canvas, video {
+        max-width: 100%;
+        width: 100%;
+    }
+    
+    .drawingBuffer {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+</style>
+
+    
+<div class="panel panel-default" ng-init="init()" ng-show="{{!customInterLogin}}" id="componenteInventario">
+    
+    <div class="panel-heading"> <h3 class="modal-title"><p style="color:#354d8f; font-weight: bold;">Inventario</p></h3>
+    </div>  
+  <div class="panel-body">
+ 
+<!--      
+/******************ALETAR DATOS TEMPORAL*******************************/      
+ <div class="alert alert-warning alert-dismissable"  ng-if="customCookies"   id="myMensajeCookies">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <strong>¡CUIDADO!</strong> Es muy importante que leas este mensaje de alerta. Existen productos  guardados en memoria donde no se han realizado ninguna acción, ¿ desea volver a cargar los datos?
+    <button class="btn btn-danger btn-lg fa fa-trash " ng-click="eliminarCookieSesion()"> NO</button>
+    <button class="btn btn-success  btn-lg fa fa-magic" ng-click="mostrarCookieSesion()"> SI</button>
+</div>      
+-->
+
+<div>  
+
+    <!--
+<div>          
+              <form action="" name="prodSeleccion"  class="form-inline">
+                  
+
+                  
+                   <div class="input-group">
+                       
+                       <div class="input-group" ng-if="customNomb">
+                            <input id="nombProducto" 
+                                   placeholder="Nombre Producto"
+                                   name="nombProducto"
+                                   ng-model="nombProducto"
+                                   class="form-control">
+                              <span class="input-group-btn">
+                                <button class="btn btn-default  btn-s" 
+                                        data-toggle="modal" 
+                                        data-target="#myModalListProd" 
+                                        ng-click="listarProductoRapido()"
+                                        type="button"> 
+                                <span class="glyphicon glyphicon-search"></span></button>
+                              </span>
+                        </div>
+                       
+                        <div class="input-group" ng-if="customCod">
+                            <input id="codProducto" 
+                                   placeholder="Codigo Producto"
+                                   name="codProducto"
+                                   ng-model="idProducto"
+                                   class="form-control lectorCodigoBarra">
+                              <span class="input-group-btn">
+                                <button class="btn btn-default  btn-s" 
+                                        ng-click="buscarProd()"
+                                        type="button"> 
+                                <span class="glyphicon glyphicon-search"></span></button>
+                              </span>
+                        </div>
+                       
+                        <div class="input-group" ng-if="customCodBarra">  
+                              <input id="codProducto" 
+                                   placeholder="Codigo Barra"
+                                   name="codProducto"
+                                   ng-model="idProducto"
+                                   class="form-control lectorCodigoBarra">
+                            <span class="input-group-btn">
+                            <button class="btn btn-default  btn-s" 
+                                    type="button" 
+                                    data-toggle="modal" 
+                                    data-target="#barcodeModal"> 
+                            <span class="glyphicon glyphicon-barcode"></span></button>
+                               </span>    
+                        </div>
+                     </div>
+                     
+
+
+                       <div class="input-group">
+                          <select name="mySelectTipoCobros" 
+                                  class="form-control"                                
+                                  id="mySelectTipoCobros"
+                                  ng-options="option.name for option in bodegas.availableOptions track by option.id"
+                                  ng-model="bodegas.selectedOption">
+                             <option  value="">-- Bodega --</option>
+                          </select>   
+                        </div>
+                   
+                       
+                     <div class="btn-group" 
+                       role="group">
+                       <button class="btn btn-success" 
+                                ng-click="selTipoBsuqeda('1')" 
+                                ng-class="{active:tipoClientePedNota == '1'}">Codigo Barra</button>
+                       <button class="btn btn-success" 
+                                ng-click="selTipoBsuqeda('2')" 
+                                ng-class="{active:tipoClientePedNota == '2'}">Codigo</button>
+                        <button class="btn btn-success" 
+                                ng-click="selTipoBsuqeda('3')" 
+                                ng-class="{active:tipoClientePedNota == '3'}">Nombre</button>                     
+                      </div>
+      
+
+              </form>  
+             <br>
+</div>
+    
+    -->
+           
+    
+  <div class="input-group">
+              <form action="" name="prodSeleccion"  class="form-inline">
+                 
+                       
+                       <div class="input-group" >
+                            <input id="codProducto" 
+                                   class="form-control lectorCodigoBarra"
+                                   name="codProducto"
+                                   ng-model="idProducto">
+                              <span class="input-group-btn">
+                                <button class="btn btn-default  btn-s" 
+                                        ng-if="customNomb"
+                                        data-toggle="modal" 
+                                        data-target="#myModalListProd" 
+                                        ng-click="listarProductoRapido()"
+                                        type="button"> 
+                                <span class="glyphicon glyphicon-search"></span></button>
+                                  
+                                 <button class="btn btn-default  btn-s" 
+                                        ng-if="customBuscarHistorial"
+                                        ng-click="listarProductoHistorial()"
+                                        type="button"> 
+                                <span class="glyphicon glyphicon-search"></span></button>  
+                                  
+                                  
+                                 <button class="btn btn-default  btn-s" 
+                                        ng-click="buscarProd()"
+                                         ng-if="customCodBarra"
+                                        type="button"> 
+                                <span class="glyphicon glyphicon-barcode"></span></button>  
+                              </span>
+                        </div>
+                       
+                   
+                       
+                     <!--  <div class="input-group">
+                          <select name="mySelectTipoCobros" 
+                                  class="form-control"                                
+                                  id="mySelectTipoCobros"
+                                  ng-options="option.name for option in bodegas.availableOptions track by option.id"
+                                  ng-model="bodegas.selectedOption">
+                             <option  value="">-- Bodega --</option>
+                          </select>   
+                        </div>-->
+                  
+                     <div class="btn-group" 
+                       role="group">
+                       <button class="btn btn-success" 
+                                ng-click="selTipoBsuqeda('1')" 
+                                ng-class="{active:tipoClientePedNota == '1'}">Codigo Barra</button>
+                     
+                        <button class="btn btn-success" 
+                                ng-click="selTipoBsuqeda('3')" 
+                                ng-class="{active:tipoClientePedNota == '3'}">Nombre</button>     
+                         
+                         
+                       <button class="btn btn-success" 
+                                ng-click="selTipoBsuqeda('2')" 
+                                ng-class="{active:tipoClientePedNota == '2'}">Historial</button>  
+                         
+                      </div>
+                  
+                  
+                     <div class="btn-group" 
+                       role="group">
+                            <input type="date" 
+                             class="form-control"
+                             placeholder="yyyy-MM-dd" 
+                             id="buscarFecha" 
+                             name="buscarFecha" />                
+                      </div>
+                           <div class="btn-group" 
+                             role="group">
+                              <button class="btn btn-danger" 
+                                ng-click="seleccionarFechaListar()">Listar Por Fecha</button>                 
+                      </div>
+            
+
+              </form>  
+    
+    
+    
+             <br>
+      
+
+      
+      
+</div>    
+
+    
+</div>          
+
+  
+           
+
+    
+          
+<div> 
+    <hr/> 
+         <div class="table-responsive">         
+               <table style="font-size:12px" 
+                      class="table table-striped table table-bordered  " 
+                      at-table at-paginated at-list="list" 
+                      at-config="config" >
+                  <thead>
+                    <tr>
+                      <th  style="text-align: center">Id Prod</th>
+                      <th  style="text-align: center">F. Ingreso</th>                        
+                      <th  style="text-align: center">Nombre</th>   
+                      <th  style="text-align: center">Cant. Mod</th>        
+                      <th  style="text-align: center">Cant. Ing</th>  
+                      <th  style="text-align: center">Observacion</th>
+                      <th  style="text-align: center">Accion</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr ng-repeat="(productIndex, pro) in listarInventario">                           
+                       <td  style="text-align: center">{{ pro.idProd }}</td>
+                       <td  style="text-align: center">{{ pro.fecha_ingreso | date: 'dd-MM-yyyy' }}</td>
+
+                    <!--   <td>{{ pro.cod_barra }}</td>  -->  
+                       <td  style="text-align: center">{{ pro.nombProd }}</td>                            
+                       <td  style="text-align: center">{{ pro.realStock }}
+                                <span ng-switch on="interface" >
+                                              <img src='img/flechaAbajo.png' 
+                                                   title="Sacar Stock"
+                                                   width="30" 
+                                                   height="30"
+                                                   ng-show="{{pro.estadoInventario == 'Salida' }}">        
+                                              <img src='img/flechaArriba.png'
+                                                   title="Ingresar Stock"
+                                                   width="30" 
+                                                   height="30"
+                                                   ng-show="{{pro.estadoInventario == 'Ingresar' }}">      
+                                              <img src='img/efectivo.png'
+                                                   title="Ingresar Stock"
+                                                   width="30" 
+                                                   height="30"
+                                                   ng-show="{{pro.estadoInventario == 'Cuadrado' }}">             
+                                            </span>   
+                       </td>                            
+                       <td  style="text-align: center">{{ pro.cantidad_ingresada }}</td> 
+                        
+                        
+                       <td  style="text-align: center"> 
+                                  <textarea class="form-control" 
+                                            rows="2" 
+                                            ng-change="guardarObservacionInvt(pro.observacion, pro)"
+                                            ng-model="pro.observacion" 
+                                            id="observacion" 
+                                            name="observacion" >
+                                  </textarea>  
+                       </td>      
+                        
+                        
+                      <td  style="text-align: center">                                
+                        <p style="color:#b72745; font-weight: bold;"
+                          ng-show="{{ pro.anulado == '1' }}">INVENTARIO ANULADO</p>
+                            <button 
+                                      ng-click="confirmarAnularProducto(pro)"
+                                       ng-show="{{pro.anulado == '0' }}"
+                                         class="btn btn-danger">Anular
+                            <span class="glyphicon glyphicon-erase"></span>
+                            </button>                                 
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+         </div>       
+      <!--     
+         <button  id="btnGenerar" 
+                 ng-click="confirmarInvetario()" 
+                 class="btn btn-warning">1- INGRESAR INVENTARIO <span class="glyphicon glyphicon-list-alt"></span>
+         </button> 
+       -->
+     <!--    <button  id="btnGenerar" 
+                 ng-click="generarReporteInventarioIng()" 
+                 class="btn btn-primary">2- VALIDAR INVENTARIO INGRESADO - PDF<span class="glyphicon glyphicon-list-alt"></span>
+         </button>  
+    
+         <button  id="btnGenerar" 
+                 ng-click="generarReporteInventario()" 
+                 class="btn btn-danger">3- LISTAR INVENTARIO INGRESADO - PDF<span class="glyphicon glyphicon-list-alt"></span>
+         </button>  
+-->
+    
+         <button  id="btnGenerar" 
+                 ng-click="generarReporteInventario()" 
+                 class="btn btn-primary">LISTAR INVENTARIO INGRESADO - PDF<span class="glyphicon glyphicon-list-alt"></span>
+         </button>  
+    
+</div>
+<!--
+<div class="modal fade miClaseModal" 
+     id="myModalCliente" 
+     tabindex="-1" 
+     role="dialog" 
+     aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" 
+       role="document">
+    <div class="modal-content">
+    
+        
+  
+        
+        
+        
+      <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel">{{ idProd  }} - {{ cod_barra }}</h5>
+      </div>
+        
+<div class="btn-group" 
+         style="text-align: center">
+    
+  <button type="button" 
+          ng-click="verListadoEnDetalle('4')" 
+          class="btn btn-default"> 
+      <img src='img/transporte.png' 
+                   title="Entregados"                                                     
+                   width="20" 
+                   height="20"> <strong>{{ cantProdEnDesp  }}   </strong>   </button>
+  <button type="button" 
+          class="btn btn-default"
+           ng-click="verListadoEnDetalle('3')"> <img src='img/pendienFact.png' 
+                   title="Pendientes"
+                   width="20" 
+                   height="20"> <strong> {{ cantProdPendiente  }} </strong>   </button>
+  <button type="button" 
+          class="btn btn-default" 
+           ng-click="verListadoEnDetalle('5')" > <img src='img/bodega.png' 
+                   title="Bodega"
+                   width="20" 
+                   height="20"> <strong> {{ cantProdEnBodega  }} </strong>  </button>
+           
+  <button type="button" class="btn btn-default" 
+           ng-click="verListadoEnDetalle('6')" > <img src='img/rechazadoPedido.png' 
+                   title="Rechazados"
+                   width="20" 
+                   height="20"> <strong>  {{ cantProdRechazado  }} </strong> </button>
+           
+           
+  <button type="button" class="btn btn-default" 
+           ng-click="verListadoEnDetalle('2')" > <img src='img/incompleto.png' 
+                   title="Con Observacion"
+                   width="20" 
+                   height="20"> <strong>  {{ cantProdConObs  }} </strong> </button>
+</div>         
+        
+        
+        
+      <div class="modal-body">             
+ 
+      
+          <div class="row">
+                  <div class="col-md-12">
+                  <h4><small>{{nombreProd}}<hr></small></h4>
+                  <div class="row">
+                      
+                      <div class="col-md-6">
+                          <label class="control-label" for="inputSuccess1">Stock:</label>
+                          <input ng-value="ingresos - salidas"
+                                 type="number" 
+                                 class="form-control" 
+                                 id="baseInv" 
+                                 disabled
+                                 name="baseInv" 
+                                 placeholder="0"/>                       
+                      </div>
+                      
+                      <div class="col-md-6">
+                          <label class="control-label" for="inputSuccess1">Base:</label>
+                          <input ng-model="baseInv" type="number" class="form-control" id="baseInv" name="baseInv" placeholder="0"/>                       
+                      </div>
+                    
+                      <div class="col-md-6">
+                          <label class="control-label" for="inputSuccess1">Fila:</label>
+                          <input ng-model="filaInv" type="number" class="form-control" id="filaInv" name="filaInv" placeholder="0"/>
+                      </div>
+                      
+                      <div class="col-md-6">
+                         <label class="control-label" for="inputSuccess1">Unidad:</label>            
+                          <input ng-model="unidInv" type="number" class="form-control" id="unidInv" name="unidInv" placeholder="0"/>
+                      </div>       
+                      
+                      <div class="col-md-6">
+                         <label class="control-label" for="inputSuccess1">Total Inventario:</label>            
+                          <input disabled 
+                                 ng-value=" (baseInv * filaInv) + unidInv " type="text" class="form-control" 
+                                 id="unidInv" 
+                                 name="unidInv" 
+                                 placeholder="0"/>
+                      </div>  
+                      
+                    </div>
+                  </div>
+          </div>  
+                    
+          
+          
+      </div>
+      <div class="modal-footer">
+       
+          
+        <button type="button" class="btn btn-warning" data-dismiss="modal" ng-click="agregarSelProductos()">
+          <span class="glyphicon glyphicon-plus-sign"></span>Agregar</button>
+
+           <button type="button" class="btn btn-warning" data-dismiss="modal" ng-click="salir()">
+          <span class="glyphicon glyphicon-chevron-left"></span>Salir</button>
+          
+      </div>
+        
+        
+        
+    <div class="panel panel-default" id="divPedido">
+    
+      <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">OBSERVACION PRODUCTO: {{idProd}} - {{nombreProd}}</h5>
+      </div>
+    
+    
+      <div class="modal-body">   
+    
+        <table class="table table-striped table table-bordered table-hover " style="font-size:12px"  at-table at-paginated at-list="list" at-config="config">              
+             <thead>
+                        <tr>   
+                          <th class="text-center">Pedido</th>
+                          <th class="text-center">F.Ingreso</th>
+                          <th class="text-center">F.Despacho</th>    
+                          <th class="text-center" width="4%" >Tipo</th>
+                          <th class="text-center">Estado</th>                                 
+                          <th class="text-center">Nombres</th> 
+                          <th class="text-center">Cantidad</th> 
+                          <th class="text-center"  width="12%">Direccion</th>  
+                          <th class="text-center"  width="10%">Obs. Vendedor</th> 
+                          <th class="text-center"  width="10%">Obs. Transporte</th>                      
+                            
+                                    
+                        </tr>
+             </thead>
+              <tbody>
+                <tr data-dismiss="modal" ng-repeat="(productIndex, prodDet) in listInformeTranspDeta"> 
+                  
+                    <td class="text-center">{{ prodDet.id_pedido    }}</td>
+                    <td class="text-center">{{ prodDet.fecha | date: 'dd-MM-yyyy' }}</td>
+                    <td class="text-center">{{ prodDet.fecha_entrega | date: 'dd-MM-yyyy' }}</td>
+
+                    <td class="text-center">
+                    
+                         <span ng-switch on="interface">
+                                             
+                                              <img src='img/Mascotero.png'  
+                                                   width="30" 
+                                                  title="Mascotero"
+                                                   height="30"
+                                                   ng-show="{{(prodDet.tipo == 'Mascotero')}} ">
+                                                
+                                                      <img src='img/Almacen.png'  
+                                                   width="30" 
+                                                  title="Almacen"
+                                                   height="30"
+                                                   ng-show="{{(prodDet.tipo == 'Almacen')}} ">
+                   
+                   
+                                                <img src='img/Particular.png'  
+                                                   width="30" 
+                                                   title="Particular"
+                                                   height="30" 
+                                                   ng-show="{{ (prodDet.tipo == 'Particular')}} ">
+                                                
+                                                  <img src='img/Veterinaria.png'  
+                                                   width="30" 
+                                                   title="Veterinaria"
+                                                   height="30" 
+                                                   ng-show="{{ (prodDet.tipo == 'Veterinaria')}} ">
+												
+												 <img src='img/Agricola.png'  
+                                                   width="30" 
+                                                   title="Avicola"
+                                                   height="30" 
+                                                   ng-show="{{ (prodDet.tipo == 'Agricola')}} ">
+                                                <img src='img/Peluqueria.png'  
+                                                   width="30" 
+                                                   title="Peluqueria"
+                                                   height="30" 
+                                                   ng-show="{{ (prodDet.tipo == 'Peluqueria')}} ">
+                                                    <img src='img/Otro.png'  
+                                                   width="30" 
+                                                   title="Otro"
+                                                   height="30" 
+                                                   ng-show="{{ (prodDet.tipo == 'Otro')}} ">
+                                                
+                                            </span>
+                        
+                    
+                    </td>
+                     <td  class="text-center">
+                     <span ng-switch on="interface">
+                                                 
+                                              <img src='img/ico_cerrar.png' 
+                                                   title="Anulado"
+                                                   width="20" 
+                                                   height="20"
+                                                   ng-show="{{prodDet.anulada == 'S' }}">        
+                                              <img src='img/entregado.png'
+                                                   title="Pedido Entregado"
+                                                   width="25" 
+                                                   height="25"
+                                                   ng-show="{{prodDet.estado_pedido == '1' && prodDet.anulada == 'N'}}">
+                                              <img src='img/incompleto.png'
+                                                   title="Con Observacion"
+                                                   width="23" 
+                                                   height="23" 
+                                                   ng-show="{{ prodDet.estado_pedido == '2' && prodDet.anulada == 'N'}}">
+                                             <img src='img/transporte.png'
+                                                   title="En Despacho"
+                                                   width="23" 
+                                                   height="23" 
+                                                   ng-show="{{ prodDet.estado_pedido == '4' && prodDet.anulada == 'N'}}">     
+                                              <img src='img/pendienFact.png'
+                                                   title="Pendiente"
+                                                   width="25" 
+                                                   height="25" 
+                                                   ng-show="{{ prodDet.estado_pedido == '3' && prodDet.anulada == 'N' }}"> 
+                                             <img src='img/bodega.png'
+                                                   title="En Bodega"
+                                                   width="23" 
+                                                   height="23" 
+                                                   ng-show="{{ prodDet.estado_pedido == '5' && prodDet.anulada == 'N'}}">  
+                                                   <img src='img/rechazadoPedido.png'
+                                                   title="Rechazado"
+                                                   width="23" 
+                                                   height="23" 
+                                                   ng-show="{{ prodDet.estado_pedido == '6' && prodDet.anulada == 'N'}}">  
+                                            </span>    
+                    </td>
+                    <td>{{ prodDet.nombre       }}</td>
+                    <td class="text-center">{{ prodDet.cantidad    }}</td>
+
+                    <td>{{ prodDet.direccion    }}</td>
+                    <td>{{ prodDet.observacion  }}</td>
+                    <td>{{ prodDet.obser_transp  }}</td>                    
+                    
+
+                
+                </tr>
+              </tbody>
+        </table> 
+        <div ng-hide="detPedido.length !=0">Cargando...</div> 
+         <hr>
+
+
+        </div> 
+        
+       
+            <div class="modal-footer">
+
+            <button type="button" class="btn btn-warning" ng-click="verDetallePedidoSalir()">
+            <span class="glyphicon glyphicon-chevron-left"></span>Salir
+            </button>
+
+
+
+        </div>
+        
+<div class="modal fade miClaseModal" id="myImageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h5 class="modal-title" id="myModalLabel">Pedido N° {{idPedido}} - {{nombPedido}}</h5>
+      </div>
+      <div class="modal-body">
+        <img id="modal-image" style="width: 100%">
+      </div> 
+      <div class="modal-footer">
+        <button type="button" class="btn btn-warning" data-dismiss="modal">
+          <span class="glyphicon glyphicon-chevron-left"></span>Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+</div>    
+        
+        
+
+        
+    </div>
+  </div>
+</div>-->
+
+    
+<div class="modal fade miClaseModal" id="barcodeModal" tabindex="-1" role="dialog" aria-labelledby="barcodeModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Escaneando Código de Barra</h5>
+            </div>
+            <div class="modal-body">             
+                <div id="interactive" class="viewport"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-chevron-left"></span>Salir
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+      
+      
+<div class="modal fade miClaseModal" id="myModalListProd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h5 class="modal-title" id="myModalLabel">Seleccionar Producto</h5>
+      </div>
+      <div class="modal-body">             
+          <table class="table table-striped table table-bordered table-hover " at-table at-paginated at-list="list" at-config="config">       
+              
+         <thead>
+                    <tr>
+                      <th style="text-align: center">Cod. Prod.</th>
+                      <th style="text-align: center">Nombre Producto</th>
+                      <th style="text-align: center">Tipo</th>    
+                      <th style="text-align: center">Stock</th> 
+                    </tr>
+         </thead>
+          <tbody>
+            <tr data-dismiss="modal" 
+                ng-repeat="prod in arrProductos"  
+                ng-click="buscarRapidaSel(prod)">  
+                
+                <td style="text-align: center" ng-class="{'Bisque3' : (prod.nodo_prod > 0) }" >{{ prod.id }}</td>    
+                <td ng-class="{'Bisque3' : (prod.nodo_prod >0)}">{{ prod.nombreProd }} </td>
+                <td ng-class="{'Bisque3' : (prod.nodo_prod > 0)}">{{ prod.nombreCategoria }} </td>
+                <td ng-class="{'Bisque3' : (prod.nodo_prod > 0)}">{{ prod.stockProd  -  prod.salidasProd }} </td>
+
+                
+            </tr>
+          </tbody>
+              
+        </table>  
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-warning" data-dismiss="modal">
+          <span class="glyphicon glyphicon-chevron-left"></span>Salir</button>
+      </div>
+    </div>
+  </div>
+</div>      
+   
+      
+   
+</div>    
+</div>       
+
+   
+
+<div class="panel panel-default" id="divPedido">
+    
+      <div class="modal-header">
+           <h3 class="modal-title"><p style="color:#354d8f; font-weight: bold;">      <span ng-switch on="interface">
+                                   F.Inventario: {{fInventario | date: 'dd-MM-yyyy' }} ({{id_tipo_inventario}}) - OBS. PROD: {{idProd}} - {{nombreProd}}</p></h3>
+        
+      </div>
+    
+
+      <div class="modal-body">   
+    
+          
+          <div class="row">
+                  <div class="col-md-12">
+                  <!--<h4><small>{{nombreProd}}<hr></small></h4>-->
+                  <div class="row">
+                      
+                         <!--          <div class="col-md-6">
+                  <button type="button"          
+          class="btn btn-default"> 
+      <img src='img/transporte.png' 
+                   title="Entregados"                                                     
+                   width="300" 
+                   height="300">  </button>
+                      </div> -->
+                      
+                      
+                      <div class="col-md-3">
+                        <img  ng-src="{{foto}}"
+                               onerror="this.src='https://aranibar.cl/barrosaranas/Table/img/sinImagen.png';"
+                              class='eye'
+                              width="300"   
+                              height="300">                     
+                      </div>
+                      
+                      <div class="col-md-6">
+                          <label class="control-label" for="inputSuccess1">Stock:</label>
+                          <input ng-value="ingresos - salidas"
+                                 type="number" 
+                                 class="form-control" 
+                                 id="baseInv" 
+                                 disabled
+                                 name="baseInv" 
+                                 placeholder="0"/>                       
+                      </div>
+                      
+                      <div class="col-md-6">
+                          <label class="control-label" for="inputSuccess1">Base:</label>
+                          <input ng-model="baseInv" type="number" class="form-control" id="baseInv" name="baseInv" placeholder="0"/>                       
+                      </div>
+                    
+                      <div class="col-md-6">
+                          <label class="control-label" for="inputSuccess1">Fila:</label>
+                          <input ng-model="filaInv" type="number" class="form-control" id="filaInv" name="filaInv" placeholder="0"/>
+                      </div>
+                      
+                      <div class="col-md-6">
+                         <label class="control-label" for="inputSuccess1">Unidad:</label>            
+                          <input ng-model="unidInv" type="number" class="form-control" id="unidInv" name="unidInv" placeholder="0"/>
+                      </div>       
+                      
+                      <div class="col-md-6">
+                         <label class="control-label" for="inputSuccess1">Total Inventario:</label>            
+                          <input disabled 
+                                 ng-value=" (baseInv * filaInv) + unidInv " type="text" class="form-control" 
+                                 id="unidInv" 
+                                 name="unidInv" 
+                                 placeholder="0"/>
+                      </div>  
+                      
+                  
+                      
+                    </div>
+                  </div>
+              
+         
+          </div>    
+  <br>        
+       
+          
+  <div class="btn-group" 
+         style="text-align: center">
+   <h3 class="modal-title"><p style="color:#354d8f; font-weight: bold;">Salidas pendientes y en Despachos:</p></h3>     
+  <button type="button" 
+          ng-click="verListadoEnDetalle('4')" 
+          class="btn btn-default"> 
+      <img src='img/transporte.png' 
+                   title="Entregados"                                                     
+                   width="20" 
+                   height="20"> <strong>{{ cantProdEnDesp  }}   </strong>   </button>
+  <button type="button" 
+          class="btn btn-default"
+           ng-click="verListadoEnDetalle('3')"> <img src='img/pendienFact.png' 
+                   title="Pendientes"
+                   width="20" 
+                   height="20"> <strong> {{ cantProdPendiente  }} </strong>   </button>
+  <button type="button" 
+          class="btn btn-default" 
+           ng-click="verListadoEnDetalle('5')" > <img src='img/bodega.png' 
+                   title="Bodega"
+                   width="20" 
+                   height="20"> <strong> {{ cantProdEnBodega  }} </strong>  </button>
+           
+  <button type="button" class="btn btn-default" 
+           ng-click="verListadoEnDetalle('6')" > <img src='img/rechazadoPedido.png' 
+                   title="Rechazados"
+                   width="20" 
+                   height="20"> <strong>  {{ cantProdRechazado  }} </strong> </button>
+           
+           
+  <button type="button" class="btn btn-default" 
+           ng-click="verListadoEnDetalle('2')" > <img src='img/incompleto.png' 
+                   title="Con Observacion"
+                   width="20" 
+                   height="20"> <strong>  {{ cantProdConObs  }} </strong> </button>
+</div>           
+          
+        <table class="table table-striped table table-bordered table-hover " 
+               style="font-size:12px"  
+               at-table at-paginated at-list="list" 
+               at-config="config">              
+             <thead>
+                        <tr>   
+                          <th class="text-center">Pedido-Folio</th>
+                          <th class="text-center">F.Ingreso</th>
+                          <th class="text-center">F.Despacho</th>    
+                          <th class="text-center" width="4%" >Tipo</th>
+                          <th class="text-center">Estado</th>                                 
+                          <th class="text-center">Nombres</th> 
+                          <th class="text-center">Cantidad</th> 
+                          <th class="text-center"  width="12%">Direccion</th>  
+                          <th class="text-center"  width="10%">Obs. Vendedor</th> 
+                          <th class="text-center"  width="10%">Obs. Transporte</th>                      
+                          <th class="text-center"  width="10%">Accion</th>                      
+                         
+                                    
+                        </tr>
+             </thead>
+              <tbody>
+                <tr data-dismiss="modal" ng-repeat="(productIndex, prodDet) in listInformeTranspDeta"> 
+                  
+                    <td class="text-center">{{ prodDet.id_pedido}} - {{ prodDet.folio}}</td>
+                    <td class="text-center">{{ prodDet.fecha | date: 'dd-MM-yyyy' }}</td>
+                    <td class="text-center">{{ prodDet.fecha_entrega | date: 'dd-MM-yyyy' }} - <p style="color:#b72745; font-weight: bold;">Entrega:{{prodDet.entregaPed}}</p></td>
+
+                    <td class="text-center">
+                    
+                         <span ng-switch on="interface">
+                                             
+                                              <img src='img/Mascotero.png'  
+                                                   width="30" 
+                                                  title="Mascotero"
+                                                   height="30"
+                                                   ng-show="{{(prodDet.tipo == 'Mascotero')}} ">
+                                                
+                                                      <img src='img/Almacen.png'  
+                                                   width="30" 
+                                                  title="Almacen"
+                                                   height="30"
+                                                   ng-show="{{(prodDet.tipo == 'Almacen')}} ">
+                   
+                   
+                                                <img src='img/Particular.png'  
+                                                   width="30" 
+                                                   title="Particular"
+                                                   height="30" 
+                                                   ng-show="{{ (prodDet.tipo == 'Particular')}} ">
+                                                
+                                                  <img src='img/Veterinaria.png'  
+                                                   width="30" 
+                                                   title="Veterinaria"
+                                                   height="30" 
+                                                   ng-show="{{ (prodDet.tipo == 'Veterinaria')}} ">
+												
+												 <img src='img/Agricola.png'  
+                                                   width="30" 
+                                                   title="Avicola"
+                                                   height="30" 
+                                                   ng-show="{{ (prodDet.tipo == 'Agricola')}} ">
+                                                <img src='img/Peluqueria.png'  
+                                                   width="30" 
+                                                   title="Peluqueria"
+                                                   height="30" 
+                                                   ng-show="{{ (prodDet.tipo == 'Peluqueria')}} ">
+                                                    <img src='img/Otro.png'  
+                                                   width="30" 
+                                                   title="Otro"
+                                                   height="30" 
+                                                   ng-show="{{ (prodDet.tipo == 'Otro')}} ">
+                                                
+                                            </span>
+                        
+                    
+                    </td>
+                     <td  class="text-center">
+                     <span ng-switch on="interface">
+                                                 
+                                              <img src='img/ico_cerrar.png' 
+                                                   title="Anulado"
+                                                   width="20" 
+                                                   height="20"
+                                                   ng-show="{{prodDet.anulada == 'S' }}">        
+                                              <img src='img/entregado.png'
+                                                   title="Pedido Entregado"
+                                                   width="25" 
+                                                   height="25"
+                                                   ng-show="{{prodDet.estado_pedido == '1' && prodDet.anulada == 'N'}}">
+                                              <img src='img/incompleto.png'
+                                                   title="Con Observacion"
+                                                   width="23" 
+                                                   height="23" 
+                                                   ng-show="{{ prodDet.estado_pedido == '2' && prodDet.anulada == 'N'}}">
+                                             <img src='img/transporte.png'
+                                                   title="En Despacho"
+                                                   width="23" 
+                                                   height="23" 
+                                                   ng-show="{{ prodDet.estado_pedido == '4' && prodDet.anulada == 'N'}}">     
+                                              <img src='img/pendienFact.png'
+                                                   title="Pendiente"
+                                                   width="25" 
+                                                   height="25" 
+                                                   ng-show="{{ prodDet.estado_pedido == '3' && prodDet.anulada == 'N' }}"> 
+                                             <img src='img/bodega.png'
+                                                   title="En Bodega"
+                                                   width="23" 
+                                                   height="23" 
+                                                   ng-show="{{ prodDet.estado_pedido == '5' && prodDet.anulada == 'N'}}">  
+                                                   <img src='img/rechazadoPedido.png'
+                                                   title="Rechazado"
+                                                   width="23" 
+                                                   height="23" 
+                                                   ng-show="{{ prodDet.estado_pedido == '6' && prodDet.anulada == 'N'}}">  
+                                            </span>    
+                    </td>
+                    <td>
+                        <p style="color:#b72745; font-weight: bold;">
+                        
+                        (idInf: {{ prodDet.idInforme }} - fInf: {{ prodDet.fechaInforme | date: 'dd-MM-yyyy' }}
+                                   <span ng-switch on="interface">                            
+                                                <img src='img/camion1.png'  
+                                                     width="22" 
+                                                     height="22"
+                                                     ng-show="{{ (prodDet.id_transp == '1') }} ">   
+                                               <img src='img/camion2.png'  
+                                                   width="22" 
+                                                   height="22"
+                                                   ng-show="{{ (prodDet.id_transp == '2') }} ">   
+                                              <img src='img/camion3.png'  
+                                                   width="22" 
+                                                   height="22"
+                                                   ng-show="{{ (prodDet.id_transp == '3') }} ">    
+                                         <img src='img/camion4.png'  
+                                                   width="22" 
+                                                   height="22"
+                                                   ng-show="{{ (prodDet.id_transp == '4') }} ">    
+                                        </span> ) </p>  {{ prodDet.nombre }}
+                        
+                       
+                    </td>
+                    <td class="text-center">{{ prodDet.cantidad    }}</td>
+                    <td>{{ prodDet.direccion    }}</td>
+                    <td>{{ prodDet.observacion  }}</td>
+                    <td>{{ prodDet.obser_transp  }}</td>                    
+                    
+                    <td>
+                                            <button class="btn btn-xs btn-danger"                                                   
+                                                     ng-click="verDetallePedidoInventario(prodDet)">    
+                                              <span class="glyphicon glyphicon-pencil"></span>
+                                             </button>
+                    </td>
+                
+                </tr>
+              </tbody>
+        </table> 
+
+        </div> 
+        
+    
+    
+      <div class="modal-footer">
+              
+   <button type="button" class="btn btn-warning" data-dismiss="modal" ng-click="agregarSelProductos()">
+          <span class="glyphicon glyphicon-plus-sign"></span>Agregar</button>
+
+           <button type="button" class="btn btn-warning" data-dismiss="modal" ng-click="salir()">
+          <span class="glyphicon glyphicon-chevron-left"></span>Salir</button>
+          
+        </div>
+    
+    
+</div>
+
+
+<div class="panel panel-default" id="divPedidoDetalle">
+    
+      <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Pedido N° {{idPedido}}</h5>
+      </div>
+    
+    
+      <div class="modal-body">
+
+        <div class="container">
+        <form  name="prodFormMof">
+        <div class="form-group col-md-3 row">
+
+          <label class="control-label" 
+                 for="inputSuccess1">Direccion:</label>
+          <input ng-model="direccionMod"   
+                 type="text" 
+                 class="form-control input-xs" 
+                 id="direccionMod" 
+                 name="direccionMod">
+        </div>
+        <div class="form-group col-md-3 row">
+             <label class="control-label" for="inputSuccess1">Razon Social:</label>
+             <input ng-model="razonMod" type="text" class="form-control input-xs" id="razonMod" name="razonMod" >
+
+        </div>
+        </form>
+
+        </div>   
+        <!--<div class="child" ng-hide="stadoPed">
+                           <input  id="codProducto" 
+                                   name="codProducto"
+                                   ng-model="idProducto">  
+                                   <button class="btn btn-default  btn-s" 
+                                        ng-click="buscarProd()"
+                                        type="button">   
+                        <span class="glyphicon glyphicon-plus"></span></button></div>  -->
+          
+
+          
+              <div   class="form-group col-xs-6 col-md-2 rowPedido">
+            <div class="input-group">
+                      <strong><input class="form-control input-s" 
+                                     id="codProducto"  
+                                     ng-model="idProducto"  
+                                     type="number" 
+                                     placeholder="0"></strong>
+                <span class="input-group-addon info" ng-click="buscarProdAgregar()">+</span>
+             </div>
+        </div>      
+          
+          
+        <table class="table table-striped table table-bordered table-hover " style="font-size:11px"  at-table at-paginated at-list="list" at-config="config">              
+             <thead>
+                        <tr>   
+                          <th  style="text-align: center">#</th> 							
+                          <th>Id</th>
+                          <th>Nombre</th>
+                          <th>Aumento</th>     
+                          <th>Descuento</th>    
+                          <th>P.Venta</th>  
+                          <th>Cant</th>                      
+                          <th>Total</th>
+                           <th ng-hide="stadoPed">Accion</th>                            
+                        </tr>
+             </thead>
+              <tbody>
+                <tr data-dismiss="modal" ng-repeat="(productIndex, prodDet) in detPedidoLista">     
+                    <td ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2')}" style="text-align: center">{{ $index + 1 }}</td> 
+                    <td ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2')}">{{ prodDet.id_prod }}</td>    
+                    <td ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2')}">{{ prodDet.nombreProd }}</td>
+                    <td class="text-primary"><strong>$ {{ prodDet.aumento | number:0 }}</strong></td>  
+                    <td class="text-danger"><strong>$ {{ prodDet.descuento | number:0   }}</strong></td>  
+                    <td class="text-primary"><strong>$ {{ prodDet.precio_vendido | number:0 }}</strong></td>  
+                    <td class="text-success"><strong>{{ prodDet.cantidad  }}</strong></td>
+                    <td>$ {{ prodDet.total | number:0  }}</td>  
+                     <td ng-hide="stadoPed">                
+                        
+                       <!--<button  class="btn btn-xs" 
+                                 data-toggle="modal"  
+                                 data-target="#myModalModProd"  
+                                 ng-click="modificarProdPrecio(prodDet)">    
+                                <span class="glyphicon glyphicon-pencil"></span>
+                        </button>-->
+                         <button class="btn btn-xs" data-toggle="modal"  ng-click="conultarNuboxFolioBoleta(prodDet, productIndex )">    
+                        <span class="glyphicon glyphicon-remove "></span></button>
+                      </td>                    
+
+                </tr>
+              </tbody>
+        </table> 
+      
+
+        </div> 
+        
+       
+            <div class="modal-footer">
+
+            <button type="button" class="btn btn-warning" ng-click="verDetallePedidoSalirDetalle()">
+            <span class="glyphicon glyphicon-chevron-left"></span>Salir
+            </button>
+
+
+
+        </div>
+    
+        
+    
+    
+    
+    
+</div>
+
+
+<div class="modal fade" id="myModalModProd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">{{prodIdPrec}} - {{prodNombPrec}} </h5>
+                  </div>
+                <div class="modal-body">    
+                     <form role="form">
+                               <div class="form-group" style="display:none;">
+                                    <label for="ejemplo_email_1">P. Neto</label>
+                                    <input       value="{{(prodPrecioCost - prodPrecioDesc + prodPrecioAumt)  | number:0}}" 
+                                                 placeholder="0"
+                                                 type="text"                                                      
+                                                 id="prodPrecioCostIni" 
+                                                 name="prodPrecioCostIni" 
+                                                 class="form-control"
+                                                 disabled/>                          
+                                  </div>
+                                <div class="form-group">
+                                    <label for="ejemplo_email_1">P. Particular</label>
+                                      <div class="input-group">
+                                    <span class="input-group-addon primary" ng-click="ventaPrecioDifPart()">$+</span>
+                                    <input 
+                                                 value="{{ precioPart | number:0}}"
+                                                 type="text" 
+                                                 placeholder="0"
+                                                 id="prodPrecioVent" 
+                                                 name="prodPrecioVent" 
+                                                 class="form-control"
+                                                 disabled/>     
+                                    </div>
+                                </div>
+                         
+                               <div class="form-group">
+                                    <label for="ejemplo_email_1">P. Comerciante</label>
+                                    <div class="input-group">
+                                      <span class="input-group-addon success">$</span>
+                                    <input 
+                                                 value="{{((prodPrecioCost - prodPrecioDesc + prodPrecioAumt) + ((prodPrecioCost - prodPrecioDesc + prodPrecioAumt) * 0.19 )) | number:0}}"
+                                                 type="text" 
+                                                 placeholder="0"
+                                                 id="prodPrecioVent" 
+                                                 name="prodPrecioVent" 
+                                                 class="form-control"
+                                                 disabled/>  
+                                    </div>
+                                </div>
+                                 <div class="form-group">
+                                    <label for="ejemplo_email_1">Aumento</label>
+                                    <div class="input-group">
+                                      <span class="input-group-addon success">$</span>
+                                    <input ng-model="prodPrecioAumt" 
+                                                 type="number" 
+                                                 placeholder="0"
+                                                 id="prodPrecioAumt" 
+                                                 name="prodPrecioAumt" 
+                                                 class="form-control" />       
+                                         </div>
+                                  </div>
+                                 <div class="form-group">
+                                    <label for="ejemplo_email_1">Descuento</label>
+                                <div class="input-group">
+
+                                    <span class="input-group-addon danger">$</span>
+                                    <input ng-model="prodPrecioDesc" 
+                                                 type="number"
+                                                  ng-change="precioUsuaDesc()"
+                                                 placeholder="0"
+                                                 id="prodPrecioDesc" 
+                                                 name="prodPrecioDesc" 
+                                                 class="form-control" /> 
+                                    </div>
+
+                                  </div>
+                         
+                                 <div class="form-group">
+                                    <label for="ejemplo_email_1">Cantidad</label>
+                                    <input ng-model="prodPrecioCant" 
+                                                 type="number" 
+                                                 id="prodPrecioCant" 
+                                                 placeholder="0"
+                                                 name="prodPrecioCant" 
+                                                 class="form-control" />                          
+                                 </div>
+                                 <div class="form-group">
+                                    <label for="ejemplo_email_1">Total</label>
+                                    <div class="input-group">
+
+                                   <span class="input-group-addon success">$</span>
+                                    <input       type="text" 
+                                                 value="{{((prodPrecioCost - prodPrecioDesc + prodPrecioAumt) *  prodPrecioCant) | number:0}}"
+                                                 placeholder="0"
+                                                 id="prodPrecioTotal" 
+                                                 name="prodPrecioTotal" 
+                                                 class="form-control"
+                                                 disabled/>           
+                                    </div>
+                                  </div>
+                        </form>                 
+                </div> 
+                <div class="modal-footer">
+                    <button type="submit" 
+                            class="btn btn-primary" 
+                            ng-click="addProdListadoConf()">Agregar
+                    <span class="glyphicon glyphicon-floppy-disk"></span></button>
+                    <button type="button" 
+                            class="btn btn-warning" 
+                            data-dismiss="modal">
+                    <span class="glyphicon glyphicon-chevron-left"></span>Salir
+                    </button>
+                </div>
+                </div>
+        </div>
+</div>  

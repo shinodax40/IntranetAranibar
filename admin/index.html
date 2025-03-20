@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Lena - Dashboard theme</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Lena theme">
+        <link rel="shortcut icon" href="./assets/img/favicons/favicon.ico">
+        <link rel="apple-touch-icon" sizes="180x180" href="./assets/img/favicons/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="./assets/img/favicons/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicons/favicon-16x16.png">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link href="assets/main.css" rel="stylesheet"></head>
+    <body>
+
+        <!-- Chat overlay -->
+        <div class="lena-chat-overlay">
+            <div class="header">
+                <div class="row">
+                    <div class="col-2 text-left">
+                        <i class="fa fa-angle-left text-color-light typcn-lena" data-chat-toggle="toggle"></i>
+                    </div>
+                    <div class="col-8 text-center lena-separator-text">Chat</div>
+                    <div class="col-2 text-right">
+                        <i class="fa fa-ellipsis-h  text-color-light typcn-lena"></i>
+                    </div>
+                </div>
+
+            </div>
+            <div class="body">
+                <div class="lena-chat-element me">
+                    <div class="message">Hi there! How can I help you?</div>
+                </div>
+                <div class="lena-chat-element you">
+                    <div class="w-100 lena-display-inline-block">
+                        <img src="assets/img/avatar1.png" width="30" height="30" class="circle-shape outlined float-left shadow"
+                             alt="">
+                        <div class="message">Hey there! How it's going?</div>
+                    </div>
+                </div>
+                <div class="lena-chat-element you">
+                    <img src="assets/img/avatar1.png" width="30" height="30" class="circle-shape outlined float-left shadow"
+                         alt="">
+                    <div class="message">What's up?</div>
+                </div>
+                <div class="lena-chat-element me">
+                    <div class="message">Lena just released it's new version!</div>
+                </div>
+                <div class="lena-chat-element you">
+                    <img src="assets/img/avatar1.png" width="30" height="30" class="circle-shape outlined float-left shadow"
+                         alt="">
+                    <div class="message">Wow cool!</div>
+                </div>
+            </div>
+            <div class="footer">
+                <div class="row">
+                    <div class="col-7">
+                        <input type="text" placeholder="Message to send">
+                    </div>
+                    <div class="col-5 text-right">
+                        <button class="btn btn-primary btn-sm m-r-10">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End of Chat overlay -->
+        <!-- Search overlay -->
+        <div class="lena-search-overlay">
+            <i class="fa fa-times typcn-lena" data-search-toggle="toggle"></i>
+            <input type="text" placeholder="Search here">
+            <p class="lena-light-text">Suggestions for: <b class="lena-suggestions">No suggestions</b></p>
+            <div class="row mt-5 lena-results">
+                <div class="col-md-6 col-sm-6 col-12">
+                    <p class="lena-light-text"><b>Results</b></p>
+                    <ul>
+                        <li>
+                            <b>Client</b> meeting notes
+                            <small class="lena-light-text float-right">1 weeks ago</small>
+                        </li>
+                        <li>
+                            Sprint <b>agenda </b>
+                            <small class="lena-light-text float-right">2 weeks ago</small>
+                        </li>
+                        <li>
+                            <b>Functional</b> specification
+                            <small class="lena-light-text float-right">2 weeks ago</small>
+                        </li>
+                        <li>
+                            <b>On-boarding</b> checklist
+                            <small class="lena-light-text float-right">3 weeks ago</small>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End of Search overlay -->
+        <!-- Navbar -->
+        <nav class="navbar lena-navbar lena-navbar lena-full fixed-top  flex-md-nowrap p-0 shadow-sm open">
+            <a class="navbar-brand  sidebar-toggle-item" href="#">
+                <span class="typcn typcn-th-menu lena-theme-toggle-bar  d-none d-md-inline-flex "></span>
+            </a>
+            <ul class="navbar-nav lena-header-search-list  d-none d-md-inline-flex">
+                <li>
+                    <div class="lena-search-input" data-search-toggle="toggle"><i class="fa fa-search"></i>Type anywhere to
+                        <strong>search</strong></div>
+                </li>
+            </ul>
+            <ul class="navbar-nav d-none d-md-inline-flex">
+                <li class="nav-item text-nowrap dropdown">
+                    <a class="nav-link" href="#" role="button" id="lenaBadgeDropdown" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        <span class="typcn typcn-message typcn-lena">
+                            <span class="badge badge-pill badge-primary">1</span>
+                        </span>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right slideIn" aria-labelledby="lenaBadgeDropdown">
+                        <div class="dropdown-menu-header">
+                            3 New Messages
+                        </div>
+                        <div class="list-group">
+                            <a href="#" class="list-group-item">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col-2">
+                                        <img src="assets/img/avatar1.png" width="30" height="30"
+                                             class="circle-shape small outlined shadow" alt="">
+                                    </div>
+                                    <div class="col-10">
+                                        <div class="lena-normal-text">Anna Smith</div>
+                                        <div class="lena-light-text lena-truncate-text">Hey Joe! Can you send me again the docs
+                                            you mentioned yesterday?
+                                        </div>
+                                        <div class="lena-small-text">2h ago</div>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <a href="#" class="list-group-item">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col-2">
+                                        <img src="assets/img/avatar2.jpg" width="30" height="30"
+                                             class="circle-shape small outlined shadow" alt="">
+                                    </div>
+                                    <div class="col-10">
+                                        <div class="lena-normal-text">John Doe</div>
+                                        <div class="lena-light-text lena-truncate-text">Hey there! Anybody saw Anna's dog?</div>
+                                        <div class="lena-small-text">14h ago</div>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <a href="#" class="list-group-item">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col-2">
+                                        <img src="assets/img/avatar3.jpg" width="30" height="30"
+                                             class="circle-shape small outlined shadow" alt="">
+                                    </div>
+                                    <div class="col-10">
+                                        <div class="lena-normal-text">Lena Harper</div>
+                                        <div class="lena-light-text lena-truncate-text">The files are in the scanner. Please do
+                                            not touch them! Thx
+                                        </div>
+                                        <div class="lena-small-text">16h ago</div>
+                                    </div>
+                                </div>
+                            </a>
+
+                        </div>
+                        <div class="dropdown-menu-footer">
+                            <a href="#" class="text-muted">Show all messages</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item text-nowrap dropdown">
+                    <a class="nav-link" href="#" role="button" id="lenaBellDropdown" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false">
+                        <span class="typcn typcn-bell typcn-lena">
+                        </span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right slideIn" aria-labelledby="unaBellDropdown">
+                        <div class="dropdown-menu-header">
+                            3 New Notifications
+                        </div>
+                        <div class="list-group">
+                            <a href="#" class="list-group-item">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col-12">
+                                        <div class="lena-normal-text text-danger"><i
+                                                class="fa fa-exclamation-triangle m-r-5"></i>Server overload
+                                            <div class="lena-small-text float-right">2h ago</div>
+                                        </div>
+                                        <div class="lena-light-text lena-truncate-text">The servers are overloaded. Immediate
+                                            action needed.
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#" class="list-group-item">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col-12">
+                                        <div class="lena-normal-text text-success"><i class="fa fa-check m-r-5"></i>Monthly
+                                            reports sent
+                                            <div class="lena-small-text float-right">4h ago</div>
+                                        </div>
+                                        <div class="lena-light-text lena-truncate-text">Scheduled monthy reports are sent
+                                            successfully.
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#" class="list-group-item">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col-12">
+                                        <div class="lena-normal-text text-warning"><i class="fa fa-info-circle m-r-5"></i>
+                                            Pending invitations
+                                            <div class="lena-small-text float-right">5h ago</div>
+                                        </div>
+                                        <div class="lena-light-text lena-truncate-text">There are <strong>7</strong> pending
+                                            invitiations.
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="dropdown-menu-footer">
+                            <a href="#" class="text-muted">Show all notifications</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item text-nowrap dropdown">
+
+                    <a class="nav-link" href="#" role="button" id="lenaCountryDropdown" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        <img src="assets/img/us.png" width="20" height="20"
+                             class="circle-shape mini outlined float-right shadow m-t-5" alt="">
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right lena-country-selector" aria-labelledby="lenaCountryDropdown">
+                        <a class="dropdown-item lena-normal-text" href="#"><img src="assets/img/us.png" width="20" height="20"
+                                                                                class="" alt="">English</a>
+                        <a class="dropdown-item lena-normal-text" href="#"><img src="assets/img/es.png" width="20" height="20"
+                                                                                class="" alt="">Spanish</a>
+                        <a class="dropdown-item lena-normal-text" href="#"><img src="assets/img/de.png" width="20" height="20"
+                                                                                class="" alt="">German</a>
+                        <a class="dropdown-item lena-normal-text" href="#"><img src="assets/img/nl.png" width="20" height="20"
+                                                                                class="" alt="">Dutch</a>
+                    </div>
+
+                </li>
+                <li class="nav-item text-nowrap emerald-settings-btn dropdown">
+                    <a class="nav-link" href="#" role="button" id="lenaSettingsDropdown" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        <div class="mr-2 float-left m-t-5">Anna Smith</div>
+                        <img src="assets/img/avatar1.png" width="30" height="30"
+                             class="circle-shape small outlined float-right shadow" alt="">
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right lena-profile-dropdown slideIn"
+                         aria-labelledby="lenaSettingsDropdown">
+                        <a class="dropdown-item lena-normal-text" href="profile.html">Profile</a>
+                        <a class="dropdown-item lena-normal-text" href="index.html">Analytics</a>
+                        <a class="dropdown-item lena-normal-text" href="#">Help</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item lena-normal-text" href="signin.html">Logout</a>
+                    </div>
+
+                </li>
+            </ul>
+            <ul class="navbar-nav d-inline-flex d-md-none">
+                <li class="nav-item lena-nav-item text-nowrap">
+                    <span class="typcn typcn-th-menu" data-mobile-sidebar-toggle="toggle"></span>
+                </li>
+            </ul>
+        </nav>
+        <!-- End of Navbar -->
+        <!-- Mobile Sidenav -->
+        <nav class="lena-mobile-sidebar shadow">
+            <h4>Menu <i class="fa fa-times float-right mt-2 lena-light-text" data-mobile-sidebar-toggle="toggle"></i></h4>
+            <ul class="mt-5">
+                <li>
+                    Anna Smith
+                    <img src="assets/img/avatar1.png" width="30" height="30"
+                         class="circle-shape small float-right outlined shadow" alt="">
+                </li>
+                <li class="no-padding">
+                    <hr>
+                </li>
+                <li>
+                    <a href="profile.html" class="lena-normal-text">Profile</a>
+                </li>
+                <li class="lena-normal-text">
+                    <a href="index.html" class="lena-normal-text">Analytics</a>
+                </li>
+                <li class="lena-normal-text">
+                    Help
+                </li>
+                <li class="no-padding">
+                    <hr>
+                </li>
+                <li>
+                    <a href="index.html" class="lena-normal-text">Logout</a>
+                </li>
+            </ul>
+        </nav>
+        <!-- End of Mobile Sidenav -->
+        <!-- Sidebar -->
+        <nav id="lena-sidebar" class="sidebar lena-sidebar lena-light lena-full open">
+            <div class="sidebar-sticky">
+                <ul class="nav flex-column">
+                    <li class="m-b-20">
+                        <a class="nav-link" href="#">
+                            <img src="assets/img/logo.png" class="lena-normal-logo" width="50" alt="">
+                            <img src="assets/img/logo-small.png" class="lena-small-logo" width="20" alt="">
+                        </a>
+                    </li>
+
+                    <li class="lena-nav">
+                        <a class="nav-link  active" href="#" data-toggle="collapse" data-target="#dashboardCollapse"
+                           aria-expanded="false">
+                            <span class="typcn typcn-chart-bar"></span>
+                            <span class="content">Dashboards <i class="fa fa-angle-right float-right"></i></span>
+                        </a>
+                        <ul id="dashboardCollapse" class="collapse collapse-panel" data-parent="#lena-sidebar">
+                            <li>
+                                <a class="nav-link active" href="index.html">
+                                    <span class="lena-icon-block"><b>ST</b></span>
+                                    <span class="content">Stocks</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="index-project.html">
+                                    <span class="lena-icon-block"><b>PT</b></span>
+                                    <span class="content">Project</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="index-geo.html">
+                                    <span class="lena-icon-block"><b>GO</b></span>
+                                    <span class="content">Geo</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a class="nav-link" href="#" data-toggle="collapse" data-target="#analyticsCollapse"
+                           aria-expanded="false">
+                            <span class="typcn typcn-chart-bar-outline"></span>
+                            <span class="content">Analytics <i class="fa fa-angle-right float-right"></i></span>
+                        </a>
+                        <ul id="analyticsCollapse" class="collapse collapse-panel" data-parent="#lena-sidebar">
+                            <li>
+                                <a class="nav-link" href="charts.html">
+                                    <span class="lena-icon-block"><b>CJ</b></span>
+                                    <span class="content">Chart.js</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="google-charts.html">
+                                    <span class="lena-icon-block"><b>GC</b></span>
+                                    <span class="content">Google Charts</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="sparkline.html">
+                                    <span class="lena-icon-block"><b>SL</b></span>
+                                    <span class="content">Sparkline</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a class="nav-link" href="#" data-toggle="collapse" data-target="#mapsCollapse" aria-expanded="false">
+                            <span class="typcn typcn-location-outline"></span>
+                            <span class="content">Maps <i class="fa fa-angle-right float-right"></i></span>
+                        </a>
+                        <ul id="mapsCollapse" class="collapse collapse-panel" data-parent="#lena-sidebar">
+                            <li>
+                                <a class="nav-link" href="maps-google.html">
+                                    <span class="lena-icon-block"><b>GM</b></span>
+                                    <span class="content">Google Maps</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="maps-mapbox.html">
+                                    <span class="lena-icon-block"><b>MB</b></span>
+                                    <span class="content">Mapbox</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="maps-leaflet.html">
+                                    <span class="lena-icon-block"><b>LT</b></span>
+                                    <span class="content">Leaflet</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a class="nav-link" href="#"  data-toggle="collapse" data-target="#projectsCollapse"
+                           aria-expanded="false">
+                            <span class="typcn typcn-th-large"></span>
+                            <span class="content">Projects<i class="fa fa-angle-right float-right"></i></span>
+                        </a>
+                        <ul id="projectsCollapse" class="collapse collapse-panel" data-parent="#lena-sidebar">
+                            <li>
+                                <a class="nav-link" href="kanban.html">
+                                    <span class="lena-icon-block"><b>KB</b></span>
+                                    <span class="content">Kanban</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="tasks.html">
+                                    <span class="lena-icon-block"><b>PT</b></span>
+                                    <span class="content">Projects</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a class="nav-link" href="#" data-toggle="collapse" data-target="#pagesCollapse"
+                           aria-expanded="false">
+                            <span class="typcn typcn-document-text"></span>
+                            <span class="content">Pages<i class="fa fa-angle-right float-right"></i></span>
+                        </a>
+                        <ul id="pagesCollapse" class="collapse collapse-panel" data-parent="#lena-sidebar">
+                            <li>
+                                <a class="nav-link" href="profile.html">
+                                    <span class="lena-icon-block"><b>PE</b></span>
+                                    <span class="content">Profile</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="invoice.html">
+                                    <span class="lena-icon-block"><b>IV</b></span>
+                                    <span class="content">Invoice</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="pricing.html">
+                                    <span class="lena-icon-block"><b>PR</b></span>
+                                    <span class="content">Pricing</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="blank.html">
+                                    <span class="lena-icon-block"><b>BK</b></span>
+                                    <span class="content">Blank</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="landing.html">
+                                    <span class="lena-icon-block"><b>LD</b></span>
+                                    <span class="content">Landing</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a class="nav-link" href="email.html">
+                            <span class="typcn typcn-message-typing"></span>
+                            <span class="content">Email</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="nav-link" href="layout.html">
+                            <span class="typcn typcn-edit"></span>
+                            <span class="content">Layout</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="nav-link" href="#" data-toggle="collapse" data-target="#authCollapse" aria-expanded="false">
+                            <span class="typcn typcn-business-card"></span>
+                            <span class="content">Auth <i class="fa fa-angle-right float-right"></i></span>
+                        </a>
+                        <ul id="authCollapse" class="collapse collapse-panel" data-parent="#lena-sidebar">
+                            <li>
+                                <a class="nav-link" href="signup.html">
+                                    <span class="lena-icon-block"><b>SU</b></span>
+                                    <span class="content">Signup</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="signin.html">
+                                    <span class="lena-icon-block"><b>SI</b></span>
+                                    <span class="content">Signin</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="404.html">
+                                    <span class="lena-icon-block"><b>40</b></span>
+                                    <span class="content">404</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="recover-password.html">
+                                    <span class="lena-icon-block"><b>RP</b></span>
+                                    <span class="content">Recover password</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a class="nav-link" href="#" data-toggle="collapse" data-target="#componentsCollapse"
+                           aria-expanded="false">
+                            <span class="typcn typcn-th-small-outline"></span>
+                            <span class="content">Components <i class="fa fa-angle-right float-right"></i></span>
+                        </a>
+                        <ul id="componentsCollapse" class="collapse collapse-panel" data-parent="#lena-sidebar">
+                            <li>
+                                <a class="nav-link" href="https://getbootstrap.com/docs/4.3/getting-started/introduction/" target="_blank">
+                                    <span class="lena-icon-block"><b>BT</b></span>
+                                    <span class="content">Bootstrap</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="lena.html">
+                                    <span class="lena-icon-block"><b>LN</b></span>
+                                    <span class="content">Lena</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+
+                    <li>
+                        <a class="nav-link" href="documentation.html">
+                            <span class="typcn typcn-code"></span>
+                            <span class="content">Documentation</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="nav-link" href="changelog.html">
+                            <span class="typcn typcn-sort-numerically"></span>
+                            <span class="content">Changelog <span class="badge badge-success text-white">1.0</span></span>
+                        </a>
+                    </li>
+                </ul>
+                <hr>
+                <!-- Sidebar bottom -->
+                <div class="lena-sidebar-bottom">
+                    <a href="#" class="lena-category-label">Projects & team</a>
+                    <div class="mt-1">
+                        <img src="assets/img/avatar1.png" class="circle-shape small lena-bordered" alt="">
+                        <img src="assets/img/avatar2.jpg" class="circle-shape small lena-bordered m-l--10" alt="">
+                        <img src="assets/img/avatar3.jpg" class="circle-shape small lena-bordered m-l--10" alt="">
+                        <img src="assets/img/avatar4.jpg" class="circle-shape small lena-bordered m-l--10" alt="">
+                        <img src="assets/img/avatar5.jpg" class="circle-shape small lena-bordered m-l--10" alt="">
+                    </div>
+                    <!-- Project list -->
+                    <ul class="mt-2">
+                        <li><div class="lena-light-text pastel-blue">Project Prometheus</div></li>
+                        <li><div class="lena-light-text pastel-red">Project Athene</div></li>
+                        <li><div class="lena-light-text pastel-green">Project Olympos</div></li>
+                        <li><div class="lena-light-text pastel-yellow">Project Lena</div></li>
+                    </ul>
+                    <!-- End of Project list -->
+                    <button class="btn btn-primary btn-sm btn-block mt-3">Invite friends</button>
+                </div>
+                <!-- End of Sidebar bottom -->
+
+            </div>
+        </nav>
+        <!-- End of Sidebar -->
+        <!-- Fixed chat face -->
+        <div class="emerald-fixed-chat-face shadow" style="background: url(./assets/img/avatar2.jpg); background-size: cover;" data-chat-toggle="toggle"></div>
+        <!-- End of Fixed chat face -->
+
+
+        <!-- Content -->
+        <main role="main" class="open">
+            <div class="container pt-4 pl-4 pb-4">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-12">
+                        <h1>Stocks dashboard</h1>
+                        <p>Vibrant, real-time stocks dashboard</p>
+                    </div>
+                </div>
+
+                <!-- Stock cards -->
+                <div class="row mt-3">
+                    <div class="col-md-4 col-sm-12 col-12">
+                        <!-- Card -->
+                        <div class="card no-border hover-shadow">
+                            <div class="card-body text-center">
+                                <div class="circle-shape small margin-auto bg-primary-light">
+                                    <span class="typcn typcn-group"></span>
+                                </div>
+                                <h1 class="font-weight-bold mt-1 mb-0">21,1k</h1>
+                                <p>Total visitors</p>
+                                <small class="text-success font-weight-bold">
+                                    <span class="typcn typcn-arrow-sorted-up"></span> 114%
+                                </small>
+                            </div>
+                        </div>
+                        <!-- End of Card -->
+                        <!-- Stock card -->
+                        <div class="card no-border hover-shadow mt-2">
+                            <div class="card-menu">
+                                <i class="fa fa-ellipsis-v text-color-light"></i>
+                            </div>
+                            <div class="card-body">
+                                <div class="content">
+                                    <div class="badge bg-lena-pastel-red text-white">STOCKS</div>
+                                    <h5 class="mt-1">APM papers are all-time high now.</h5>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <div class="text-success"><i class="fa fa-angle-up"></i> +0.6%</div>
+                                            <small><b>LENA</b></small>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="text-danger"><i class="fa fa-angle-down"></i> -1.2%</div>
+                                            <small><b>APPLE</b></small>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="text-success"><i class="fa fa-angle-up"></i> +0.3%</div>
+                                            <small><b>APM</b></small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End of Stock card -->
+                    </div>
+                    <div class="col-md-8 col-sm-12 col-12">
+                        <!-- Image card -->
+                        <div class="card lena-stock-card image big no-border hover-shadow mt-1 mt-sm-0 mt-md-0" style="background: url(./assets/img/ny.png); background-size: cover;" >
+                            <div class="overlay">
+                                <div class="card-menu">
+                                    <i class="fa fa-ellipsis-v"></i>
+                                </div>
+                                <div class="card-body">
+
+                                    <div class="content">
+                                        <div class="badge badge-success">NEWS</div>
+                                        <h5 class="mt-1">The stock market is rising. <br> More info <a href="#">Bloomberg
+                                                daily.</a></h5>
+                                        <p class="lena-light-text text-white">Stocks Close at Five-Month High on Dovish <br> Fed Turn: Markets Wrap</p>
+                                        <div class="row d-none d-sm-flex">
+                                            <div class="col-4">
+                                                <div class="text-success"><i class="fa fa-angle-up"></i> +0.6%</div>
+                                                <small><b>LENA</b></small>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="text-danger"><i class="fa fa-angle-down"></i> -1.2%</div>
+                                                <small><b>APPLE</b></small>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="text-success"><i class="fa fa-angle-up"></i> +0.3%</div>
+                                                <small><b>YAHOO</b></small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End of Image card -->
+                    </div>
+                </div>
+                <!-- Stock cards -->
+                <div class="row mt-3">
+                    <div class="col-md-6 col-sm-12 col-12" >
+                        <div class="card lena-card big no-border">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="lena-text-pastel-red lena-normal-text">
+                                            <i class="fas fa-circle mr-1"></i> Live news
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-1">
+                                    <div class="col-6">
+                                        <h4 class="font-weight-bold">Lena LLC</h4>
+                                    </div>
+                                    <div class="col-6 text-right">
+                                        <h4 class="font-weight-bold lena-text-pastel-red">490.37 <small class="lena-small-text lena-text-pastel-red">-320</small></h4>
+                                    </div>
+                                </div>
+                                <canvas class="mt-2" id="lena-stock-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-sm-12 col-12">
+                        <!-- Stock card -->
+                        <div class="card lena-card lena-news-card big dark no-border hover-shadow">
+                            <div class="card-menu">
+                                <i class="fa fa-ellipsis-v"></i>
+                            </div>
+                            <div class="card-body">
+                                <div class="content">
+                                    <div class="lena-text-pastel-red lena-normal-text">
+                                        <i class="fas fa-circle mr-1"></i> Live news
+                                    </div>
+                                    <h5 class="mt-2">World’s Cheapest Mortgage May Be Around the Corner in Denmark</h5>
+                                    <p class="lena-normal-text">Soon, the government of Japan might be the only issuer paying less to borrow than Danish homeowners.</p>
+                                    <a href="" class="lena-light-text">via Bloomberg</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End of Stock card -->
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-8 col-sm-12">
+                        <!-- Map card -->
+                        <div class="card lena-card big no-border">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="lena-text-pastel-blue lena-normal-text">
+                                            <i class="fas fa-circle mr-1"></i> Satellite feed
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-1">
+                                    <div class="col-6">
+                                        <h4 class="font-weight-bold">Stocks by state</h4>
+                                    </div>
+                                    <div class="col-6 text-right">
+                                        <h4 class="font-weight-bold lena-text-pastel-green">230.77 <small class="lena-small-text lena-text-pastel-green">+20.2</small></h4>
+                                    </div>
+                                </div>
+                                <div class="mt-2" id="googleChart7"></div>
+                            </div>
+                        </div>
+                        <!-- End of Map card -->
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <!-- Lena card -->
+                        <div class="card lena-card big no-border hover-shadow">
+                            <div class="card-header">
+                                Source / medium
+                                <i class="fa fa-ellipsis-h float-right text-color-light"></i>
+                                <i class="fa fa-download float-right text-color-light mr-2"></i>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="pieChartMedium"></canvas>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Medium</th>
+                                            <th scope="col">Revenue</th>
+                                            <th scope="col">Value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><span class="typcn typcn-media-record text-primary mr-1"></span>Facebook</td>
+                                            <td>$2400</td>
+                                            <td><span class="text-success">+43%</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="typcn typcn-media-record text-danger mr-1"></span>Google</td>
+                                            <td>$1300</td>
+                                            <td><span class="text-success">+23%</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="typcn typcn-media-record text-success mr-1"></span>Instagram</td>
+                                            <td>$784</td>
+                                            <td><span class="text-success">+17%</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="typcn typcn-media-record text-info mr-1"></span>Referral</td>
+                                            <td>$356</td>
+                                            <td><span class="text-success">+22%</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- End of Lena card -->
+
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-8 col-sm-12">
+                        <div class="card lena-card big no-border">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="lena-text-pastel-blue lena-normal-text">
+                                            <i class="fas fa-circle mr-1"></i> Current stocks
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-1">
+                                    <div class="col-6">
+                                        <h4 class="font-weight-bold">Stocks by month</h4>
+                                    </div>
+                                    <div class="col-6 text-right">
+
+                                    </div>
+                                </div>
+                                <div class="row mt-1">
+                                    <div class="col-12">
+                                        <ul class="lena-tabs">
+                                            <li class="active lena-normal-text">New York</li>
+                                            <li class="lena-normal-text">Washington</li>
+                                            <li class="lena-normal-text">Florida</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <canvas class="mt-4" id="stackedStocks"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <!-- Card -->
+                        <div class="card lena-card  no-border hover-shadow" >
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4 d-none d-md-block center-typcn">
+                                        <span class="typcn typcn-shopping-cart"></span>
+                                    </div>
+                                    <div class="col-md-8 col-12 col-sm-6">
+                                        <h4 class="font-weight-bold mt-1 mb-0">2,500</h4>
+                                        <p class="mb-0">Sales today</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Lena progress bar -->
+                            <div class="lena-progress" data-progress="75"></div>
+                        </div>
+                        <!-- End of Card -->
+                        <!-- Card -->
+                        <div class="card lena-card no-border hover-shadow mt-2">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4 d-none d-md-block center-typcn">
+                                        <span class="typcn typcn-tag"></span>
+                                    </div>
+                                    <div class="col-md-8 col-12 col-sm-6">
+                                        <h4 class="font-weight-bold mt-1 mb-0">$5,600</h4>
+                                        <p class="mb-0">Total earnings </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Lena progress bar -->
+                            <div class="lena-progress" data-progress="25"></div>
+                        </div>
+                        <!-- End of Card -->
+                        <!-- Card -->
+                        <div class="card lena-card  no-border hover-shadow mt-2" >
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4 d-none d-md-block center-typcn">
+                                        <span class="typcn typcn-shopping-cart"></span>
+                                    </div>
+                                    <div class="col-md-8 col-12 col-sm-6">
+                                        <h4 class="font-weight-bold mt-1 mb-0">2,500</h4>
+                                        <p class="mb-0">Sales today</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Lena progress bar -->
+                            <div class="lena-progress" data-progress="75"></div>
+                        </div>
+                        <!-- End of Card -->
+
+                        <!-- Stock card -->
+                        <div class="card lena-card  no-border hover-shadow mt-2">
+                            <div class="card-menu">
+                                <i class="fa fa-ellipsis-v"></i>
+                            </div>
+                            <div class="card-body">
+                                <div class="content">
+                                    <div class="row">
+                                        <div class="col-10">
+                                            <div class="badge badge-success">FORECAST</div>
+                                            <h5 class="mt-1">Fortune 500 revenue growth</h5>
+                                            <h6 class="lena-light-text">$34.000.000 </h6>
+                                            <div class="mt-3">
+                                                <div id="mycharts5"></div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End of Stock card -->
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!-- End Content -->
+
+        <script type="text/javascript" src="assets/main.js"></script>
+        <script src='https://www.google.com/recaptcha/api.js'></script>    
+
+    </body>
+</html>
