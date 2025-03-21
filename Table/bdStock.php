@@ -29,11 +29,12 @@ public function insertarStock($objCabe, $objDeta, $objCliente, $obserbIng) {
                  $id_clie = mysqli_insert_id($mysql);
        
          }else if($idAccion == "1"){
-            $query = "UPDATE tbl_proveedores
+            /*$query = "UPDATE tbl_proveedores
                       SET    rut='".$objCliente[0]->rut."',   
                           nombre='".$objCliente[0]->nombre."'
                       WHERE id_proveedor='".$objCliente[0]->idProveedor."'";
-            $resultCabe = mysqli_query($mysql, $query);	
+            $resultCabe = mysqli_query($mysql, $query);	*/
+            $id_clie = $objCliente[0]->idProveedor;
             
         }
        

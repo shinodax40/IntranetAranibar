@@ -24,10 +24,14 @@ angularRoutingApp.controller('controllerIngresarStock', ['$scope', '$http',
         
 
 $scope.init = function () {    
-    
-  document.getElementById('divPedido').style.display    = 'none'; 
-  document.getElementById('divInforme').style.display   = 'block'; 
 
+  document.getElementById('divSeleccionarProductos').style.display           = 'block';
+  document.getElementById('divPedidoDescuento').style.display                    = 'block';     
+  document.getElementById('divSeleccionarCliente').style.display                   = 'none'; 
+  document.getElementById('divObservacionProducto').style.display                   = 'none'; 
+
+
+  
     
     if( $scope.customInterEntrar != true){
         $scope.customInterLogin=true;
@@ -234,7 +238,7 @@ $scope.agregarSelProductos = function () {
                if(document.prodSeleccion.producto.value==""){
                    alertify.alert("Tiene que seleccionar producto para agregar a la lista."); 
                    return 0;
-                }else if ($scope.cantidadStock=="0"){ 
+                }else if ($scope.cantidadStock==null || $scope.cantidadStock==''){ 
                     alertify.alert("Tiene que ingresar la cantidad para agregar a la lista."); 
                     return 0; 
                 }else if(bandera==true){
@@ -415,8 +419,8 @@ if($scope.tipoClientePed =="1"){
             }
 
 
-        var objCabe = JSON.stringify(arrayPro);
-        var objDeta = JSON.stringify(arrayProd);
+        var objCabe    = JSON.stringify(arrayPro);
+        var objDeta    = JSON.stringify(arrayProd);
         var objCliente = JSON.stringify(arrayClie);
 
        $.blockUI({ css: { 
@@ -450,7 +454,7 @@ if($scope.tipoClientePed =="1"){
                 $scope.listProd   = [];
                 alertify.success("Ingreso generado con exito!");
 				 setTimeout($.unblockUI, 1000); 
-                
+                 $scope.salirSeleccionarCliente();
 				
             }else{
                 alertify.error("Error al ingresar Stock, favor contactar con el Administrador del Sistema.");
@@ -475,25 +479,19 @@ $scope.initClientes = function () {
              
                 $scope.clientes= data;
 
-               var length = $scope.clientes.length;
-              
-               var arrClie = [];
-               var arrClie2 = [];
-               for (var i = 0; i < length; i++) {
-                   var objClie= new Object();
-                   var objClie2= new Object();
+                var arrobjProveedor  = [];
 
-                   objClie = $scope.clientes[i].rut;
-                   objClie2 = $scope.clientes[i].nombre;
-
-                   
-                   arrClie.push(objClie);  
-                   arrClie2.push(objClie2); 
+                for(var i = 0; i < $scope.clientes.length; i++) {
+                     var objProv= new Object();
+                     objProv = $scope.clientes[i].nombre;                   
+                     arrobjProveedor.push(objProv); 
                 }
-                
+      
+
+
  
              $('#nombreDiv .typeahead').typeahead({                
-                  local: objClie2
+                  local: arrobjProveedor
                 }).on('typeahead:selected', function(event, selection) {
                         
                  $scope.seleccionarClienteNombre(selection.value);
@@ -591,7 +589,18 @@ $scope.enviarPedido = function () {
     var length = $scope.dgVentas.length;        
     if(length>0){   
         $scope.initClientes();
-        $("#myModalCliente").modal();
+        //$("#myModalCliente").modal();
+       
+
+        document.getElementById('divSeleccionarProductos').style.display           = 'none';
+        document.getElementById('divPedidoDescuento').style.display                = 'none';     
+        document.getElementById('divSeleccionarCliente').style.display             = 'block'; 
+        document.getElementById('divObservacionProducto').style.display            = 'none'; 
+      
+      
+        
+
+
     }else{
          alertify.alert("Para poder ingresar Stock necesita agregar productos a la lista."); 
     }    
@@ -599,11 +608,21 @@ $scope.enviarPedido = function () {
 }
  
 
+$scope.salirSeleccionarCliente =  function(){
+ 
+    document.getElementById('divSeleccionarProductos').style.display           = 'block';
+    document.getElementById('divPedidoDescuento').style.display                = 'block';     
+    document.getElementById('divSeleccionarCliente').style.display             = 'none'; 
+    document.getElementById('divObservacionProducto').style.display            = 'none';  
+}    
+  
+
+
 $scope.confirmarPedido = function () { 
-    alertify.confirm("¿ Esta seguro que desea ingresar factura ?", function (e) {
+    alertify.confirm("Esta seguro que desea ingresar factura ?", function (e) {
         if (e) {
             $scope.generarPedido();
-             $("#myModalCliente").modal("hide");
+           //  $("#myModalCliente").modal("hide");
         } else {
             // user clicked "cancel"
         }
@@ -743,9 +762,11 @@ $scope.buscarObsProd = function (obj){
 
 $scope.verListadoEnDetalle =  function(stdo){
     
-          document.getElementById('divPedido').style.display                    = 'block';     
-          document.getElementById('divInforme').style.display                    = 'none'; 
-    
+          document.getElementById('divSeleccionarProductos').style.display          = 'none';     
+          document.getElementById('divObservacionProducto').style.display           = 'block'; 
+          document.getElementById('divPedidoDescuento').style.display               = 'none';   
+          document.getElementById('divSeleccionarCliente').style.display            = 'none';   
+
           $scope.verDetallePed(stdo);
 
 }
@@ -774,9 +795,11 @@ $scope.verDetallePed = function(stdo){
 
 
 $scope.verDetallePedidoSalir = function(){
-      document.getElementById('divPedido').style.display                    = 'none';      
-      document.getElementById('divInforme').style.display             = 'block';  
-              
+      document.getElementById('divSeleccionarProductos').style.display                    = 'none';      
+      document.getElementById('divObservacionProducto').style.display             = 'block';  
+      document.getElementById('divPedidoDescuento').style.display               = 'none';   
+      document.getElementById('divSeleccionarCliente').style.display               = 'none';   
+        
 }
 
 
