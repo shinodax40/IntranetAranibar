@@ -242,9 +242,9 @@ public function listarDetalleIngresos($ingreso) {
 					f.activo,
                     sd.valor_neto as precioNetoAnt,
                     p.precioPart,                    
-                    sp.id as idNodo,
+                   /* sp.id as idNodo,
                     sp.nombreProd as nombreNodo,
-                    sp.stockProd as stockNodo,
+                    sp.stockProd as stockNodo,*/
                     ''/*(SELECT count(p.id) FROM productos p where p.nodo_prod like d.id_prod)*/ as subProdPadre
 
                     
@@ -255,7 +255,7 @@ public function listarDetalleIngresos($ingreso) {
                     on f.id_ingresos = d.id_ingresos
                     and f.id_prod = d.id_prod
                     
-                    LEFT OUTER JOIN (
+                 /*   LEFT OUTER JOIN (
                      SELECT pp.id,
                             pp.nombreProd,
                             (IFNULL((SELECT SUM(d.cantidad)
@@ -277,7 +277,7 @@ public function listarDetalleIngresos($ingreso) {
                             
                      FROM productos pp 
                      WHERE pp.id
-                    ) sp ON sp.nodo_prod = d.id_prod
+                    ) sp ON sp.nodo_prod = d.id_prod*/
 
                     LEFT OUTER JOIN ((
 				     select tp.precio_venta,
@@ -338,12 +338,12 @@ public function listarDetalleIngresos($ingreso) {
     
 			}
             			$tmp->precioPart         = $row->precioPart;
-            
+            /*
             			$tmp->idNodo            = $row->idNodo;
             			$tmp->nombreNodo        = $row->nombreNodo;
             			$tmp->stockNodo         = $row->stockNodo;
 
-			
+			*/
            // $tmp->subProd         = $result;
 
 			$ret[] = $tmp;
