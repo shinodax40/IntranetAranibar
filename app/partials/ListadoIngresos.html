@@ -56,8 +56,7 @@
 </div>
 
 
-    
-    
+
 <div class="container">
      <div class="col-xs-6">
              <h5>Se han encontrado un total de {{listIngresos.length}} ingresos.</h5>
@@ -545,7 +544,7 @@
                         </tr>
             </table>  
      -->
-                 <div class="form-group col-md-2">
+            <!--     <div class="form-group col-md-2">
            <div class="input-group">
                   <span class="input-group-addon">ID PROD</span>
                   <strong>
@@ -563,7 +562,7 @@
                ng-click="insertProdEscala()">    
             <span class="glyphicon glyphicon-plus-sign"></span>
       </button>  
-              </div> 
+              </div> -->
           
         <table class="table table-striped table table-bordered table-hover " style="font-size:11px"  at-table at-paginated at-list="list" at-config="config">              
              <thead>
@@ -571,7 +570,7 @@
                           <th class="text-center">Id Prod</th>
                           <th class="text-center">Nombre</th>
                           <th class="text-center">Precio Particular con/Iva</th> 
-                          <th class="text-center">Precio Venta con/Iva</th> 
+                          <th class="text-center">Precio Venta Comercial con/Iva</th> 
                           <th class="text-center">Cantidad</th> 
                           <th class="text-center">Precio Costo con/Iva</th> 
                           <th class="text-center">Total</th>
@@ -683,26 +682,29 @@
          <div class="modal-footer">
 
 			      <div class="form-group col-xs-6  col-md-3 row" ng-show="{{!customConfig}}">
-						 <label class="control-label">Estado Ingreso:</label>
+						 <label class="control-label">Estado:</label>
 						   <div class="btn-group" data-toggle="buttons">    
-											  <label class="btn btn-warning btn-sm" 
+											  <label class="btn btn-primary" 
 													 ng-class="{active: activoIngreso == '1'}" 
 													 ng-click="confirmarActive('1')">
 												<input type="radio" 
 													   ng-model="activoIngreso"  
 													   value="1"> ON
 											  </label>
-											  <label class="btn btn-warning btn-sm" 
+											  <label class="btn btn-danger" 
 													 ng-class="{active: activoIngreso == '0'}" 
 													 ng-click="confirmarActive('0')">
 												<input type="radio" 
 													   ng-model="activoIngreso"  
 													   value="0"> OFF
 											  </label>
+                        <h4 ng-if="activoIngreso == '1'" class="modal-title"><p style="color:#354d8f; font-weight: bold;">Activado</p></h4>
+                        <h4 ng-if="activoIngreso == '0'" class="modal-title"><p style="color:#8f0404; font-weight: bold;">Desactivado</p></h4>
 						 </div>
 				 </div> 
 			 
-            
+
+                 
             <button type="submit" ng-hide="stadoPed" class="btn btn-success" ng-click="confirmarIngreso()">Guardar Detalle
             <span class="glyphicon glyphicon-floppy-disk"></span></button>
 

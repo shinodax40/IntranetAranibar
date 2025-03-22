@@ -293,7 +293,7 @@
     
 <hr>
 
-    <button class="btn btn-warning" ng-click="generarReporteProductos()">
+    <button class="btn btn-success" ng-click="generarReporteProductos()">
         Generar Reportes Tiendas PDF <span class="glyphicon glyphicon-download-alt"></span>
     </button>
     
@@ -358,16 +358,12 @@
                               width="50"   
                               height="35">-->
                 </td>
-                <td>{{ prod.cod_barra }}</td>
-                
+                <td>{{ prod.cod_barra }}</td>                
                 <td>{{ prod.nombreProd }}</td>
-                <td>{{ prod.nombreProv }}</td>
-                
-                <td>{{ prod.clasProd }}</td>
-                
+                <td>{{ prod.nombreProv }}</td>                
+                <td>{{ prod.clasProd }}</td>                
                 <td>$ {{ prod.precioPart | number:0  }}</td>
-                <td>
-					$ {{ (prod.precioMasc * 1.19) - ((prod.precioMasc * 1.19) * (prod.porcentaje/100))  | number:0  }}		
+                <td>$ {{ (prod.precioMasc * 1.19) - ((prod.precioMasc * 1.19) * (prod.porcentaje/100))  | number:0  }}		
 					
 						  <!--  <span ng-switch on="interface" style="font-size:9px">
                                               <img src='img/flechaArriba.png'  
@@ -606,44 +602,44 @@
                 
                 
                 <td class="text-center">
-					  <div class="btn-group" data-toggle="buttons">    
-											  <label class="btn btn-success btn-sm" 
-													 ng-class="{active: prod.activo == '1'}" 
-													 ng-click="confirmarActiveProd(prod, '1')">
-												<input type="radio" 
-													   ng-model="prod.activo"  
-													   value="1"> ON
-											  </label>
-											  <label class="btn btn-success btn-sm" 
-													 ng-class="{active: prod.activo == '0'}" 
-													 ng-click="confirmarActiveProd(prod, '0')">
-												<input type="radio" 
-													   ng-model="prod.activo"  
-													   value="0"> OFF
-											  </label>
-						 </div>
-					</td>
+                      <div class="btn-group" data-toggle="buttons">    
+                                  <label class="btn btn-success btn-sm" 
+                                    ng-class="{active: prod.activo == '1'}" 
+                                    ng-click="confirmarActiveProd(prod, '1')">
+                                  <input type="radio" 
+                                      ng-model="prod.activo"  
+                                      value="1"> ON
+                                  </label>
+                                  <label class="btn btn-success btn-sm" 
+                                    ng-class="{active: prod.activo == '0'}" 
+                                    ng-click="confirmarActiveProd(prod, '0')">
+                                  <input type="radio" 
+                                      ng-model="prod.activo"  
+                                      value="0"> OFF
+                                  </label>
+                      </div>
+					       </td>
                 
-                        <td class="text-center">
-					  <div class="btn-group" data-toggle="buttons">    
-											  <label class="btn btn-primary btn-sm" 
-													 ng-class="{active: prod.activo_tienda == '1'}" 
-													 ng-click="confirmarActiveTiendaProd(prod, '1')">
-												<input type="radio" 
-													   ng-model="prod.activo_tienda"  
-													   value="1"> ON
-											  </label>
-											  <label class="btn btn-primary btn-sm" 
-													 ng-class="{active: prod.activo_tienda == '0'}" 
-													 ng-click="confirmarActiveTiendaProd(prod, '0')">
-												<input type="radio" 
-													   ng-model="prod.activo_tienda"  
-													   value="0"> OFF
-											  </label>
-						 </div>
-					</td>
+                  <td class="text-center">
+                        <div class="btn-group" data-toggle="buttons">    
+                                    <label class="btn btn-primary btn-sm" 
+                                      ng-class="{active: prod.activo_tienda == '1'}" 
+                                      ng-click="confirmarActiveTiendaProd(prod, '1')">
+                                    <input type="radio" 
+                                        ng-model="prod.activo_tienda"  
+                                        value="1"> ON
+                                    </label>
+                                    <label class="btn btn-primary btn-sm" 
+                                      ng-class="{active: prod.activo_tienda == '0'}" 
+                                      ng-click="confirmarActiveTiendaProd(prod, '0')">
+                                    <input type="radio" 
+                                        ng-model="prod.activo_tienda"  
+                                        value="0"> OFF
+                                    </label>
+                        </div>
+					         </td>
                 
-                 <td style="text-align: center">{{ prod.fecha_vencimiento | date: 'dd-MM-yyyy' }}</td>
+                   <td style="text-align: center">{{ prod.fecha_vencimiento | date: 'dd-MM-yyyy' }}</td>
 
                               <td class="text-center" ng-show="{{!customInterProd}}">   
                                     <!--    <button 
@@ -744,7 +740,7 @@
               
          <thead>
                     <tr>
-                                        <th class="text-center" COLSPAN="21" style="font-size:18px" >
+                                        <th class="text-center" COLSPAN="24" style="font-size:18px" >
                                             <span style="font-size:25px;color:GREEN;"> PRODUCTOS DESAGRUPADOS</span>
                                             </th> 
                                        </tr>
@@ -764,9 +760,10 @@
                       <th style="text-align: center">Bodega</th>
                         <!--      <th style="text-align: center">Stock</th>-->
                       <th style="text-align: center">Stock Barros</th>
-                     <th style="text-align: center">Stock Santa</th>
-                         <th style="text-align: center">Stock Tucap</th>
-
+                      <th style="text-align: center">Stock Santa</th>
+                      <th style="text-align: center">Stock Tucap</th>
+                      <th style="text-align: center"  width="8%">Act.Ventas</th>
+                      <th style="text-align: center"  width="8%">Act.Tienda</th>
                       <th style="text-align: center">F. Vencimiento</th>                        
                       <th  style="text-align: center" ng-show="{{!customInterProd}}">Acciones</th>
                        <!--<th  class="text-center">Mensaje</th> -->                       
@@ -806,18 +803,13 @@
                               width="50"   
                               height="35">-->
                 </td>
-                <td>{{ prod.cod_barra }}</td>
-                
+                <td>{{ prod.cod_barra }}</td>                
                 <td>{{ prod.nombreProd }}</td>
-     <td>{{ prod.nodo_nombre_prod }}</td>
-           
-                <td>{{ prod.nombreProv }}</td>
-                
-                <td>{{ prod.clasProd }}</td>
-                
+                <td>{{ prod.nodo_nombre_prod }}</td>           
+                <td>{{ prod.nombreProv }}</td>                
+                <td>{{ prod.clasProd }}</td>                
                 <td>$ {{ prod.precioPart | number:0  }}</td>
-                <td>
-					$ {{ (prod.precioMasc * 1.19) - ((prod.precioMasc * 1.19) * (prod.porcentaje/100))  | number:0  }}		
+                <td>$ {{ (prod.precioMasc * 1.19) - ((prod.precioMasc * 1.19) * (prod.porcentaje/100))  | number:0  }}		
 					
 						  <!--  <span ng-switch on="interface" style="font-size:9px">
                                               <img src='img/flechaArriba.png'  
