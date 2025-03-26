@@ -191,8 +191,9 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
           <li ng-class="{ selected: isActive('/Cliente')}"><a href="#/Cliente?ver=266">Clientes</a></li>  
           <li ng-class="{ selected: isActive('/Talonario')}"><a href="#/Talonario?ver=266">Talonario</a></li>
           
-                         
-                  <li class="dropdown">
+          <li ng-class="{ selected: isActive('/ListMarcaProductos')}"><a href="#/ListMarcaProductos?ver=266">Marcas</a></li>     
+
+          <li class="dropdown">
                             <a class="dropdown-toggle" 
                              data-toggle="dropdown" 
                              role="button" 
@@ -204,7 +205,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                       <li ng-class="{ selected: isActive('/CierresCajas')}"><a href="#/CierresCajas?ver=266">Resumen</a></li>   
 
                           </ul>
-                        </li>                 
+          </li>                 
                          
  <!--<li ng-class="{ selected: isActive('/InformeRutaVendedor')}"><a href="#/InformeRutaVendedor?ver=266">Ruta</a></li>  -->
   <li ng-class="{ selected: isActive('/ConsultarProducto')}"><a href="#/ConsultarProducto?ver=266"><span class="glyphicon glyphicon-search"></span> Codigo Barra</a></li>                          
@@ -374,6 +375,10 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 <script src="app/js/controllerCierreCajaCentralizada.js?ver=266"></script>    
 <script src="app/js/ControllerDescuento.js?ver=266"></script>
 <script src="app/js/controllerListInformeTransporte.js?ver=266"></script>
+<script src="app/js/controllerListMarcaProductos.js?ver=266"></script>
+
+
+
     
 
 <!--<script src="js/Chart.js"></script> 
@@ -401,7 +406,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 	
 <script src="Chart.js-2.1.1/dist/Chart.js"></script>	
     
-<!-- Lector C¨®digo de Barras -->
+<!-- Lector Cï¿½ï¿½digo de Barras -->
 <script src="app/js/quagga.js"></script>
     
 </body>

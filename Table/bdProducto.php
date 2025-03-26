@@ -3406,7 +3406,42 @@ SELECT dd.id_prod,
        } 
     
     
-    
+    public function listarMarcasProductos(){
+        $mysql = mysqli_connect($this->DATABASE_SERVER,$this->DATABASE_USERNAME,$this->DATABASE_PASSWORD);
+		mysqli_select_db($mysql, $this->DATABASE_NAME);
+
+        $query="SELECT 
+                    m.codMarca,
+                    m.codCategoria,
+                    m.nombreMarca,
+                    c.nombreCategoria,
+                    m.activo
+                    FROM marca m
+                    LEFT OUTER JOIN categoria c 
+                    ON c.codCategoria = m.codCategoria;";
+
+        $result = mysqli_query($mysql, $query);
+        $total = mysqli_num_rows($result);
+
+        $ret = array();
+        while ($row = mysqli_fetch_object($result)) {
+            $tmp = new stdClass();
+            $tmp->codMarca     =   $row->codMarca;
+            $tmp->codCategoria =   $row->codCategoria;
+            $tmp->nombreMarca  =   $row->nombreMarca;
+            $tmp->nombreCategoria       =   $row->nombreCategoria;
+
+            $tmp->activo                =   $row->activo;
+
+            
+            
+            $ret[] = $tmp;
+        }
+          mysqli_free_result($result);
+          return ($ret);
+ 
+          mysqli_close($mysql);
+    }
     
     
     

@@ -1427,7 +1427,15 @@ $NuboxTest = new NuboxConnectTest();
         //Busqueda Estado Nubox
         case 'updateEstadoCompraSII': echo updateEstadoCompraSII($_REQUEST['folio'], $_REQUEST['rut'], $_REQUEST['id_factura']); break;
         case 'obtienePDFCompraSII': echo obtienePDFCompraSII($_REQUEST['folio'], $_REQUEST['rut']); break;
+        
+        
         case 'generarNotaCreditoSII': echo generarNotaCreditoSII($_POST['data']); break;
+
+
+        case 'listarMarcasProductos': echo json_encode(listarMarcasProductos()); break;
+
+
+
         case 'listarDescuentos': echo json_encode(listarDescuentos()); break;
             
         case 'listEscalaProducto': echo json_encode(listEscalaProducto(
@@ -3587,6 +3595,15 @@ function listarDescuentosVentas($id_prod){
 		$instancia= new bdPedido($dataBaseServer,$dataBaseUsername,$dataBaseUserPassword,$dataBaseName);
 		return $instancia->listarDescuentosVentas($id_prod);
 }
+
+function listarMarcasProductos(){
+    global $dataBaseServer,$dataBaseUsername,$dataBaseUserPassword,$dataBaseName;
+    $instancia= new bdProducto($dataBaseServer,$dataBaseUsername,$dataBaseUserPassword,$dataBaseName);
+    return $instancia->listarMarcasProductos();
+}
+
+
+
 
 function listarProductoHijo($id_prod){
         global $dataBaseServer,$dataBaseUsername,$dataBaseUserPassword,$dataBaseName;

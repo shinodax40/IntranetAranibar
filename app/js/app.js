@@ -120,6 +120,10 @@ angularRoutingApp.config(function($routeProvider, $locationProvider) {
             templateUrl: 'app/partials/ListInformeTransporte.html',
             controller: 'controllerListInformeTransporte'
         })
+        .when('/ListMarcaProductos', {
+            templateUrl: 'app/partials/ListMarcaProductos.html',
+            controller: 'controllerListMarcaProductos'
+        })
         .otherwise({
             redirectTo: '/Login'
         });
