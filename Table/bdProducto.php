@@ -3432,6 +3432,7 @@ SELECT dd.id_prod,
             $tmp->nombreCategoria       =   $row->nombreCategoria;
 
             $tmp->activo                =   $row->activo;
+            $tmp->estado_mod                =   0;
 
             
             

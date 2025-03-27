@@ -21,7 +21,6 @@ $scope.init = function () {
 
         $http({method : 'POST',
         url : 'FunctionIntranet.php?act=listarMarcasProductos&tienda='+$scope.tiendaSeleccionada,
-       /* data:  $.param({data: {productos: arrayDeta, documentoReferenciado: refObj, id_credito: $scope.listPedidosIndex.id}}),   */                             
         headers : {'Content-Type': 'application/x-www-form-urlencoded'}  
         }).success(function(data){
 
@@ -35,14 +34,69 @@ $scope.init = function () {
         });
 
 
+        $http({method : 'POST',
+            url : 'FunctionIntranet.php?act=tipoProducto&tienda='+$scope.tiendaSeleccionada,
+           /* data:  $.param({data: {productos: arrayDeta, documentoReferenciado: refObj, id_credito: $scope.listPedidosIndex.id}}),   */                             
+            headers : {'Content-Type': 'application/x-www-form-urlencoded'}  
+            }).success(function(data){
+    
+
+
+                $scope.tipos         = data;
+                $scope.listCategoria = data;
+                  
+    
+            setTimeout($.unblockUI, 1000);
+            }).error(function(error){
+            console.log("error Listar Tipo: "+error);
+    
+            setTimeout($.unblockUI, 1000);
+            });
+    
+
 
 
 
 
 };
 
+
+
+
+
+$scope.selTipo = function (value, listMarcaSel) {
+
+     var length = $scope.listadoMarcas.length; 
+     var objProd = new Object();	
+      for(var i = 0; i < length; i++) {
+        if($scope.listadoMarcas[i].codMarca == listMarcaSel.codMarca){
+               $scope.listadoMarcas[i].codCategoria  = value;	
+            break;
+        }             
+     }
+            
+     
+             
+ };
+
+
+
+
+
    
+$scope.confirmarEstadoModificar = function(prodDet, value){
     
+	var length = $scope.listadoMarcas.length; 
+	var objProd = new Object();	
+	 for(var i = 0; i < length; i++) {
+     /* objProd = $scope.listInformeTranspDeta;*/
+       if($scope.listadoMarcas[i].codMarca == prodDet.codMarca){
+              $scope.listadoMarcas[i].estado_mod  = value;	
+           break;
+       }             
+    }
+};	  
+           
        
 
         

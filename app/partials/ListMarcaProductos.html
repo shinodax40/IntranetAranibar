@@ -6,299 +6,139 @@
     
 <div class="panel-body">   
     
-    
-
-    
-    
-    <div class="modal fade miClaseModal" id="myImageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h5 class="modal-title" id="myModalLabel">Pedido N° {{idPedido}} - {{nombPedido}}</h5>
-      </div>
-      <div class="modal-body">
-        <img id="modal-image">
-      </div> 
-      <div class="modal-footer">
-        <button type="button" class="btn btn-warning" data-dismiss="modal">
-          <span class="glyphicon glyphicon-chevron-left"></span>Cerrar
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-    
-    <div class="modal fade" id="myModalProductoImagen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                         <h3 class="modal-title"><p style="color:#354d8f; font-weight: bold;">{{nombProdMod}}</p></h3>   
-                  </div>
-                <div class="modal-body">
-
-                                
-                    
-                                
-                <div class="row">
-                  <div class="col-md-12">
-                 
-                      
-                      
-                      
-                  <div class="row">
-
-                       <div class="col-md-12">
-                             
-                               <label class="control-label" >Foto:</label>
-                      <div class="custom-file">
-                                <input type="file"  
-                                       class="custom-file-input" 
-                                       id="customFileLang" 
-                                       file-model="variableBase64" 
-                                       accept="image/png">
-                                <label class="custom-file-label" for="customFileLang" data-browse="Elegir">Esta opcion es solo para adjuntar cierre caja en tienda</label>
-                            </div>    
-                 
-                      </div> 
-            
-                      
-                    </div>
-                  </div>
-                </div>  
-                    
-         
-                </div> 
-
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-warning" ng-click="guadarArchivoInforme()">Guardar
-                    <span class="glyphicon glyphicon-floppy-disk"></span></button>
-                    <button type="button" class="btn btn-warning" data-dismiss="modal">
-                    <span class="glyphicon glyphicon-chevron-left"></span>Salir
-                    </button>
-
-
-
-                </div>
-                </div>
-        </div>
-</div>    
-      
-        <div class="panel-heading">
-     <h3 class="modal-title"><p style="color:#354d8f; font-weight: bold;">Listado de marcas</p></h3>
-    </div>
         
-       <table class="table table-striped table table-bordered table-hover"
-              style="font-size:15px" 
-              at-table at-paginated at-list="list" 
-              at-config="config">       
-              
-         <thead>
-                    <tr>
-                      <th  style="text-align: center">#</th>  
-                      <th  style="text-align: center">Foto</th>             
-                      <th  style="text-align: center">Marca</th>
-                      <th  style="text-align: center">Categoria</th>
-                      <th  style="text-align: center"></th> 
-                      <th  style="text-align: center">Observacion</th>                        
-    
-                      <th  style="text-align: center"></th>                                             
-                    </tr>
-         </thead>
-          <tbody>
-            <tr  ng-repeat="cierres in listadoMarcas">     
-                <td style="text-align: center">{{ $index + 1 }}</td>  
-                     <td  style="text-align: center"><img  ng-src="{{cierres.foto}}"
-                               onerror="this.src='https://aranibar.cl/barrosaranas/Table/img/sinImagen.png';"
-                                onClick="openImageModal(this)" 
-                                style="cursor: pointer"                                
-                              class='eye'
-                              width="50"   
-                              height="50"></td>                                       
-  
-                <td style="text-align: center">{{ cierres.nombreMarca }}</td>                      
-                <td style="text-align: center">{{ cierres.nombreCategoria }}</td>
-                <td style="text-align: center">
-                
-                                           <button 
-                                                     class="btn btn-xs" 
-                                                     id="myFormproductoImagen"
-                                                     data-toggle="modal"  
-                                                     data-target="#myModalProductoImagen"
-                                                     ng-click="preVerSolicitudDetalle(cierres)">  
-                                              <span class="glyphicon glyphicon-camera"></span>
-                                           </button> 
-                
-                </td>   
-                <td style="text-align: center">{{ cierres.observacion }}</td>                    
-                <td style="text-align: center">
-                  <button ng-if="cierres.centralizado == 0 && bloquearTipoDoc == false" type="submit" class="btn btn-success" ng-click="syncCierreCaja(cierres.id_caja)"><span class="glyphicon glyphicon-cloud-upload"></span> CENTRALIZAR</button>
-                    
-                    
-                  <span ng-if="cierres.centralizado">CENTRALIZADO</span>
-                    
-                  <button ng-if="bloquearTipoDoc == true" type="submit" class="btn btn-success" ng-click="listarVentasGeneradasTiendas(cierres)"><span class="glyphicon glyphicon glyphicon-list-alt"></span> RESUMEN VENTAS</button>
-                    
-                </td>
-            </tr>
-          </tbody>
-        </table>  
-         <h3 class="modal-title" ng-hide="listadoCierres.length !=0"><p style="color:#F52C52; font-weight: bold;">Cargando...</p></h3>
+  <table class="table table-striped table table-bordered table-hover " 
+  style="font-size:12px"  
+  at-table at-paginated 
+  at-list="list"              
+  at-config="config">              
+<thead>
+           <tr>   
+             <th class="text-center" width="5%">Foto</th>
+             <th class="text-center" width="20%">Marca</th>
+             <th class="text-center" width="5%">Categoria</th>    
+             <th class="text-center" width="25%" >Activo</th>
+             <th class="text-center" width="9%">Acciones</th>    
 
-
-
-          
-
-    
-</div>    
-  
- <div class="modal fade miClaseModal"  id="myModalCobro" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h5 class="modal-title" id="myModalLabel">Pedido N° {{idPedidoTienda}} - Folio N° {{folio}}</h5>
-                  </div>
-                <div class="modal-body">
-
-    
-                <div class="row">
-                  <div class="col-md-12">
-                  <div class="row">
-                      <div class="col-md-6">
-                          <label class="control-label" for="inputSuccess1">Forma de Pago:</label>            
-                          <select  name="mySelectTipoCobros" 
-                                 class="form-control"
-                                  id="mySelectTipoCobros"
-                                  ng-options="option.name for option in cobros.availableOptions track by option.id"
-                                  ng-model="cobros.selectedOption">
-                          </select>  
-                    
-                      </div>
-
-                    </div>
-                          
-                  </div>
-                </div>     
-                           
-                
-                                 
-                    
-
-                </div> 
-
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-warning" ng-click="modificarPedidoCobro()">Guardar
-                    <span class="glyphicon glyphicon-floppy-disk"></span></button>
-                    <button type="button" class="btn btn-warning" data-dismiss="modal">
-                    <span class="glyphicon glyphicon-chevron-left"></span>Salir
-                    </button>
-
-
-
-                </div>
-                </div>
-        </div>
-</div> 
+           </tr>
+</thead>
+ <tbody>
+   <tr data-dismiss="modal" ng-repeat="(productIndex, prodDet) in listadoMarcas | filter: { nombreProd: nombreProdFilt }" > 
      
-   <div class="modal fade miClaseModal" id="myModalObserPedidoAnular" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog modal-sm" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="myModalLabel">Pedido N° {{idPedido}}</h5>
-                  </div>
-                <div class="modal-body">    
-                     <form role="form">
-                              <div class="form-group">
-                                        <label for="ejemplo_password_1">Motivo de la Anulacion:</label>
-                                           <textarea class="form-control" 
-                                                      rows="3" 
-                                                   ng-model="observacionVendAnular" 
-                                                   id="observacionVendAnular" 
-                                                   name="observacionVendAnular">
-                                         </textarea>               
-                               </div>  
-                        </form>                 
-                </div> 
-                <div class="modal-footer">
-                    <button type="submit" 
-                            class="btn btn-primary" 
-                            ng-click="confirmarAnularPedido()">Aceptar
-                    <span class="glyphicon glyphicon-floppy-disk"></span></button>
-                    <button type="button" 
-                            class="btn btn-dark" 
-                            data-dismiss="modal">
-                    <span class="glyphicon glyphicon-chevron-left"></span>Salir
-                    </button>
-                </div>
-                </div>
-        </div>
-</div>    
-       
-<div class="modal fade miClaseModal" id="myModaDetalle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h5 class="modal-title" id="myModalLabel">Ventas N° {{idVenta}}</h5>
-      </div>
-<div class="modal-body">
+    <td style="text-align: center">                             
+      <img  ng-src="{{prodDet.foto}}"
+       onerror="this.src='https://aranibar.cl/barrosaranas/Table/img/sinImagen.png';"
+        onClick="openImageModal(this)" 
+        style="cursor: pointer"                                
+      class='eye'
+      width="100"   
+      height="100">
 
-<table class="table table-striped table table-bordered" 
-       style="font-size:14px"  
-       at-table at-paginated at-list="list" at-config="config">     
-         <thead>
-                    <tr>
-                      <th style="text-align: center">FOTO</th>
-                      <th  style="text-align: center">#</th>                      
-                      <th style="text-align: center">ID</th>
-                      <th style="text-align: center">NOMBRE</th>
-                      <th style="text-align: center">VALOR</th>  
-                      <th style="text-align: center">CANT</th>       
-                      <th style="text-align: center">TOTAL</th>                     
-                    </tr>
-         </thead>
-          <tbody>               
-            <tr data-dismiss="modal" ng-repeat="prodDet in detalleVentas"> 
-                <td style="text-align: center"> 
-                    <img  ng-src="{{prodDet.foto}}"
-                               onerror="this.src='https://aranibar.cl/barrosaranas/Table/img/sinImagen.png';"
-                              class='eye'
-                              width="100"   
-                              height="100"></td>
-                <td style="text-align: center">{{ $index + 1 }}</td>    
-                <td>{{ prodDet.id_prod }}</td>    
-                <td>{{ prodDet.nombreProd }}</td>
-                <td>$ {{ prodDet.precio_vendido | number:0  }}</td> 
-                <td>{{ prodDet.cantidad }}</td> 
-                <td>$ {{ prodDet.total | number:0  }}</td>  
+</td>
 
-            </tr>
-          </tbody>
 
-</table>      
- 
+       <td class="text-center" ng-show="prodDet.estado_mod == 0">{{ prodDet.nombreMarca}}</td>
+       <td class="text-center"  ng-show="prodDet.estado_mod == 1">
+        <textarea  ng-model="prodDet.nombreMarca"                                  
+                   class="form-control" 
+                   rows="1" 
+                   size="10">
+        </textarea>
+      </td>
+       <td class="text-center" ng-show="prodDet.estado_mod == 0">{{ prodDet.nombreCategoria}}</td>
+       <td class="text-center" ng-show="prodDet.estado_mod == 1">     
+      <!--  <select  class="form-control" 
+                    ng-model="tipos" 
+                    ng-options="t.nombreCategoria group by t.grupo  for t in listCategoria"  
+                    ng-change="selTipo(tipos, prodDet)" >
+                <option  value="">-- Seleccione Tipo --</option>
+            </select>  
 
-</div>
-        
-      <div class="modal-footer">
-                        
+            <select class="form-control" >
+              <option ng-repeat="item in listCategoria" 
+                      value="{{item.nombreCategoria}}" 
+                      ng-selected="{{item.codCategoria==3}}"
+                      title="{{item.nombreCategoria}}">
+                   {{item.nombreCategoria}}
+              </option>
+          </select>-->
+
+          <select    class="form-control"
+                     ng-model="tipos" 
+                     ng-change="selTipo(tipos, prodDet)">
+            <option ng-repeat="item in listCategoria"                  
+                  ng-selected="prodDet.codCategoria == item.codCategoria" 
+                  value="{{item.codCategoria}}">
+               {{item.nombreCategoria}}
+            </option>
+         </select>
           
-        <button type="button" 
-                class="btn btn-warning" 
-                data-dismiss="modal">
-        <span class="glyphicon glyphicon-chevron-left"></span>Salir
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-        
+
+   
+
+       
+      </td>
+       
+       <td class="text-center">
+        <div class="btn-group" data-toggle="buttons">    
+                    <label class="btn btn-success btn-sm" 
+                      ng-class="{active: prodDet.activo == '1'}" 
+                      ng-click="confirmarActiveProd(prod, '1')">
+                    <input type="radio" 
+                        ng-model="prodDet.activo"  
+                        value="1"> ON
+                    </label>
+                    <label class="btn btn-success btn-sm" 
+                      ng-class="{active: prodDet.activo == '0'}" 
+                      ng-click="confirmarActiveProd(prod, '0')">
+                    <input type="radio" 
+                        ng-model="prodDet.activo"  
+                        value="0"> OFF
+                    </label>
+        </div>
+   </td>
+
+
+       
+
+
+          <td class="text-center">
+              
+                                <button  class="btn btn-primary" 
+                                         ng-show="prodDet.estado_mod == 0"
+                                         ng-click="confirmarEstadoModificar(prodDet, 1)">    
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                </button>
+              
+              
+                               <button  class="btn btn-info" 
+                                       ng-show="prodDet.estado_mod == 1"
+                                         ng-click="updateEscalaProd(prodDet)">    
+                                <span class="glyphicon glyphicon-floppy-saved"></span>
+                                </button>
+                 
+                                 
+                                <button  class="btn btn-danger" 
+                                         ng-click="confirmarBorrarEscala(prodDet)">    
+                                <span class="glyphicon glyphicon-remove-sign"></span>
+                                </button>
+                                 
+                                 
+                                 
+                             </td>
+                         
+   
+   </tr>
+ </tbody>
+</table> 
+<div ng-hide="detPedido.length !=0">Cargando...</div> 
     
     
 
 </div>  
+
+
+</div>
 <script type="application/javascript">
  
  function openImageModal(elem){
