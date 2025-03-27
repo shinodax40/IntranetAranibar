@@ -3432,6 +3432,9 @@ SELECT dd.id_prod,
             $tmp->nombreCategoria       =   $row->nombreCategoria;
 
             $tmp->activo                =   $row->activo;
+ 
+
+
             $tmp->estado_mod                =   0;
 
             
@@ -3443,10 +3446,34 @@ SELECT dd.id_prod,
  
           mysqli_close($mysql);
     }
+
+
+    public function actualizarMarca($codMarca, $nombreMarca, $codCategoria, $activoMarca){
+		$mysql = mysqli_connect($this->DATABASE_SERVER, $this->DATABASE_USERNAME, $this->DATABASE_PASSWORD);
+		mysqli_select_db($mysql, $this->DATABASE_NAME);	
+        mysqli_query($mysql, "SET NAMES 'utf8'");
     
+	
+		$query = "                   
+                        UPDATE marca 
+                        SET codCategoria='".$codCategoria."',
+                        nombreMarca='".$nombreMarca."',
+                        activo='".$activoMarca."' 
+                        WHERE codMarca='".$codMarca."';
+                      
+
+                    
+                    ";
     
+		$result = mysqli_query($mysql, $query);	
     
-    
+	
+    if($result == "1"){
+        return 1;
+    }else{
+        return 0;
+    }
+}
     
     
     

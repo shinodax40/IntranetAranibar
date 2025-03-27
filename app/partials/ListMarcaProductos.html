@@ -68,7 +68,7 @@
                      ng-change="selTipo(tipos, prodDet)">
             <option ng-repeat="item in listCategoria"                  
                   ng-selected="prodDet.codCategoria == item.codCategoria" 
-                  value="{{item.codCategoria}}">
+                  value="{{item.codCategoria}},{{item.nombreCategoria}}">
                {{item.nombreCategoria}}
             </option>
          </select>
@@ -79,18 +79,27 @@
        
       </td>
        
-       <td class="text-center">
+
+      <td class="text-center"  ng-show="prodDet.estado_mod == 0">
+
+        <h4 ng-if="prodDet.activo == 1 " class="modal-title"><p style="color:#354d8f; font-weight: bold;">Activado</p></h4>
+        <h4 ng-if="prodDet.activo == 0 " class="modal-title"><p style="color:#8f0404; font-weight: bold;">Desactivado</p></h4>
+
+      </td>
+
+      
+       <td class="text-center" ng-show="prodDet.estado_mod == 1">
         <div class="btn-group" data-toggle="buttons">    
                     <label class="btn btn-success btn-sm" 
                       ng-class="{active: prodDet.activo == '1'}" 
-                      ng-click="confirmarActiveProd(prod, '1')">
+                      ng-click="confirmarActiveProd(prodDet, '1')">
                     <input type="radio" 
                         ng-model="prodDet.activo"  
                         value="1"> ON
                     </label>
                     <label class="btn btn-success btn-sm" 
                       ng-class="{active: prodDet.activo == '0'}" 
-                      ng-click="confirmarActiveProd(prod, '0')">
+                      ng-click="confirmarActiveProd(prodDet, '0')">
                     <input type="radio" 
                         ng-model="prodDet.activo"  
                         value="0"> OFF

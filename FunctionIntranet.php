@@ -1463,8 +1463,14 @@ $NuboxTest = new NuboxConnectTest();
                                                                                        
                                                                     )); break;      
             
-     
-            
+        case 'actualizarMarca': echo json_encode(actualizarMarca( $_REQUEST['codMarca'], 
+                                                                    $_REQUEST['nombreMarca'],
+                                                                    $_REQUEST['codCategoria'],
+                                                                       $_REQUEST['activoMarca']
+                                                                                   
+                                                                )); break;      
+        
+                                                            
 
         case 'syncCierreCaja': echo syncCierreCaja($_POST['data']); break;
         case 'listarCierreCajaCentralizada': echo json_encode(listarCierreCajaCentralizada( $_REQUEST['fInicio'], 
@@ -7293,6 +7299,11 @@ function actualizarProdEscala($idEscala, $pescala, $descripEsc, $catMinima){
     return $instancia->actualizarProdEscala($idEscala, $pescala, $descripEsc, $catMinima);
 }
 
+function actualizarMarca($codMarca, $nombreMarca, $codCategoria, $activoMarca){
+    global $dataBaseServer,$dataBaseUsername,$dataBaseUserPassword,$dataBaseName;
+    $instancia= new bdProducto($dataBaseServer,$dataBaseUsername,$dataBaseUserPassword,$dataBaseName);
+    return $instancia->actualizarMarca($codMarca, $nombreMarca, $codCategoria, $activoMarca);
+}
 
 
 

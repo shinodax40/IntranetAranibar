@@ -61,16 +61,28 @@ $scope.init = function () {
 };
 
 
+$scope.confirmarActiveProd = function (selMarca, value) {
+    var length = $scope.listadoMarcas.length; 
+    var objProd = new Object();	
+     for(var i = 0; i < length; i++) {
+       if($scope.listadoMarcas[i].codMarca == selMarca.codMarca){
+              $scope.listadoMarcas[i].activo  = value;	
+           break;
+       }             
+    }
+};
 
 
+$scope.selTipo = function (valueObj, listMarcaSel) { 
+     var arrayData = valueObj.split(','); 
 
-$scope.selTipo = function (value, listMarcaSel) {
 
      var length = $scope.listadoMarcas.length; 
      var objProd = new Object();	
       for(var i = 0; i < length; i++) {
         if($scope.listadoMarcas[i].codMarca == listMarcaSel.codMarca){
-               $scope.listadoMarcas[i].codCategoria  = value;	
+               $scope.listadoMarcas[i].codCategoria     = arrayData[0];	
+               $scope.listadoMarcas[i].nombreCategoria  = arrayData[1];
             break;
         }             
      }
@@ -79,8 +91,38 @@ $scope.selTipo = function (value, listMarcaSel) {
              
  };
 
+ $scope.updateEscalaProd = function (obj){
+    
+    $http({
+     method : 'POST',
+        url : 'FunctionIntranet.php?act=actualizarMarca&tienda='+$scope.tiendaSeleccionada,
+        data:  $.param({codMarca:obj.codMarca,
+                        nombreMarca:obj.nombreMarca,
+                        codCategoria:obj.codCategoria,
+                        activoMarca:obj.activo
+                       }),
+                headers : {'Content-Type': 'application/x-www-form-urlencoded'}  
+  }).success(function(data){
+        console.log(data);               
 
+         var respuesta = data.charAt(data.length-1);
+                    
+            if(respuesta=="1"){                
+                alertify.success("Actualizado con exito!");
+                $scope.confirmarEstadoModificar(obj, 0);
+                
+            }else{
+                alertify.error("Error al actualizar escala, favor contactar con el Administrador del Sistema.");
+            }
+        
+      
+  }).error(function(error){
+        console.log(error);
 
+});
+    
+    
+}
 
 
    
