@@ -120,6 +120,111 @@ $scope.selTipo = function (valueObj, listMarcaSel) {
 }
 
 
+
+$scope.confirmarInsertarMarca = function (){ 
+    alertify.confirm("Esta seguro que desea insertar nueva marca ?", function (e) {
+        if (e) {            
+            $scope.insertarMarcaProducto();         
+        }
+    });        
+};        
+        
+
+
+$scope.insertarMarcaProducto =  function(){
+    $http({
+           method : 'POST',
+           url : 'FunctionIntranet.php?act=insertarMarcaProducto&tienda='+$scope.tiendaSeleccionada,           
+           headers : {'Content-Type': 'application/x-www-form-urlencoded'}  
+     }).success(function(data){
+           console.log(data);               
+   
+            var respuesta = data.charAt(data.length-1);
+                       
+               if(respuesta=="1"){                                  
+                  alertify.success("Ingresado con exito!");   
+                  $scope.init();                
+               }else{
+               
+                 alertify.error("Error al insertar marca.");
+               }
+           
+         
+     }).error(function(error){
+           console.log(error);
+   
+   });
+}
+
+
+
+$scope.eliminarMarcaProducto =  function(obj){
+    $http({
+           method : 'POST',
+           url : 'FunctionIntranet.php?act=eliminarMarcaProducto&tienda='+$scope.tiendaSeleccionada, 
+           data:  $.param({codMarca:obj.codMarca
+           }),          
+           headers : {'Content-Type': 'application/x-www-form-urlencoded'}  
+     }).success(function(data){
+           console.log(data);               
+   
+            var respuesta = data.charAt(data.length-1);
+                       
+               if(respuesta=="1"){                                  
+                  alertify.success("Eliminado con exito!");  
+                  $scope.init();                  
+               }else{
+               
+                 alertify.error("Error al eliminar marca.");
+               }
+           
+         
+     }).error(function(error){
+           console.log(error);
+   
+   });
+}
+
+$scope.confirmarEliminarMarca = function (obj){ 
+    alertify.confirm("Esta seguro que desea eliminar  marca ?", function (e) {
+        if (e) {            
+            $scope.eliminarMarcaProducto(obj);         
+        }
+    });        
+};        
+     
+
+
+$scope.consultarRelacionMarca = function(obj){
+    
+    $http({
+        method : 'POST',
+           url : 'FunctionIntranet.php?act=consultarRelacionProductoMarca&tienda='+$scope.tiendaSeleccionada,
+           data:  $.param({codMarca:obj.codMarca,
+                           codCategoria:obj.codCategoria,
+                          }),
+                   headers : {'Content-Type': 'application/x-www-form-urlencoded'}  
+     }).success(function(data){
+           console.log(data);               
+   
+            var respuesta = data.charAt(data.length-1);
+                       
+               if(respuesta=="1"){                
+                  
+                   alertify.error("Error al eliminar marca, existen producto asociados a la marca.");
+                   
+               }else{
+                $scope.confirmarEliminarMarca(obj); 
+               }
+           
+         
+     }).error(function(error){
+           console.log(error);
+   
+   });
+
+};	  
+
    
 $scope.confirmarEstadoModificar = function(prodDet, value){
     

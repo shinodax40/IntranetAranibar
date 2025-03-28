@@ -3450,6 +3450,32 @@ SELECT dd.id_prod,
      
      
        } 
+
+
+    public function consultarRelacionProductoMarca($codMarca, $codCategoria){
+        $mysql = mysqli_connect($this->DATABASE_SERVER,$this->DATABASE_USERNAME,$this->DATABASE_PASSWORD);
+		mysqli_select_db($mysql, $this->DATABASE_NAME);
+
+        $query="SELECT p.id 
+                FROM productos p 
+                WHERE p.marcaProd='".$codMarca."'
+                AND p.categoriaProd ='".$codCategoria."'";
+
+        $result = mysqli_query($mysql, $query);
+        $total = mysqli_num_rows($result);
+
+        
+        if( $total == "0"){
+           return 0;
+        }else{
+            return 1;
+        }
+
+
+        mysqli_close($mysql);
+
+    }
+
     
     
     public function listarMarcasProductos(){
@@ -3464,7 +3490,8 @@ SELECT dd.id_prod,
                     m.activo
                     FROM marca m
                     LEFT OUTER JOIN categoria c 
-                    ON c.codCategoria = m.codCategoria;";
+                    ON c.codCategoria = m.codCategoria
+                              ORDER by c.nombreCategoria ASC;";
 
         $result = mysqli_query($mysql, $query);
         $total = mysqli_num_rows($result);
@@ -3503,9 +3530,13 @@ SELECT dd.id_prod,
 
 
     public function actualizarMarca($codMarca, $nombreMarca, $codCategoria, $activoMarca){
-		$mysql = mysqli_connect($this->DATABASE_SERVER, $this->DATABASE_USERNAME, $this->DATABASE_PASSWORD);
-		mysqli_select_db($mysql, $this->DATABASE_NAME);	
-        mysqli_query($mysql, "SET NAMES 'utf8'");
+        $arrayBaseDatos[0] = "aranibar_aranibar";
+        $arrayBaseDatos[1] = "aranibar_santa_maria";
+        $arrayBaseDatos[2] = "aranibar_tucapel";
+           
+     for($i=0;$i<count($arrayBaseDatos);$i++) {         
+          $mysql = mysqli_connect($this->DATABASE_SERVER,$this->DATABASE_USERNAME,$this->DATABASE_PASSWORD);
+          mysqli_select_db($mysql,  $arrayBaseDatos[$i]);
     
 	
 		$query = "                   
@@ -3520,13 +3551,15 @@ SELECT dd.id_prod,
                     ";
     
 		$result = mysqli_query($mysql, $query);	
-    
+     }
 	
     if($result == "1"){
         return 1;
     }else{
         return 0;
     }
+
+    mysqli_close($mysql);
 }
     
     
@@ -3569,6 +3602,64 @@ SELECT dd.id_prod,
      
        }  
     
+
+
+
+
+       public function insertarMarcaProducto(){
+          $arrayBaseDatos[0] = "aranibar_aranibar";
+          $arrayBaseDatos[1] = "aranibar_santa_maria";
+          $arrayBaseDatos[2] = "aranibar_tucapel";
+             
+       for($i=0;$i<count($arrayBaseDatos);$i++) {   
+             
+            $mysql = mysqli_connect($this->DATABASE_SERVER,$this->DATABASE_USERNAME,$this->DATABASE_PASSWORD);
+            mysqli_select_db($mysql,  $arrayBaseDatos[$i]);
+           
+            $query="INSERT INTO marca() VALUES ();";     
+            $result = mysqli_query($mysql, $query);
+
+       }
+             
+          if($result == "1"){
+                    return 1;
+                }else{
+                    return 0;
+            }   
+             
+             
+           mysqli_close($mysql);
+         
+        }
+
+
+        public function eliminarMarcaProducto($codMarca){
+            $arrayBaseDatos[0] = "aranibar_aranibar";
+            $arrayBaseDatos[1] = "aranibar_santa_maria";
+            $arrayBaseDatos[2] = "aranibar_tucapel";
+               
+         for($i=0;$i<count($arrayBaseDatos);$i++) {   
+               
+              $mysql = mysqli_connect($this->DATABASE_SERVER,$this->DATABASE_USERNAME,$this->DATABASE_PASSWORD);
+              mysqli_select_db($mysql,  $arrayBaseDatos[$i]);
+             
+              $query="DELETE FROM marca  WHERE codMarca='".$codMarca."';";     
+              $result = mysqli_query($mysql, $query);
+  
+         }
+               
+            if($result == "1"){
+                      return 1;
+                  }else{
+                      return 0;
+              }   
+               
+               
+             mysqli_close($mysql);
+           
+          }
+
+
     
      
      public function eliminarCodigoBarra($id){

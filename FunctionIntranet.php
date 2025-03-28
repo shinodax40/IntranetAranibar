@@ -1415,40 +1415,44 @@ $NuboxTest = new NuboxConnectTest();
         	break;   */
             
             
-            case 'boletaTiendaVentasPDF': echo json_encode(boletaTiendaVentasPDF( $_REQUEST['idPedido'], $_REQUEST['imprimir'] )); break;      
-            
-            
-            case 'ticketsRetiroBodega': echo json_encode(ticketsRetiroBodega( $_REQUEST['idPedido'] )); break;      
-            
-            
+        case 'boletaTiendaVentasPDF': echo json_encode(boletaTiendaVentasPDF( $_REQUEST['idPedido'], $_REQUEST['imprimir'] )); break;      
+              
+        case 'ticketsRetiroBodega': echo json_encode(ticketsRetiroBodega( $_REQUEST['idPedido'] )); break;      
+              
         case 'generarBoletaDesdeListadoPedidos': echo json_encode(generarBoletaDesdeListadoPedidos( $_REQUEST['idPedido'] )); break;      
 
-            
-
-            
-                 case 'subirArchivoFolio': echo json_encode(subirArchivoFolio($_POST['idFolio'],
+        case 'subirArchivoFolio': echo json_encode(subirArchivoFolio($_POST['idFolio'],
                                                                                   $_POST['imagen'])); break; 
         //Busqueda Estado Nubox
         case 'updateEstadoCompraSII': echo updateEstadoCompraSII($_REQUEST['folio'], $_REQUEST['rut'], $_REQUEST['id_factura']); break;
-        case 'obtienePDFCompraSII': echo obtienePDFCompraSII($_REQUEST['folio'], $_REQUEST['rut']); break;
         
+        case 'obtienePDFCompraSII': echo obtienePDFCompraSII($_REQUEST['folio'], $_REQUEST['rut']); break;
         
         case 'generarNotaCreditoSII': echo generarNotaCreditoSII($_POST['data']); break;
 
-
         case 'listarMarcasProductos': echo json_encode(listarMarcasProductos()); break;
 
-
-
         case 'listarDescuentos': echo json_encode(listarDescuentos()); break;
+
+        case 'insertarMarcaProducto': echo json_encode(insertarMarcaProducto()); break;
+
+        case 'eliminarMarcaProducto': echo json_encode(eliminarMarcaProducto( $_REQUEST['codMarca'])); break;
+        
             
         case 'listEscalaProducto': echo json_encode(listEscalaProducto(
                                                                         $_REQUEST['idMarca'], 
-                                                                        $_REQUEST['idCategoria'],
-        
-        
+                                                                        $_REQUEST['idCategoria']
                                                                         )); break;
   
+
+        case 'consultarRelacionProductoMarca': echo json_encode(consultarRelacionProductoMarca(
+                                                                            $_REQUEST['codMarca'], 
+                                                                            $_REQUEST['codCategoria']
+                                                                            )); break;
+
+                                                                        
+
+
         case 'insertarEscalaProd': echo json_encode(insertarEscalaProd( $_REQUEST['idProd'], 
                                                                         $_REQUEST['idMarca'],
                                                                         $_REQUEST['idCategoria']
@@ -3248,7 +3252,22 @@ function listarProductosCajasTienda($idProd){
 		return $instancia->listarProductosCajasTienda($idProd);
 }
 
+
+
 	
+function insertarMarcaProducto(){
+    global $dataBaseServer,$dataBaseUsername,$dataBaseUserPassword,$dataBaseName;
+    $instancia= new bdProducto($dataBaseServer,$dataBaseUsername,$dataBaseUserPassword,$dataBaseName);
+    return $instancia->insertarMarcaProducto();
+}
+
+function eliminarMarcaProducto($codMarca){
+    global $dataBaseServer,$dataBaseUsername,$dataBaseUserPassword,$dataBaseName;
+    $instancia= new bdProducto($dataBaseServer,$dataBaseUsername,$dataBaseUserPassword,$dataBaseName);
+    return $instancia->eliminarMarcaProducto($codMarca);
+}
+
+
     /*
 	public function insertarMarca($tipo, $nombMarca ){
 		$instancia= new bdProducto($this->dataBaseServer,$this->dataBaseUsername,$this->dataBaseUserPassword,$this->dataBaseName);
@@ -7289,6 +7308,14 @@ function listEscalaProducto( $idMarca, $idCategoria){
     $instancia= new bdStock($dataBaseServer,$dataBaseUsername,$dataBaseUserPassword,$dataBaseName);
     return $instancia->listEscalaProducto( $idMarca, $idCategoria);
 }
+
+
+
+    function consultarRelacionProductoMarca( $codMarca, $codCategoria){
+        global $dataBaseServer,$dataBaseUsername,$dataBaseUserPassword,$dataBaseName;
+        $instancia= new bdProducto($dataBaseServer,$dataBaseUsername,$dataBaseUserPassword,$dataBaseName);
+        return $instancia->consultarRelacionProductoMarca( $codMarca, $codCategoria);
+    }
 
 
 function insertarEscalaProd($idProd, $idMarca, $idCategoria){
