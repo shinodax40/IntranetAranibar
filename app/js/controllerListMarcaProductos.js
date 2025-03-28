@@ -51,12 +51,7 @@ $scope.init = function () {
             console.log("error Listar Tipo: "+error);
     
             setTimeout($.unblockUI, 1000);
-            });
-    
-
-
-
-
+            });    
 
 };
 
@@ -74,8 +69,8 @@ $scope.confirmarActiveProd = function (selMarca, value) {
 
 
 $scope.selTipo = function (valueObj, listMarcaSel) { 
-     var arrayData = valueObj.split(','); 
 
+     var arrayData = valueObj.split(','); 
 
      var length = $scope.listadoMarcas.length; 
      var objProd = new Object();	
@@ -139,8 +134,61 @@ $scope.confirmarEstadoModificar = function(prodDet, value){
     }
 };	  
            
-       
 
+$scope.selProdParaMod = function(selMa){
+     $scope.idMarca      = selMa.codMarca;  
+     $scope.nombProdMod  = selMa.nombreMarca; 
+
+ 
+}
+
+       
+$scope.guadarProductoArchivo = function(){
+    var arrObj = [];
+    var objProd= new Object();
+    objProd.idMarca      =  $scope.idMarca;
+    objProd.imagen       =  $scope.variableBase64;
+    arrObj.push(objProd);
+  
+    var objCabe    = JSON.stringify(arrObj);   
+   
+  
+$http({
+  method: 'POST',
+  url: 'FunctionIntranet.php?act=saveMarcaArchivo&tienda='+$scope.tiendaSeleccionada, 
+  data: $.param({ idMarca: $scope.idMarca, imagen: $scope.variableBase64 }),
+  headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+}).success(
+  function(res) {
+      
+      
+        var respuesta = res.charAt(res.length-1);
+    
+               if(respuesta=="1"){                
+                     alertify.success("Archivo subido con exito!");
+                  }else{
+                      
+                      if(respuesta=="2"){
+                           alertify.error("Error al subir archivo.");
+                      }else if(respuesta=="3"){
+                            alertify.error("La imagen debe ser png.");
+                      }else if(respuesta=="0"){
+                      alertify.error("Error al subir archivo, favor contactar con el Administrador del Sistema.");
+
+                      }
+                      
+                  }
+      
+      
+  },
+  function(err) {
+                           alertify.error("Error al subir archivo, favor contactar con el Administrador del Sistema.");
+
+  }
+);
+
+};
+   
         
         
         

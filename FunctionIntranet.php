@@ -648,7 +648,7 @@ $NuboxTest = new NuboxConnectTest();
 
                                              )); break;  
 
-   case 'listarProductosInventario': echo json_encode(listarProductosInventario($_REQUEST['idProd'])); break;
+    case 'listarProductosInventario': echo json_encode(listarProductosInventario($_REQUEST['idProd'])); break;
           
     case 'listarPedClientesCobro': echo json_encode(listarPedClientesCobro($_REQUEST['idCliente'],
                                                                         $_REQUEST['idTipoBusqueda'] ,
@@ -656,7 +656,7 @@ $NuboxTest = new NuboxConnectTest();
                                                                      $_REQUEST['hasta']            
                                                             )); break;
             
-   case 'ingresarInventario': echo ingresarInventario(json_decode($_REQUEST['arrSal']),
+    case 'ingresarInventario': echo ingresarInventario(json_decode($_REQUEST['arrSal']),
                                                       json_decode($_REQUEST['arrIng']),
                                                       json_decode($_REQUEST['arrCua'])
 
@@ -665,39 +665,43 @@ $NuboxTest = new NuboxConnectTest();
           
           
           
-   case 'listarClientesEmpresa': echo json_encode(listarClientesEmpresa($_REQUEST['nombreClie'],
+    case 'listarClientesEmpresa': echo json_encode(listarClientesEmpresa($_REQUEST['nombreClie'],
                                                                         $_REQUEST['responsable'] ,
                                                                         $_REQUEST['tipoComp']           
                                                             )); break;
               
-   case 'listarVendedores': echo json_encode(listarVendedores()); break;   
+    case 'listarVendedores': echo json_encode(listarVendedores()); break;   
    
     case 'listarSector': echo json_encode(listarSector()); break;   
        
           
-   case 'guardarCliente': echo guardarCliente(json_decode($_REQUEST['arrClie'])); break;            
+    case 'guardarCliente': echo guardarCliente(json_decode($_REQUEST['arrClie'])); break;            
           
           
-         case 'saveProductoModArchivo': echo json_encode(saveProductoModArchivo($_POST['idProd'],
+    case 'saveProductoModArchivo': echo json_encode(saveProductoModArchivo($_POST['idProd'],
                                                                                   $_POST['imagen'])); break;    
+
+    case 'saveMarcaArchivo': echo json_encode(saveMarcaArchivo($_POST['idMarca'],
+                                                                                  $_POST['imagen'])); break;  
+
   
-             case 'subirArchivoRuta': echo json_encode(subirArchivoRuta($_POST['idInforme'],
+    case 'subirArchivoRuta': echo json_encode(subirArchivoRuta($_POST['idInforme'],
                                                                                   $_POST['imagen'])); break; 
             
-                     case 'subirArchivoCamion': echo json_encode(subirArchivoCamion($_POST['idInforme'],
-                                                                                  $_POST['imagen'])); break; 
-            
-            
-            
-              case 'subirArchivoFactura': echo json_encode(subirArchivoFactura($_POST['idFolio'],
+    case 'subirArchivoCamion': echo json_encode(subirArchivoCamion($_POST['idInforme'],
                                                                                   $_POST['imagen'])); break; 
             
             
-                  case 'subirArchivoTalonario': echo json_encode(subirArchivoTalonario($_POST['idTalonario'],
+            
+    case 'subirArchivoFactura': echo json_encode(subirArchivoFactura($_POST['idFolio'],
+                                                                                  $_POST['imagen'])); break; 
+            
+            
+    case 'subirArchivoTalonario': echo json_encode(subirArchivoTalonario($_POST['idTalonario'],
                                                                                   $_POST['imagen'])); break; 
    
             
-                      case 'subirArchivoCaja': echo json_encode(subirArchivoCaja($_POST['idCaja'],
+    case 'subirArchivoCaja': echo json_encode(subirArchivoCaja($_POST['idCaja'],
                                                                                   $_POST['imagen'])); break;         
             
             
@@ -3147,6 +3151,15 @@ function saveProductoModArchivo($idProd, $imagen){
 		$instancia= new bdProducto($dataBaseServer,$dataBaseUsername,$dataBaseUserPassword,$dataBaseName);
 		return $instancia->saveProductoModArchivo($idProd, $imagen);
 }
+
+function saveMarcaArchivo($idMarca, $imagen){
+    global $dataBaseServer,$dataBaseUsername,$dataBaseUserPassword,$dataBaseName;
+    $instancia= new bdProducto($dataBaseServer,$dataBaseUsername,$dataBaseUserPassword,$dataBaseName);
+    return $instancia->saveMarcaArchivo($idMarca, $imagen);
+}
+
+
+
 
 
 function subirArchivoRuta($idInforme, $imagen){

@@ -1419,6 +1419,52 @@ public function saveProductoModArchivo($idProd, $imagen) {
     
     
     
+public function saveMarcaArchivo($idMarca, $imagen) {
+    $mysql = mysqli_connect($this->DATABASE_SERVER,$this->DATABASE_USERNAME,$this->DATABASE_PASSWORD);
+    mysqli_select_db($mysql, $this->DATABASE_NAME);	
+    mysqli_query($mysql, "SET NAMES 'utf8'");		
+
+
+
+if($imagen != ""){
+   
+    $PRODUCT_IMG = __DIR__ .'/imgMarcas';
+
+    $f = finfo_open();
+//    $mime_type = finfo_buffer($f, base64_decode($this->openFileCoverPage($imagen)), FILEINFO_MIME_TYPE);
+       $mime_type = finfo_buffer($f, base64_decode($imagen), FILEINFO_MIME_TYPE);
+    
+
+    $formato = '';
+    if ($mime_type === "image/jpeg" || $mime_type === "image/png"  ||  $mime_type === "image/webp"  ) {
+        $formato = 'png';
+    } else {          
+        return 3;
+    }
+
+
+    
+    $archivo = sprintf('%s.%s', $idMarca, $formato);
+    $directory = sprintf('%s/%s', $PRODUCT_IMG, $archivo);
+
+//  $status = file_put_contents($directory, base64_decode($this->openFileCoverPage($imagen)));
+
+ $status = file_put_contents($directory, base64_decode($imagen));
+
+    
+    if (!$status) {    
+         return 2;
+    }else{
+        return 1;
+    }
+
+}else{
+    
+    return 0;
+}
+
+
+}     
   
         
 public function subirArchivoRuta($idInforme, $imagen) {
@@ -3438,6 +3484,14 @@ SELECT dd.id_prod,
             $tmp->estado_mod                =   0;
 
             
+
+            
+            $ramdom =  mt_rand();
+            $file  = "https://aranibar.cl/barrosaranas/Table/imgMarcas/".$row->codMarca.".png?".$ramdom; 
+            $tmp->foto = $file;
+           
+
+
             
             $ret[] = $tmp;
         }
