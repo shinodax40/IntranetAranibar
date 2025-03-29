@@ -1432,6 +1432,8 @@ $NuboxTest = new NuboxConnectTest();
 
         case 'listarMarcasProductos': echo json_encode(listarMarcasProductos()); break;
 
+        case 'listarCategoriasProductos': echo json_encode(listarCategoriasProductos()); break;        
+
         case 'listarDescuentos': echo json_encode(listarDescuentos()); break;
 
         case 'insertarMarcaProducto': echo json_encode(insertarMarcaProducto()); break;
@@ -1472,12 +1474,18 @@ $NuboxTest = new NuboxConnectTest();
                                                                     )); break;      
             
         case 'actualizarMarca': echo json_encode(actualizarMarca( $_REQUEST['codMarca'], 
-                                                                    $_REQUEST['nombreMarca'],
-                                                                    $_REQUEST['codCategoria'],
-                                                                       $_REQUEST['activoMarca']
-                                                                                   
+                                                                  $_REQUEST['nombreMarca'],
+                                                                  $_REQUEST['codCategoria'],
+                                                                  $_REQUEST['activoMarca']                                                                                  
                                                                 )); break;      
-        
+                                                                
+        case 'actualizarCategoria': echo json_encode(actualizarCategoria( $_REQUEST['codCategoria'], 
+                                                                  $_REQUEST['nombreCategoria'],
+                                                                  $_REQUEST['nombreGrupo'],
+                                                                  $_REQUEST['activoCategoria'],
+                                                                  $_REQUEST['activoPagina']
+               
+                                                            )); break;       
                                                             
 
         case 'syncCierreCaja': echo syncCierreCaja($_POST['data']); break;
@@ -3640,6 +3648,11 @@ function listarMarcasProductos(){
     return $instancia->listarMarcasProductos();
 }
 
+function listarCategoriasProductos(){
+    global $dataBaseServer,$dataBaseUsername,$dataBaseUserPassword,$dataBaseName;
+    $instancia= new bdProducto($dataBaseServer,$dataBaseUsername,$dataBaseUserPassword,$dataBaseName);
+    return $instancia->listarCategoriasProductos();
+}
 
 
 
@@ -7345,6 +7358,11 @@ function actualizarMarca($codMarca, $nombreMarca, $codCategoria, $activoMarca){
     return $instancia->actualizarMarca($codMarca, $nombreMarca, $codCategoria, $activoMarca);
 }
 
+function actualizarCategoria($codCategoria, $nombreCategoria, $nombreGrupo, $activoCategoria, $activoPagina){
+    global $dataBaseServer,$dataBaseUsername,$dataBaseUserPassword,$dataBaseName;
+    $instancia= new bdProducto($dataBaseServer,$dataBaseUsername,$dataBaseUserPassword,$dataBaseName);
+    return $instancia->actualizarCategoria($codCategoria, $nombreCategoria, $nombreGrupo, $activoCategoria, $activoPagina);
+}
 
 
 

@@ -1,10 +1,243 @@
-<div class="panel panel-default" ng-init="init()" id="divMarcas">
+<div class="panel panel-default">
     <div class="panel-heading">
      <h3 class="modal-title"><p style="color:#354d8f; font-weight: bold;">MANTENEDOR ADMINITRACION DE MENUS</p></h3>
     </div>
 
+<div class="panel panel-default" id="divTipos" ng-init="initCategoria()">
+
+      <div class="modal-header">
+           <h3 class="modal-title"><p style="color:#027dae; font-weight: bold;">CATEGORIA</p></h3>
+      </div>
     
-<div class="panel panel-default" id="divMarcas">
+    
+      
+    
+                <div class="panel-body">   
+                    
+                  <div class="form-group col-md-2">
+                    <button  class="btn btn-primary" 
+                            ng-click="confirmarInsertarMarca()">    
+                          <span class="glyphicon glyphicon-plus-sign"></span> CREAR NUEVA CATEGORIA
+                    </button>
+                  </div>  
+                        
+                        
+                        
+                    <div class="form-group col-md-3">
+                        <div class="input-group">
+                                <span class="input-group-addon">FILTRAR X NOMBRE CATEGORIA</span>
+                                <strong>
+                                <input class="form-control" 
+                                      ng-model="nombreProdFilt"></strong>
+                            
+                      </div>
+                  </div>    
+
+                  <div class="form-group col-md-3">
+                    <div class="input-group">
+                          <span class="input-group-addon">FILTRAR X GRUPO CATEGORIA</span>
+                          <strong>
+                          <input class="form-control" 
+                                  ng-model="categoriaNombre"></strong>
+                      
+                  </div>
+                </div>   
+
+                  <table class="table table-striped table table-bordered table-hover " 
+                  style="font-size:12px"  
+                  at-table at-paginated 
+                  at-list="list"              
+                  at-config="config">              
+                <thead>
+                          <tr>   
+                            <th class="text-center" width="20%">Nombre</th>
+                            <th class="text-center" width="5%">Grupos</th>    
+                            <th class="text-center" width="25%" >Activo</th>
+                            <th class="text-center" width="25%" >Activo Pagina</th>
+                            <th class="text-center" width="9%">Acciones</th>    
+
+                          </tr>
+                </thead>
+                <tbody>
+                  <tr data-dismiss="modal" ng-repeat="(productIndex, prodDet) in listadoCategoria | filter: { nombreCategoria: nombreProdFilt  } | filter: { grupo: categoriaNombre  }" > 
+                    
+             
+
+
+                      <td class="text-center" ng-show="prodDet.estado_mod == 0">{{ prodDet.nombreCategoria}}</td>
+                      <td class="text-center"  ng-show="prodDet.estado_mod == 1">
+                        <textarea  ng-model="prodDet.nombreCategoria"                                  
+                                  class="form-control" 
+                                  rows="1" 
+                                  size="10">
+                        </textarea>
+                      </td>
+                      <td class="text-center" ng-show="prodDet.estado_mod == 0">{{ prodDet.grupo}}</td>
+                      <td class="text-center" ng-show="prodDet.estado_mod == 1">     
+                        <textarea  ng-model="prodDet.grupo"                                  
+                        class="form-control" 
+                        rows="1" 
+                        size="10">
+                        </textarea>                      
+                      </td>
+                      
+
+                      <td class="text-center"  ng-show="prodDet.estado_mod == 0">
+
+                        <h4 ng-if="prodDet.activo == 1 " class="modal-title"><p style="color:#354d8f; font-weight: bold;">Activado</p></h4>
+                        <h4 ng-if="prodDet.activo == 0 " class="modal-title"><p style="color:#8f0404; font-weight: bold;">Desactivado</p></h4>
+
+                      </td>
+
+                      
+                      <td class="text-center" ng-show="prodDet.estado_mod == 1">
+                        <div class="btn-group" data-toggle="buttons">    
+                                    <label class="btn btn-success btn-sm" 
+                                      ng-class="{active: prodDet.activo == '1'}" 
+                                      ng-click="confirmarActiveProdCategoria(prodDet, '1')">
+                                    <input type="radio" 
+                                        ng-model="prodDet.activo"  
+                                        value="1"> ON
+                                    </label>
+                                    <label class="btn btn-success btn-sm" 
+                                      ng-class="{active: prodDet.activo == '0'}" 
+                                      ng-click="confirmarActiveProdCategoria(prodDet, '0')">
+                                    <input type="radio" 
+                                        ng-model="prodDet.activo"  
+                                        value="0"> OFF
+                                    </label>
+                        </div>
+                  </td>
+
+
+                  <td class="text-center"  ng-show="prodDet.estado_mod == 0">
+
+                    <h4 ng-if="prodDet.activo_pagina == 1 " class="modal-title"><p style="color:#354d8f; font-weight: bold;">Activado</p></h4>
+                    <h4 ng-if="prodDet.activo_pagina == 0 " class="modal-title"><p style="color:#8f0404; font-weight: bold;">Desactivado</p></h4>
+
+                  </td>
+
+                  
+                  <td class="text-center" ng-show="prodDet.estado_mod == 1">
+                    <div class="btn-group" data-toggle="buttons">    
+                                <label class="btn btn-success btn-sm" 
+                                  ng-class="{active: prodDet.activo_pagina == '1'}" 
+                                  ng-click="confirmarActiveProdCategoriaPagina(prodDet, '1')">
+                                <input type="radio" 
+                                    ng-model="prodDet.activo_pagina"  
+                                    value="1"> ON
+                                </label>
+                                <label class="btn btn-success btn-sm" 
+                                  ng-class="{active: prodDet.activo_pagina == '0'}" 
+                                  ng-click="confirmarActiveProdCategoriaPagina(prodDet, '0')">
+                                <input type="radio" 
+                                    ng-model="prodDet.activo_pagina"  
+                                    value="0"> OFF
+                                </label>
+                    </div>
+              </td>  
+
+
+                          <td class="text-center">
+                                                
+                                                
+                                                <button  class="btn btn-primary" 
+                                                        ng-show="prodDet.estado_mod == 0"
+                                                        ng-click="confirmarEstadoModificarCategoria(prodDet, 1)">    
+                                                <span class="glyphicon glyphicon-pencil"></span>
+                                                </button>
+                              
+                              
+                                              <button  class="btn btn-info" 
+                                                      ng-show="prodDet.estado_mod == 1"
+                                                        ng-click="updateEscalaProdCategoria(prodDet)">    
+                                                <span class="glyphicon glyphicon-floppy-saved"></span>
+                                                </button>
+                                
+                                                
+                                                <button  class="btn btn-danger" 
+                                                        ng-click="consultarRelacionMarca(prodDet)">    
+                                                <span class="glyphicon glyphicon-remove-sign"></span>
+                                                </button>
+                                                
+                                                
+                                                
+                                            </td>
+                                        
+                  
+                  </tr>
+                </tbody>
+                </table> 
+                <div ng-hide="detPedido.length !=0">Cargando...</div> 
+                    
+                    
+
+                </div>  
+
+
+
+                <div class="modal fade miClaseModal" id="myModalProductoImagen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                  <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                  <h3 class="modal-title"><p style="color:#ffffff; font-weight: bold;">{{ nombProdMod }}</p></h3>   
+                            </div>
+                          <div class="modal-body">
+
+                                          
+                              
+                                          
+                          <div class="row">
+                            <div class="col-md-12">
+                          
+                                
+                                
+                                
+                            <div class="row">
+
+                                <div class="col-md-12">             
+                                    
+                                        <label class="control-label" >Foto:</label>
+                                        <div class="custom-file">
+                                          <input type="file"  class="custom-file-input" id="customFileLang" 
+                                                file-model="variableBase64" 
+                                                    accept="image/png">
+                                          <label class="custom-file-label" 
+                                                for="customFileLang" 
+                                                data-browse="Elegir">Requisito: Seleccionar archivo de formato PNG con dimensiones 500x500</label>
+                                          </div>    
+                          
+                                </div> 
+                      
+                                
+                              </div>
+                            </div>
+                          </div>  
+                              
+                  
+                          </div> 
+
+                          <div class="modal-footer">
+                              <button type="submit" class="btn btn-warning" ng-click="guadarProductoArchivo()">Guardar
+                              <span class="glyphicon glyphicon-floppy-disk"></span></button>
+                              <button type="button" class="btn btn-warning" data-dismiss="modal">
+                              <span class="glyphicon glyphicon-chevron-left"></span>Salir
+                              </button>
+
+
+
+                          </div>
+                          </div>
+                  </div>
+                </div> 
+
+
+</div>   
+
+
+
+<div class="panel panel-default" id="divMarcas" ng-init="initMarca()" >
 
       <div class="modal-header">
            <h3 class="modal-title"><p style="color:#027dae; font-weight: bold;">MARCAS</p></h3>
