@@ -925,9 +925,9 @@ public function sumaCantidadOferta($idUsu){
                 AND  YEAR(p.fecha_entrega) = YEAR(NOW())
                 AND  p.id_usuario = '".$idUsu."'
                 AND  p.estado_pedido = 1
-                AND  p.id_cliente  NOT IN (87,162) 
+                /*AND  p.id_cliente  NOT IN (87,162)*/
                 AND  p.anulada='N'
-                AND  pc.prod_venta_act = 1
+                AND  pc.prod_venta_act in(1,2,3,4,5,6)
                 
         ";
 		$result = mysqli_query($mysql, $query);

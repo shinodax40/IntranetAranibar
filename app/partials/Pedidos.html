@@ -558,8 +558,8 @@
                 data-toggle="modal"  
                 ng-click="selProductos(prod)">  
                 
-                <td ng-class="{'Bisque' : (prod.prod_venta_act == '1') , 'Bisque2' : (prod.prod_venta_act == '2')}" style="text-align: center">{{ prod.id }}</td>    
-                <td ng-class="{'Bisque' : (prod.prod_venta_act == '1') , 'Bisque2' : (prod.prod_venta_act == '2')}">{{ prod.nombreProd }}
+                <td ng-class="{'Bisque' : (prod.prod_venta_act == '1') , 'Bisque2' : (prod.prod_venta_act == '2'), 'Bisque3' : (prod.prod_venta_act == '3'), 'Bisque4' : (prod.prod_venta_act == '4'), 'Bisque5' : (prod.prod_venta_act == '5'), 'Bisque6' : (prod.prod_venta_act == '6')}" style="text-align: center">{{ prod.id }}</td>    
+                <td ng-class="{'Bisque' : (prod.prod_venta_act == '1') , 'Bisque2' : (prod.prod_venta_act == '2'), 'Bisque3' : (prod.prod_venta_act == '3'), 'Bisque4' : (prod.prod_venta_act == '4'), 'Bisque5' : (prod.prod_venta_act == '5'), 'Bisque6' : (prod.prod_venta_act == '6')}">{{ prod.nombreProd }}
                 
                        <span ng-switch on="interface" style="font-size:9px">      
                                              <img src='img/numeros/uno.jpg'  
@@ -673,7 +673,7 @@
                                    ng-show="{{prod.countDesc != null}}"></span>
                 
                 </td>
-                <td ng-class="{'Bisque' : (prod.prod_venta_act == '1') , 'Bisque2' : (prod.prod_venta_act == '2')}">{{ prod.stockProd - prod.salidasProd }}</td>   
+                <td ng-class="{'Bisque' : (prod.prod_venta_act == '1') , 'Bisque2' : (prod.prod_venta_act == '2'), 'Bisque3' : (prod.prod_venta_act == '3'), 'Bisque4' : (prod.prod_venta_act == '4'), 'Bisque5' : (prod.prod_venta_act == '5'), 'Bisque6' : (prod.prod_venta_act == '6')}">{{ prod.stockProd - prod.salidasProd }}</td>   
             </tr>
           </tbody>
                <div ng-show="loading">

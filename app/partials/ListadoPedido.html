@@ -2780,13 +2780,13 @@
           <tbody>
                
             <tr data-dismiss="modal" ng-repeat="prodDet in detPedido">    
-                <td   ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2')}">{{   prodDet.id_prod }}</td>  
-                <td  ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2')}">{{   prodDet.nombreProd }}</td>
-                <td  ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2')}">$ {{ prodDet.aumento | number:0  }}</td> 
-                <td   ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2')}">$ {{ prodDet.descuento | number:0  }}</td>  
-                <td ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2')}">$ {{ prodDet.precio_vendido | number:0  }}</td>  
-                <td ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2')}">{{   prodDet.cantidad  }}</td>   
-                <td ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2')}">{{   prodDet.total | number:0 }}</td>   
+                <td   ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2'), 'Bisque3' : (prodDet.prod_venta_act == '3'), 'Bisque4' : (prodDet.prod_venta_act == '4'), 'Bisque5' : (prodDet.prod_venta_act == '5'), 'Bisque6' : (prodDet.prod_venta_act == '6')}">{{   prodDet.id_prod }}</td>  
+                <td  ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2'), 'Bisque3' : (prodDet.prod_venta_act == '3'), 'Bisque4' : (prodDet.prod_venta_act == '4'), 'Bisque5' : (prodDet.prod_venta_act == '5'), 'Bisque6' : (prodDet.prod_venta_act == '6')}">{{   prodDet.nombreProd }}</td>
+                <td  ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2'), 'Bisque3' : (prodDet.prod_venta_act == '3'), 'Bisque4' : (prodDet.prod_venta_act == '4'), 'Bisque5' : (prodDet.prod_venta_act == '5'), 'Bisque6' : (prodDet.prod_venta_act == '6')}">$ {{ prodDet.aumento | number:0  }}</td> 
+                <td   ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2'), 'Bisque3' : (prodDet.prod_venta_act == '3'), 'Bisque4' : (prodDet.prod_venta_act == '4'), 'Bisque5' : (prodDet.prod_venta_act == '5'), 'Bisque6' : (prodDet.prod_venta_act == '6')}">$ {{ prodDet.descuento | number:0  }}</td>  
+                <td ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2'), 'Bisque3' : (prodDet.prod_venta_act == '3'), 'Bisque4' : (prodDet.prod_venta_act == '4'), 'Bisque5' : (prodDet.prod_venta_act == '5'), 'Bisque6' : (prodDet.prod_venta_act == '6')}">$ {{ prodDet.precio_vendido | number:0  }}</td>  
+                <td ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2'), 'Bisque3' : (prodDet.prod_venta_act == '3'), 'Bisque4' : (prodDet.prod_venta_act == '4'), 'Bisque5' : (prodDet.prod_venta_act == '5'), 'Bisque6' : (prodDet.prod_venta_act == '6')}">{{   prodDet.cantidad  }}</td>   
+                <td ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2'), 'Bisque3' : (prodDet.prod_venta_act == '3'), 'Bisque4' : (prodDet.prod_venta_act == '4'), 'Bisque5' : (prodDet.prod_venta_act == '5'), 'Bisque6' : (prodDet.prod_venta_act == '6')}">{{   prodDet.total | number:0 }}</td>   
 
             </tr>
           </tbody>
@@ -2861,9 +2861,9 @@
           <tbody>
                
             <tr data-dismiss="modal" ng-repeat="prodDet in detPedido">    
-                <td style="text-align: center"  ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2')}">{{   prodDet.id_prod }}</td>  
-                <td style="text-align: center" ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2')}">{{   prodDet.nombreProd }}</td>
-                <td style="text-align: center" ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2')}">{{   prodDet.cantidad  }}</td>   
+                <td style="text-align: center"  ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2'), 'Bisque3' : (prodDet.prod_venta_act == '3'), 'Bisque4' : (prodDet.prod_venta_act == '4'), 'Bisque5' : (prodDet.prod_venta_act == '5'), 'Bisque6' : (prodDet.prod_venta_act == '6')}">{{   prodDet.id_prod }}</td>  
+                <td style="text-align: center" ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2'), 'Bisque3' : (prodDet.prod_venta_act == '3'), 'Bisque4' : (prodDet.prod_venta_act == '4'), 'Bisque5' : (prodDet.prod_venta_act == '5'), 'Bisque6' : (prodDet.prod_venta_act == '6')}">{{   prodDet.nombreProd }}</td>
+                <td style="text-align: center" ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2'), 'Bisque3' : (prodDet.prod_venta_act == '3'), 'Bisque4' : (prodDet.prod_venta_act == '4'), 'Bisque5' : (prodDet.prod_venta_act == '5'), 'Bisque6' : (prodDet.prod_venta_act == '6')}">{{   prodDet.cantidad  }}</td>   
 
             </tr>
           </tbody>
@@ -3348,11 +3348,11 @@
                  </thead>
                   <tbody>
                     <tr data-dismiss="modal" ng-repeat="prodDet in unirPedidos">     
-                        <td ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2')}">{{ prodDet.id_prod }}</td>    
-                        <td ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2')}">{{ prodDet.nombreProd }}</td>
-                        <td ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2')}">{{ prodDet.precioVenta | number:0   }}</td>  
-                        <td ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2')}">{{ prodDet.cantidad  }}</td>   
-                        <td ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2')}">{{ prodDet.precioVenta * prodDet.cantidad  | number:0  }}</td>   
+                        <td ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2'), 'Bisque3' : (prodDet.prod_venta_act == '3'), 'Bisque4' : (prodDet.prod_venta_act == '4'), 'Bisque5' : (prodDet.prod_venta_act == '5'), 'Bisque6' : (prodDet.prod_venta_act == '6')}">{{ prodDet.id_prod }}</td>    
+                        <td ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2'), 'Bisque3' : (prodDet.prod_venta_act == '3'), 'Bisque4' : (prodDet.prod_venta_act == '4'), 'Bisque5' : (prodDet.prod_venta_act == '5'), 'Bisque6' : (prodDet.prod_venta_act == '6')}">{{ prodDet.nombreProd }}</td>
+                        <td ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2'), 'Bisque3' : (prodDet.prod_venta_act == '3'), 'Bisque4' : (prodDet.prod_venta_act == '4'), 'Bisque5' : (prodDet.prod_venta_act == '5'), 'Bisque6' : (prodDet.prod_venta_act == '6')}">{{ prodDet.precioVenta | number:0   }}</td>  
+                        <td ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2'), 'Bisque3' : (prodDet.prod_venta_act == '3'), 'Bisque4' : (prodDet.prod_venta_act == '4'), 'Bisque5' : (prodDet.prod_venta_act == '5'), 'Bisque6' : (prodDet.prod_venta_act == '6')}">{{ prodDet.cantidad  }}</td>   
+                        <td ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2'), 'Bisque3' : (prodDet.prod_venta_act == '3'), 'Bisque4' : (prodDet.prod_venta_act == '4'), 'Bisque5' : (prodDet.prod_venta_act == '5'), 'Bisque6' : (prodDet.prod_venta_act == '6')}">{{ prodDet.precioVenta * prodDet.cantidad  | number:0  }}</td>   
 
 
                     </tr>
@@ -4269,9 +4269,9 @@
              </thead>
               <tbody>
                 <tr data-dismiss="modal" ng-repeat="(productIndex, prodDet) in detPedido">     
-                    <td ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2')}" style="text-align: center">{{ $index + 1 }}</td> 
-                    <td ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2')}">{{ prodDet.id_prod }}</td>    
-                    <td ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2')}">{{ prodDet.nombreProd }}</td>
+                    <td ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2'), 'Bisque3' : (prodDet.prod_venta_act == '3'), 'Bisque4' : (prodDet.prod_venta_act == '4'), 'Bisque5' : (prodDet.prod_venta_act == '5'), 'Bisque6' : (prodDet.prod_venta_act == '6')}" style="text-align: center">{{ $index + 1 }}</td> 
+                    <td ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2'), 'Bisque3' : (prodDet.prod_venta_act == '3'), 'Bisque4' : (prodDet.prod_venta_act == '4'), 'Bisque5' : (prodDet.prod_venta_act == '5'), 'Bisque6' : (prodDet.prod_venta_act == '6')}">{{ prodDet.id_prod }}</td>    
+                    <td ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2'), 'Bisque3' : (prodDet.prod_venta_act == '3'), 'Bisque4' : (prodDet.prod_venta_act == '4'), 'Bisque5' : (prodDet.prod_venta_act == '5'), 'Bisque6' : (prodDet.prod_venta_act == '6')}">{{ prodDet.nombreProd }}</td>
                     <td class="text-primary"><strong>$ {{ prodDet.aumento | number:0 }}</strong></td>  
                     <td class="text-danger"><strong>$ {{ prodDet.descuento | number:0   }}</strong></td>  
                     <td class="text-primary"><strong>$ {{ prodDet.precio_vendido | number:0 }}</strong></td>  
@@ -5496,9 +5496,9 @@
           <tbody>
                
             <tr data-dismiss="modal" ng-repeat="prodDet in detPedido">    
-                <td  style="text-align: center" ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2')}">{{   prodDet.id_prod }}</td>  
-                <td  ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2')}">{{   prodDet.nombreProd }}</td>
-                <td style="text-align: center" ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2')}">{{   prodDet.cantidad  }}</td>   
+                <td  style="text-align: center" ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2'), 'Bisque3' : (prodDet.prod_venta_act == '3'), 'Bisque4' : (prodDet.prod_venta_act == '4'), 'Bisque5' : (prodDet.prod_venta_act == '5'), 'Bisque6' : (prodDet.prod_venta_act == '6')}">{{   prodDet.id_prod }}</td>  
+                <td  ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2'), 'Bisque3' : (prodDet.prod_venta_act == '3'), 'Bisque4' : (prodDet.prod_venta_act == '4'), 'Bisque5' : (prodDet.prod_venta_act == '5'), 'Bisque6' : (prodDet.prod_venta_act == '6')}">{{   prodDet.nombreProd }}</td>
+                <td style="text-align: center" ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2'), 'Bisque3' : (prodDet.prod_venta_act == '3'), 'Bisque4' : (prodDet.prod_venta_act == '4'), 'Bisque5' : (prodDet.prod_venta_act == '5'), 'Bisque6' : (prodDet.prod_venta_act == '6')}">{{   prodDet.cantidad  }}</td>   
          
 
             </tr>
@@ -5677,9 +5677,9 @@
          </thead>
           <tbody>
             <tr data-dismiss="modal" ng-repeat="(productIndex, prodDet) in detPedido">     
-                <td ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2')}" style="text-align: center">{{ $index + 1 }}</td> 
-                <td ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2')}">{{ prodDet.id_prod }}</td>    
-                <td ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2')}">{{ prodDet.nombreProd }}</td>
+                <td ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2'), 'Bisque3' : (prodDet.prod_venta_act == '3'), 'Bisque4' : (prodDet.prod_venta_act == '4'), 'Bisque5' : (prodDet.prod_venta_act == '5'), 'Bisque6' : (prodDet.prod_venta_act == '6')}" style="text-align: center">{{ $index + 1 }}</td> 
+                <td ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2'), 'Bisque3' : (prodDet.prod_venta_act == '3'), 'Bisque4' : (prodDet.prod_venta_act == '4'), 'Bisque5' : (prodDet.prod_venta_act == '5'), 'Bisque6' : (prodDet.prod_venta_act == '6')}">{{ prodDet.id_prod }}</td>    
+                <td ng-class="{'Bisque' : (prodDet.prod_venta_act == '1') , 'Bisque2' : (prodDet.prod_venta_act == '2'), 'Bisque3' : (prodDet.prod_venta_act == '3'), 'Bisque4' : (prodDet.prod_venta_act == '4'), 'Bisque5' : (prodDet.prod_venta_act == '5'), 'Bisque6' : (prodDet.prod_venta_act == '6')}">{{ prodDet.nombreProd }}</td>
                 <td class="text-primary"><strong>$ {{ prodDet.aumento | number:0 }}</strong></td>  
                 <td class="text-danger"><strong>$ {{ prodDet.descuento | number:0   }}</strong></td>  
                 <td class="text-primary"><strong>$ {{ prodDet.precio_vendido | number:0 }}</strong></td>  

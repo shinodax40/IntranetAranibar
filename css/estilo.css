@@ -201,6 +201,21 @@ hr {border: 1px inset #eee; height: 1px; width: 95%; margin-top: 1px;    margin-
    background-color: rgb(197, 242, 60);
 }
 
+.Bisque3 {
+  background-color: rgb(149, 72, 238);
+}
+
+.Bisque4 {
+  background-color: rgb(60, 93, 242);
+}
+
+.Bisque5 {
+  background-color: rgb(221, 60, 242);
+}
+
+.Bisque6 {
+  background-color: rgb(233, 68, 103);
+}
 
  .tocenter {
     margin:10 auto;
