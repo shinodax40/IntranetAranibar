@@ -2,9 +2,9 @@ angularRoutingApp.controller('controllerListMarcaProductos', ['$scope', '$http',
     function ($scope, $http) {
 
         $scope.listadoMarcas = [];
-   
-        
-$scope.init = function () {    
+        $scope.listadoCategoria = [];
+ /*********************MARCA**********************************/       
+$scope.initMarca = function () {    
     
     $.blockUI({ css: { 
         border: 'none', 
@@ -55,7 +55,6 @@ $scope.init = function () {
 
 };
 
-
 $scope.confirmarActiveProd = function (selMarca, value) {
     var length = $scope.listadoMarcas.length; 
     var objProd = new Object();	
@@ -66,7 +65,6 @@ $scope.confirmarActiveProd = function (selMarca, value) {
        }             
     }
 };
-
 
 $scope.selTipo = function (valueObj, listMarcaSel) { 
 
@@ -84,7 +82,7 @@ $scope.selTipo = function (valueObj, listMarcaSel) {
             
      
              
- };
+};
 
  $scope.updateEscalaProd = function (obj){
     
@@ -117,9 +115,7 @@ $scope.selTipo = function (valueObj, listMarcaSel) {
 });
     
     
-}
-
-
+};
 
 $scope.confirmarInsertarMarca = function (){ 
     alertify.confirm("Esta seguro que desea insertar nueva marca ?", function (e) {
@@ -128,8 +124,6 @@ $scope.confirmarInsertarMarca = function (){
         }
     });        
 };        
-        
-
 
 $scope.insertarMarcaProducto =  function(){
     $http({
@@ -143,7 +137,7 @@ $scope.insertarMarcaProducto =  function(){
                        
                if(respuesta=="1"){                                  
                   alertify.success("Ingresado con exito!");   
-                  $scope.init();                
+                  $scope.initMarca();                
                }else{
                
                  alertify.error("Error al insertar marca.");
@@ -154,9 +148,7 @@ $scope.insertarMarcaProducto =  function(){
            console.log(error);
    
    });
-}
-
-
+};
 
 $scope.eliminarMarcaProducto =  function(obj){
     $http({
@@ -172,7 +164,7 @@ $scope.eliminarMarcaProducto =  function(obj){
                        
                if(respuesta=="1"){                                  
                   alertify.success("Eliminado con exito!");  
-                  $scope.init();                  
+                  $scope.initMarca();                  
                }else{
                
                  alertify.error("Error al eliminar marca.");
@@ -183,7 +175,7 @@ $scope.eliminarMarcaProducto =  function(obj){
            console.log(error);
    
    });
-}
+};
 
 $scope.confirmarEliminarMarca = function (obj){ 
     alertify.confirm("Esta seguro que desea eliminar  marca ?", function (e) {
@@ -191,9 +183,7 @@ $scope.confirmarEliminarMarca = function (obj){
             $scope.eliminarMarcaProducto(obj);         
         }
     });        
-};        
-     
-
+};      
 
 $scope.consultarRelacionMarca = function(obj){
     
@@ -224,7 +214,6 @@ $scope.consultarRelacionMarca = function(obj){
    });
 
 };	  
-
    
 $scope.confirmarEstadoModificar = function(prodDet, value){
     
@@ -237,16 +226,14 @@ $scope.confirmarEstadoModificar = function(prodDet, value){
            break;
        }             
     }
-};	  
-           
+};	             
 
 $scope.selProdParaMod = function(selMa){
      $scope.idMarca      = selMa.codMarca;  
      $scope.nombProdMod  = selMa.nombreMarca; 
 
  
-}
-
+};
        
 $scope.guadarProductoArchivo = function(){
     var arrObj = [];
@@ -294,8 +281,121 @@ $http({
 
 };
    
+/***********************MARCA FIN*******************************************/        
         
+  
+$scope.initCategoria = function () {    
+    
+    $.blockUI({ css: { 
+        border: 'none', 
+        padding: '15px', 
+        backgroundColor: '#000', 
+        '-webkit-border-radius': '10px', 
+        '-moz-border-radius': '10px', 
+        opacity: .5, 
+        color: '#fff' 
+    } }); 
+
+
+
+
+        $http({method : 'POST',
+        url : 'FunctionIntranet.php?act=listarCategoriasProductos&tienda='+$scope.tiendaSeleccionada,
+        headers : {'Content-Type': 'application/x-www-form-urlencoded'}  
+        }).success(function(data){
+
+            $scope.listadoCategoria = data;
+
+        setTimeout($.unblockUI, 1000);
+        }).error(function(error){
+        console.log("error Listar Marca: "+error);
+
+        setTimeout($.unblockUI, 1000);
+        });
+
+
+   
+
+};
+
+
+$scope.confirmarEstadoModificarCategoria = function(prodDet, value){
+    
+	var length = $scope.listadoCategoria.length; 
+	var objProd = new Object();	
+	 for(var i = 0; i < length; i++) {
+       if($scope.listadoCategoria[i].codCategoria == prodDet.codCategoria){
+              $scope.listadoCategoria[i].estado_mod  = value;	
+           break;
+       }             
+    }
+};	             
+
+$scope.updateEscalaProdCategoria = function (obj){
+    $http({
+     method : 'POST',
+        url : 'FunctionIntranet.php?act=actualizarCategoria&tienda='+$scope.tiendaSeleccionada,
+        data:  $.param({codCategoria:obj.codCategoria,
+                        nombreCategoria:obj.nombreCategoria,
+                        nombreGrupo:obj.grupo,
+                        activoCategoria:obj.activo,
+                        activoPagina:obj.activo_pagina
+                       }),
+                headers : {'Content-Type': 'application/x-www-form-urlencoded'}  
+  }).success(function(data){
+        console.log(data);               
+
+         var respuesta = data.charAt(data.length-1);
+                    
+            if(respuesta=="1"){                
+                alertify.success("Actualizado con exito!");
+                $scope.confirmarEstadoModificarCategoria(obj, 0);
+                
+            }else{
+                alertify.error("Error al actualizar categoria, favor contactar con el Administrador del Sistema.");
+            }
         
-        
+      
+  }).error(function(error){
+        console.log(error);
+
+});
+    
+    
+};
+
+$scope.confirmarEstadoModificarCategoria = function(prodDet, value){    
+	var length = $scope.listadoCategoria.length; 
+	var objProd = new Object();	
+	 for(var i = 0; i < length; i++) {
+       if($scope.listadoCategoria[i].codCategoria == prodDet.codCategoria){
+              $scope.listadoCategoria[i].estado_mod  = value;	
+           break;
+       }             
+    }
+};	    
+
+
+$scope.confirmarActiveProdCategoria = function (selMarca, value) {
+    var length = $scope.listadoCategoria.length; 
+    var objProd = new Object();	
+     for(var i = 0; i < length; i++) {
+       if($scope.listadoCategoria[i].codCategoria == selMarca.codCategoria){
+              $scope.listadoCategoria[i].activo  = value;	
+           break;
+       }             
+    }
+};
+
+$scope.confirmarActiveProdCategoriaPagina = function (selMarca, value) {
+    var length = $scope.listadoCategoria.length; 
+    var objProd = new Object();	
+     for(var i = 0; i < length; i++) {
+       if($scope.listadoCategoria[i].codCategoria == selMarca.codCategoria){
+              $scope.listadoCategoria[i].activo_pagina  = value;	
+           break;
+       }             
+    }
+};
 
 }]);

@@ -3690,6 +3690,85 @@ SELECT dd.id_prod,
        }  
     
     
+       public function listarCategoriasProductos(){
+        $mysql = mysqli_connect($this->DATABASE_SERVER,$this->DATABASE_USERNAME,$this->DATABASE_PASSWORD);
+		mysqli_select_db($mysql, $this->DATABASE_NAME);
+
+        $query="SELECT 
+                    codCategoria, 
+                    nombreCategoria, 
+                    activo, 
+                    grupo,
+                    activo_pagina
+                    FROM categoria
+                ORDER by nombreCategoria ASC;";
+
+        $result = mysqli_query($mysql, $query);
+        $total = mysqli_num_rows($result);
+
+        $ret = array();
+        while ($row = mysqli_fetch_object($result)) {
+            $tmp = new stdClass();
+            $tmp->codCategoria    =   $row->codCategoria;
+            $tmp->nombreCategoria =   $row->nombreCategoria;
+            $tmp->activo          =   $row->activo;
+            $tmp->grupo           =   $row->grupo;
+            $tmp->estado_mod      =   0;
+            $tmp->activo_pagina   =   $row->activo_pagina;
+
+
+            
+            
+            $ret[] = $tmp;
+        }
+          mysqli_free_result($result);
+          return ($ret);
+ 
+          mysqli_close($mysql);
+    }
+
+
+
+
+    public function actualizarCategoria($codCategoria, $nombreCategoria, $nombreGrupo, $activoCategoria, $activoPagina){
+        $arrayBaseDatos[0] = "aranibar_aranibar";
+        $arrayBaseDatos[1] = "aranibar_santa_maria";
+        $arrayBaseDatos[2] = "aranibar_tucapel";
+           
+     for($i=0;$i<count($arrayBaseDatos);$i++) {         
+          $mysql = mysqli_connect($this->DATABASE_SERVER,$this->DATABASE_USERNAME,$this->DATABASE_PASSWORD);
+          mysqli_select_db($mysql,  $arrayBaseDatos[$i]);
+    
+	
+		$query = "                   
+                      
+                        UPDATE categoria SET 
+                        nombreCategoria='".$nombreCategoria."',
+                        activo='".$activoCategoria."',
+                        activo_pagina='".$activoPagina."', 
+                        grupo='".$nombreGrupo."' 
+                        WHERE codCategoria='".$codMarca."';
+                    
+                    ";
+    
+		$result = mysqli_query($mysql, $query);	
+     }
+	
+    if($result == "1"){
+        return 1;
+    }else{
+        return 0;
+    }
+
+    mysqli_close($mysql);
+}
+
+
+
+
+
+
+
     
 }
 	
