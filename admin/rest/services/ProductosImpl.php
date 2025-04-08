@@ -127,7 +127,7 @@ class ProductosImpl {
                 $productos->nombreSubTipo = $row->nombreSubTipo;
                 $productos->idCategorias = $row->idCategorias;
                 $productos->idSubCategorias = $row->idSubCategorias;
-                $productos->archivo = "https://aranibar.cl/barrosarana/Table/img/" . $row->id . ".png";
+                $productos->archivo = "https://intranet.aranibar.cl/barrosarana/Table/img/" . $row->id . ".png";
                 $arreglo[] = $productos;
             }
         }
@@ -156,7 +156,7 @@ class ProductosImpl {
                 $productos->nombreSubTipo = $row->nombreSubTipo;
                 $productos->idCategorias = $row->idCategorias;
                 $productos->idSubCategorias = $row->idSubCategorias;
-                $productos->archivo = "https://aranibar.cl/barrosarana/Table/img/" . $row->id . ".png";
+                $productos->archivo = "https://intranet.aranibar.cl/barrosarana/Table/img/" . $row->id . ".png";
 
                 $arreglo[] = $productos;
             }

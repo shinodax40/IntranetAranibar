@@ -248,9 +248,9 @@ class bdProducto{
             
             
             $ramdom =  mt_rand();
-            $tmp->foto  = "https://aranibar.cl/barrosaranas/Table/img/".$row->id.".png?".$ramdom; 
+            $tmp->foto  = "https://intranet.aranibar.cl/barrosaranas/Table/img/".$row->id.".png?".$ramdom; 
             
-          /*  $file = "https://aranibar.cl/barrosaranas/Table/img/".$row->id.".png"; 
+          /*  $file = "https://intranet.aranibar.cl/barrosaranas/Table/img/".$row->id.".png"; 
             $file_headers = @get_headers($file); 
             
             if(!$file_headers || $file_headers[0]  == 'HTTP/1.1 404 Not Found') 
@@ -640,7 +640,7 @@ if($clasif == 1){
             
             
              $ramdom =  mt_rand();
-             $file  = "https://aranibar.cl/barrosaranas/Table/img/".$row->id.".png?".$ramdom; 
+             $file  = "https://intranet.aranibar.cl/barrosaranas/Table/img/".$row->id.".png?".$ramdom; 
 
             
   
@@ -656,7 +656,7 @@ if($clasif == 1){
             if($file_headers[0] == 'HTTP/1.1 404 Not Found'){
                  $tmp->foto = $porcionesImg[0];
             }else{
-                 $tmp->foto = "https://aranibar.cl/barrosaranas/Table/img/".$row->id.".png"; 
+                 $tmp->foto = "https://intranet.aranibar.cl/barrosaranas/Table/img/".$row->id.".png"; 
             }*/
 
             
@@ -1011,7 +1011,7 @@ public function listarProductosInventario($idProd) {
             
             $ramdom =  mt_rand();
 
-            $tmp->foto = "https://aranibar.cl/barrosaranas/Table/img/".$row->id.".png?".$ramdom; 
+            $tmp->foto = "https://intranet.aranibar.cl/barrosaranas/Table/img/".$row->id.".png?".$ramdom; 
             
             $ret[] = $tmp;
 		}
@@ -1972,7 +1972,7 @@ public function listarProductosCajas($idProd) {
             
             $ramdom =  mt_rand();
 
-           $tmp->foto = "https://aranibar.cl/barrosaranas/Table/img/".$row->id.".png?".$ramdom; 
+           $tmp->foto = "https://intranet.aranibar.cl/barrosaranas/Table/img/".$row->id.".png?".$ramdom; 
             
 			$ret[] = $tmp;
 		}
@@ -2121,7 +2121,7 @@ public function listarProductosCajasTienda($idProd) {
             
             $ramdom =  mt_rand();
 
-           $tmp->foto = "https://aranibar.cl/barrosaranas/Table/img/".$row->id.".png?".$ramdom; 
+           $tmp->foto = "https://intranet.aranibar.cl/barrosaranas/Table/img/".$row->id.".png?".$ramdom; 
             
 			$ret[] = $tmp;
 		}
@@ -2936,7 +2936,7 @@ SELECT dd.id_prod,
             
             $ramdom =  mt_rand();
             
-            $tmp->foto = "https://aranibar.cl/barrosaranas/Table/img/".$row->id.".png?".$ramdom; 
+            $tmp->foto = "https://intranet.aranibar.cl/barrosaranas/Table/img/".$row->id.".png?".$ramdom; 
             
             
             
@@ -3184,7 +3184,7 @@ SELECT dd.id_prod,
             
             
             $ramdom =  mt_rand();            
-            $tmp->foto = "https://aranibar.cl/barrosaranas/Table/img/".$row->id.".png?".$ramdom; 
+            $tmp->foto = "https://intranet.aranibar.cl/barrosaranas/Table/img/".$row->id.".png?".$ramdom; 
             
             $ret[] = $tmp;
 		}
@@ -3514,7 +3514,7 @@ SELECT dd.id_prod,
 
             
             $ramdom =  mt_rand();
-            $file  = "https://aranibar.cl/barrosaranas/Table/imgMarcas/".$row->codMarca.".png?".$ramdom; 
+            $file  = "https://intranet.aranibar.cl/barrosaranas/Table/imgMarcas/".$row->codMarca.".png?".$ramdom; 
             $tmp->foto = $file;
            
 

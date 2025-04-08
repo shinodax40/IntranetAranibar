@@ -87,7 +87,7 @@ $NuboxTest = new NuboxConnectTest();
      $dataBaseUserPassword="";*/
 
      /***Produccion***/
-     $dataBaseServer="aranibar.cl";
+     $dataBaseServer="intranet.aranibar.cl";
  	 $dataBaseUsername="aranibar";
    	 $dataBaseUserPassword="eliasteamo007";
 
@@ -129,7 +129,7 @@ $NuboxTest = new NuboxConnectTest();
 
      $token_origen = $tokens_admin_tienda[(isset($ambiente) ? (int) $ambiente : 0)];
 
-   $url_services = "https://aranibar.cl/admin/rest";
+   $url_services = "https://intranet.aranibar.cl/admin/rest";
  //   $url_services = "http://localhost/tienda-aranibar/admin/rest";
 
     if($ambiente == "1"){                
@@ -184,7 +184,7 @@ $NuboxTest = new NuboxConnectTest();
      DATOS DE LA BASE DE DATOS DE CASA MATRIZ
     */
     
-    $dataBaseMasterServer="aranibar.cl";
+    $dataBaseMasterServer="intranet.aranibar.cl";
     $dataBaseMasterUsername="aranibar";
     $dataBaseMasterUserPassword="eliasteamo007";
     $dataBaseMasterName="aranibar_aranibar";
@@ -6707,7 +6707,7 @@ function generarBoletaVentas($arrVenta, $descuentoPunto, $rutPunto){
 
             curl_setopt_array($curl, array(
             //  CURLOPT_URL => "https://aranibar.cl/Tienda/FunctionIntranet.php?act=subirArchivoFolio",
-            CURLOPT_URL => "https://aranibar.cl/barrosaranas/Funciones.php?act=subirArchivoFolio",
+            CURLOPT_URL => "https://intranet.aranibar.cl/barrosaranas/Funciones.php?act=subirArchivoFolio",
               CURLOPT_RETURNTRANSFER => true,
               CURLOPT_ENCODING => '',
               CURLOPT_MAXREDIRS => 10,
@@ -7241,7 +7241,7 @@ function generarBoletaDesdeListadoPedidos($idPedido){
 
             curl_setopt_array($curl, array(
             //  CURLOPT_URL => "https://aranibar.cl/Tienda/Funciones.php?act=subirArchivoFolio",
-            CURLOPT_URL => "https://aranibar.cl/barrosaranas/Funciones.php?act=subirArchivoFolio",
+            CURLOPT_URL => "https://intranet.aranibar.cl/barrosaranas/Funciones.php?act=subirArchivoFolio",
               CURLOPT_RETURNTRANSFER => true,
               CURLOPT_ENCODING => '',
               CURLOPT_MAXREDIRS => 10,

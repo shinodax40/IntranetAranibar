@@ -716,10 +716,10 @@ public function listarRecibosClientes($idPedido) {
             
                 $ramdom =  mt_rand();
 
-             $tmp->foto = "https://aranibar.cl/barrosaranas/Table/documentosTransferencias/".$row->id.".png?".$ramdom; 
+             $tmp->foto = "https://intranet.aranibar.cl/barrosaranas/Table/documentosTransferencias/".$row->id.".png?".$ramdom; 
             
 
-         //   $tmp->foto = "https://aranibar.cl/barrosaranas/Table/documentosTransferencias/".$row->id.".png?".$ramdom; 
+         //   $tmp->foto = "https://intranet.aranibar.cl/barrosaranas/Table/documentosTransferencias/".$row->id.".png?".$ramdom; 
           
             
             

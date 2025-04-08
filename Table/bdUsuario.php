@@ -1540,7 +1540,7 @@ if($tipoUsuario=="Vendedor Tienda"){
     
             
             $ramdom =  mt_rand();
-            $tmp->foto = "https://aranibar.cl/barrosaranas/Table/documentosTransferencias/".$row->id.".png?".$ramdom; 
+            $tmp->foto = "https://intranet.aranibar.cl/barrosaranas/Table/documentosTransferencias/".$row->id.".png?".$ramdom; 
 
             if($row->abono_recibo > 0 ){
                 $tmp->saldo      = $row->total_recibo - $row->abono_recibo;                
@@ -1549,7 +1549,7 @@ if($tipoUsuario=="Vendedor Tienda"){
             }
             
             $ramdom =  mt_rand();
-            $tmp->fotoFirma = "https://aranibar.cl/barrosaranas/Table/firmasRecibo/".$row->id.".png?".$ramdom; 
+            $tmp->fotoFirma = "https://intranet.aranibar.cl/barrosaranas/Table/firmasRecibo/".$row->id.".png?".$ramdom; 
 
             
 			$ret[] = $tmp;
@@ -1734,7 +1734,7 @@ public function listarRecibosAplicacion($fConsulta, $andrID) {
             
               $ramdom =  mt_rand();
 
-             $tmp->foto = "https://aranibar.cl/barrosaranas/Table/documentosTransferencias/".$row->id.".png?".$ramdom; 
+             $tmp->foto = "https://intranet.aranibar.cl/barrosaranas/Table/documentosTransferencias/".$row->id.".png?".$ramdom; 
             
             
 			$ret[] = $tmp;

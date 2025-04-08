@@ -213,7 +213,7 @@ class Database {
       $dataBaseUserPassword="zi2Rs6L[#Vl82M";
       $dataBaseName="aranibar_aranibar"; */
 
-    private $db_host = 'aranibar.cl';
+    private $db_host = 'intranet.aranibar.cl';
     private $db_username = 'aranibar';
     private $db_password = 'zi2Rs6L[#Vl82M';
     private $db_name = 'aranibar_aranibar';

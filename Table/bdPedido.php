@@ -1853,7 +1853,7 @@ public function joinPedidosTiendas($idUsuario, $fInicio, $fFin) {
             
             $ramdom =  mt_rand();
 
-           $tmp->foto = "https://aranibar.cl/barrosaranas/Table/img/".$row->id_prod.".png?".$ramdom; 
+           $tmp->foto = "https://intranet.aranibar.cl/barrosaranas/Table/img/".$row->id_prod.".png?".$ramdom; 
             
             
 			$ret[] = $tmp;
@@ -2681,9 +2681,9 @@ public function listarVentasGeneradasTiendas($desde, $hasta, $tienda, $usuario) 
             
                        $ramdom =  mt_rand();
 
-           $tmp->foto = "https://aranibar.cl/barrosaranas/Table/img/".$row->id.".png?".$ramdom; 
+           $tmp->foto = "https://intranet.aranibar.cl/barrosaranas/Table/img/".$row->id.".png?".$ramdom; 
             
-           $tmp->timbElec = "https://aranibar.cl/barrosaranas/Table/imagenFolio/".$row->id_pedido.".png?".$ramdom;
+           $tmp->timbElec = "https://intranet.aranibar.cl/barrosaranas/Table/imagenFolio/".$row->id_pedido.".png?".$ramdom;
             
             $ret['detalles'][] = $tmp;
 		}
@@ -2765,9 +2765,9 @@ public function listaDetalleVentas($idVenta) {
             
                        $ramdom =  mt_rand();
 
-           $tmp->foto = "https://aranibar.cl/barrosaranas/Table/img/".$row->id.".png?".$ramdom; 
+           $tmp->foto = "https://intranet.aranibar.cl/barrosaranas/Table/img/".$row->id.".png?".$ramdom; 
             
-           $tmp->timbElec = "https://aranibar.cl/barrosaranas/Table/imagenFolio/".$row->id_pedido.".png?".$ramdom;
+           $tmp->timbElec = "https://intranet.aranibar.cl/barrosaranas/Table/imagenFolio/".$row->id_pedido.".png?".$ramdom;
             
             $ret['detalles'][] = $tmp;
 		}
@@ -3403,9 +3403,9 @@ public function listaInformeTransp($desde, $hasta, $idInf) {
             $tmp->valor_carga         = $row->valor_carga;
              $ramdom =  mt_rand();
             
-             $tmp->foto         = "https://aranibar.cl/barrosaranas/Table/rutas/".$row->id.".png?".$ramdom; 
+             $tmp->foto         = "https://intranet.aranibar.cl/barrosaranas/Table/rutas/".$row->id.".png?".$ramdom; 
             
-             $tmp->fotoInfTransp         = "https://aranibar.cl/barrosaranas/Table/subirArchivoCamion/".$row->id.".png?".$ramdom; 
+             $tmp->fotoInfTransp         = "https://intranet.aranibar.cl/barrosaranas/Table/subirArchivoCamion/".$row->id.".png?".$ramdom; 
             
 			$ret[] = $tmp;
 		}
@@ -3534,7 +3534,7 @@ public function verDetalleInformeTransp($pedido) {
                    
             $ramdom =  mt_rand();
 
-           $tmp->foto = "https://aranibar.cl/barrosaranas/Table/img/".$row->id.".png?".$ramdom; 
+           $tmp->foto = "https://intranet.aranibar.cl/barrosaranas/Table/img/".$row->id.".png?".$ramdom; 
             
             
             
@@ -4192,7 +4192,7 @@ public function verDetalleObsPed($estado, $idProd) {
  			$tmp->nombre           = $row->nombre;       
             $ramdom =  mt_rand(); 
             
-                $tmp->foto = "https://aranibar.cl/barrosaranas/Table/cierresCajas/".$row->id_caja.".png?".$ramdom; 
+                $tmp->foto = "https://intranet.aranibar.cl/barrosaranas/Table/cierresCajas/".$row->id_caja.".png?".$ramdom; 
            
 			$ret[] = $tmp;
 		}
@@ -4261,7 +4261,7 @@ public function verDetalleObsPed($estado, $idProd) {
  			$tmp->nombre           = $row->nombre;       
             $ramdom =  mt_rand(); 
             
-                $tmp->foto = "https://aranibar.cl/barrosaranas/Table/cierresCajas/".$row->id_caja.".png?".$ramdom; 
+                $tmp->foto = "https://intranet.aranibar.cl/barrosaranas/Table/cierresCajas/".$row->id_caja.".png?".$ramdom; 
            
 			$ret[] = $tmp;
 		}
@@ -4324,7 +4324,7 @@ public function verDetalleObsPed($estado, $idProd) {
         $tmp->sucursal      = $row->sucursal;         
         $ramdom =  mt_rand(); 
         
-            $tmp->foto = "https://aranibar.cl/barrosaranas/Table/cierresCajas/".$row->id_caja.".png?".$ramdom; 
+            $tmp->foto = "https://intranet.aranibar.cl/barrosaranas/Table/cierresCajas/".$row->id_caja.".png?".$ramdom; 
        
         $ret[] = $tmp;
     }
