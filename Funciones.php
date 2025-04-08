@@ -61,7 +61,7 @@ global $NuboxTest;
 $NuboxTest = new NuboxConnectTest();
 
 
-     $dataBaseServer="aranibar.cl";
+     $dataBaseServer="intranet.aranibar.cl";
  	 $dataBaseUsername="aranibar";
    	 $dataBaseUserPassword="eliasteamo007";
      $dataBaseName="aranibar_aranibar";
