@@ -199,7 +199,9 @@
                     <tr>
                       <th>Id</th>
                       <th>Nombre</th>
-                      <th>Cantitad</th>                      
+                      <th>Cantitad</th>   
+                      <th>Total</th>                      
+                     
                     </tr>
          </thead>
           <tbody>
@@ -211,6 +213,8 @@
                 <td>{{ prod.id }}</td>    
                 <td>{{ prod.nombreProd }}</td>
                 <td>{{ prod.cantidad }}</td>
+                <td>{{ prod.valor_total  | number:0 }}</td>
+
             </tr>
           </tbody>
                <div ng-show="loading">
@@ -243,7 +247,7 @@
         
       <div class="col-md-2">
 		    <div  class="panel panel-default" style="text-align: center">
-                <div class="panel-heading">Grupos focos 
+                <div class="panel-heading">Categoria Ventas
                     <button class="btn  btn-xs"
                             ng-click="listarProdVentaActivoVend(1)"
                             data-toggle="modal"  

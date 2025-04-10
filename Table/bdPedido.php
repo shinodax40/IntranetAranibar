@@ -3787,7 +3787,8 @@ public function listProdListaVenta($idVendedor, $idTipList) {
         mysqli_query($mysql, "SET NAMES 'utf8'");
 		$query = "SELECT pr.id, 
                    pr.nombreProd,
-                   SUM(d.cantidad) AS cantidad
+                   SUM(d.cantidad) AS cantidad,
+                    SUM(d.cantidad * d.precio_vendido) AS valor_total
                 FROM tbl_pedido p 
                 LEFT  OUTER JOIN  tbl_deta_pedido d 
                 ON d.id_pedido = p.id_pedido
@@ -3809,7 +3810,7 @@ public function listProdListaVenta($idVendedor, $idTipList) {
                 AND p.anulada = 'N'
                 and p.id_usuario = '".$idVendedor."'
                 and pr.prod_venta_act = '".$idTipList."'
-                GROUP BY  pr.nombreProd ASC";
+                GROUP BY  pr.nombreProd";
 		$result = mysqli_query($mysql, $query);
 		$total = mysqli_num_rows($result);
     
@@ -3818,7 +3819,10 @@ public function listProdListaVenta($idVendedor, $idTipList) {
 			$tmp =new Pedido();
 			$tmp->id            = $row->id;
 			$tmp->nombreProd  	= $row->nombreProd;
-			$tmp->cantidad      = $row->cantidad;            
+			$tmp->cantidad      = $row->cantidad;   
+            $tmp->valor_total      = $row->valor_total;   
+           
+            
 			$ret[] = $tmp;
 		}
 		mysqli_free_result($result);
